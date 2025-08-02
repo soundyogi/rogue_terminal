@@ -29,6 +29,7 @@ Do not ever use HTML tags or any other formatting for the todo list, as it will 
 - Create and discuss implementation plans with the user. They should have TODO lists and subsections like:
 1, 1.1, 1.1.2
 - Index the codebase before executing a plan or TODO list - update the index to CLAUDE.md
+- plans should be postfixed with a version like v1, v2, v3_typescript_refactor
 
 ### Communication Guidelines
 Always communicate clearly and concisely in a casual, friendly yet professional tone.
