@@ -1,0 +1,271 @@
+{
+  "actions": {
+    "MOVE_PLAYER": {
+      "type": "MOVE_PLAYER",
+      "category": "movement",
+      "undoable": true,
+      "payload": {
+        "direction": {
+          "type": "string",
+          "enum": ["up", "down", "left", "right"],
+          "required": true
+        }
+      }
+    },
+    "MOVE_PLAYER_TO": {
+      "type": "MOVE_PLAYER_TO",
+      "category": "movement",
+      "undoable": true,
+      "payload": {
+        "x": {
+          "type": "number",
+          "required": true,
+          "min": 0
+        },
+        "y": {
+          "type": "number", 
+          "required": true,
+          "min": 0
+        }
+      }
+    },
+    "PICK_UP_ITEM": {
+      "type": "PICK_UP_ITEM",
+      "category": "inventory",
+      "undoable": true,
+      "payload": {
+        "itemId": {
+          "type": "string",
+          "required": true
+        },
+        "x": {
+          "type": "number",
+          "required": false
+        },
+        "y": {
+          "type": "number",
+          "required": false
+        }
+      }
+    },
+    "USE_ITEM": {
+      "type": "USE_ITEM",
+      "category": "inventory", 
+      "undoable": false,
+      "payload": {
+        "itemId": {
+          "type": "string",
+          "required": true
+        },
+        "target": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "DROP_ITEM": {
+      "type": "DROP_ITEM",
+      "category": "inventory",
+      "undoable": true,
+      "payload": {
+        "itemId": {
+          "type": "string",
+          "required": true
+        },
+        "x": {
+          "type": "number",
+          "required": false
+        },
+        "y": {
+          "type": "number",
+          "required": false
+        }
+      }
+    },
+    "START_GAMBLING_SESSION": {
+      "type": "START_GAMBLING_SESSION",
+      "category": "gambling",
+      "undoable": false,
+      "payload": {
+        "gameType": {
+          "type": "string",
+          "enum": ["coin_flip", "blackjack", "liars_dice", "high_low", "rock_paper_scissors"],
+          "required": true
+        },
+        "initialBet": {
+          "type": "number",
+          "required": true,
+          "min": 1
+        },
+        "opponent": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "PLACE_BET": {
+      "type": "PLACE_BET",
+      "category": "gambling",
+      "undoable": false,
+      "payload": {
+        "amount": {
+          "type": "number",
+          "required": true,
+          "min": 1
+        },
+        "betType": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "MAKE_GAMBLING_CHOICE": {
+      "type": "MAKE_GAMBLING_CHOICE",
+      "category": "gambling",
+      "undoable": false,
+      "payload": {
+        "choice": {
+          "type": "string",
+          "required": true
+        },
+        "data": {
+          "type": "object",
+          "required": false
+        }
+      }
+    },
+    "FOLD_GAME": {
+      "type": "FOLD_GAME",
+      "category": "gambling",
+      "undoable": false,
+      "payload": {}
+    },
+    "CHANGE_CONTEXT": {
+      "type": "CHANGE_CONTEXT",
+      "category": "ui",
+      "undoable": true,
+      "payload": {
+        "context": {
+          "type": "string",
+          "enum": ["world", "main_menu", "inventory", "gambling", "combat", "dialogue"],
+          "required": true
+        },
+        "data": {
+          "type": "object",
+          "required": false
+        }
+      }
+    },
+    "NAVIGATE_MENU": {
+      "type": "NAVIGATE_MENU",
+      "category": "ui",
+      "undoable": false,
+      "payload": {
+        "direction": {
+          "type": "string",
+          "enum": ["up", "down", "left", "right"],
+          "required": true
+        }
+      }
+    },
+    "ADVANCE_FLOOR": {
+      "type": "ADVANCE_FLOOR",
+      "category": "game_flow",
+      "undoable": false,
+      "payload": {
+        "floorId": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "REST_PLAYER": {
+      "type": "REST_PLAYER",
+      "category": "game_flow",
+      "undoable": false,
+      "payload": {
+        "restType": {
+          "type": "string",
+          "enum": ["short", "long"],
+          "default": "short"
+        }
+      }
+    },
+    "SAVE_GAME": {
+      "type": "SAVE_GAME",
+      "category": "game_flow",
+      "undoable": false,
+      "payload": {
+        "slot": {
+          "type": "string",
+          "default": "autosave"
+        }
+      }
+    },
+    "LOAD_GAME": {
+      "type": "LOAD_GAME",
+      "category": "game_flow",
+      "undoable": false,
+      "payload": {
+        "slot": {
+          "type": "string",
+          "required": true
+        },
+        "saveData": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "ATTACK_TARGET": {
+      "type": "ATTACK_TARGET",
+      "category": "combat",
+      "undoable": false,
+      "payload": {
+        "targetId": {
+          "type": "string",
+          "required": true
+        },
+        "attackType": {
+          "type": "string",
+          "enum": ["basic", "skill", "item"],
+          "default": "basic"
+        },
+        "skillId": {
+          "type": "string",
+          "required": false
+        }
+      }
+    },
+    "DEFEND": {
+      "type": "DEFEND",
+      "category": "combat",
+      "undoable": false,
+      "payload": {
+        "defenseType": {
+          "type": "string",
+          "enum": ["guard", "dodge", "counter"],
+          "default": "guard"
+        }
+      }
+    }
+  },
+  "meta": {
+    "version": "1.0.0",
+    "description": "Redux-style action definitions for the Roguelike Engine",
+    "undoable_categories": ["movement", "inventory", "ui"],
+    "non_undoable_categories": ["gambling", "combat", "game_flow"],
+    "standard_payload_fields": {
+      "timestamp": {
+        "type": "number",
+        "auto_generated": true,
+        "description": "Unix timestamp when action was created"
+      },
+      "id": {
+        "type": "string",
+        "auto_generated": true,
+        "description": "Unique identifier for this action instance"
+      }
+    }
+  }
+}

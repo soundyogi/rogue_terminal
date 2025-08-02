@@ -1,0 +1,129 @@
+{
+    "opponents": {
+        "nervous_newbie": {
+            "id": "nervous_newbie",
+            "name": "Nervous Newbie",
+            "ai_type": "predictable",
+            "tells": ["sweating", "fidgeting", "obvious_bluffs"],
+            "weakness": "pressure",
+            "stats": {
+                "bluff_skill": 0.2,
+                "tell_detection": 0.1,
+                "pressure_resistance": 0.3
+            },
+            "dialogue": {
+                "greeting": "H-hi... I'm new here...",
+                "bluffing": "*sweats profusely*",
+                "losing": "No no no! My allowance!",
+                "winning": "I... I actually won?!"
+            },
+            "preferred_games": ["coin_flip", "rock_paper_scissors"],
+            "min_bet": 1,
+            "max_bet": 20
+        },
+        "stoic_veteran": {
+            "id": "stoic_veteran", 
+            "name": "Stoic Veteran",
+            "ai_type": "calculated",
+            "tells": ["minimal", "controlled_breathing"],
+            "strength": "consistency",
+            "stats": {
+                "bluff_skill": 0.6,
+                "tell_detection": 0.5,
+                "pressure_resistance": 0.8
+            },
+            "dialogue": {
+                "greeting": "Another challenger. Let's see what you've got.",
+                "bluffing": "*maintains steady gaze*",
+                "losing": "Good play. I respect that.",
+                "winning": "Experience pays off."
+            },
+            "preferred_games": ["blackjack", "high_low"],
+            "min_bet": 10,
+            "max_bet": 100
+        },
+        "master_bluffer": {
+            "id": "master_bluffer",
+            "name": "Master Bluffer",
+            "ai_type": "deceptive",
+            "tells": ["none", "false_tells", "reverse_psychology"],
+            "strength": "misdirection",
+            "stats": {
+                "bluff_skill": 0.8,
+                "tell_detection": 0.7,
+                "pressure_resistance": 0.9
+            },
+            "special_moves": ["fake_tell", "confidence_play", "martingale_strategy"],
+            "dialogue": {
+                "greeting": "Shall we dance?",
+                "bluffing": "*smiles mysteriously*",
+                "losing": "You read me well. Impressive.",
+                "winning": "Just as calculated.",
+                "special_move": "You're reading my tells... but which ones are real?"
+            },
+            "preferred_games": ["liars_dice", "blackjack"],
+            "min_bet": 25,
+            "max_bet": 500
+        },
+        "probability_genius": {
+            "id": "probability_genius",
+            "name": "Probability Genius",
+            "ai_type": "mathematical",
+            "tells": ["calculating_glances", "finger_tapping"],
+            "strength": "odds_calculation",
+            "stats": {
+                "bluff_skill": 0.4,
+                "tell_detection": 0.8,
+                "pressure_resistance": 0.6,
+                "mathematical_precision": 0.95
+            },
+            "dialogue": {
+                "greeting": "The odds are in my favor. Shall we begin?",
+                "bluffing": "*calculates silently*",
+                "losing": "Statistical anomaly. Fascinating.",
+                "winning": "The numbers don't lie."
+            },
+            "preferred_games": ["blackjack", "high_low"],
+            "min_bet": 50,
+            "max_bet": 1000
+        },
+        "casino_owner": {
+            "id": "casino_owner",
+            "name": "Casino Owner",
+            "ai_type": "master",
+            "tells": ["none"],
+            "strength": "complete_mastery",
+            "stats": {
+                "bluff_skill": 0.9,
+                "tell_detection": 0.9,
+                "pressure_resistance": 1.0,
+                "intimidation": 0.8
+            },
+            "special_abilities": ["perfect_poker_face", "intimidation", "house_advantage"],
+            "dialogue": {
+                "greeting": "Welcome to my establishment. I trust you're prepared to lose everything.",
+                "bluffing": "*radiates quiet confidence*",
+                "losing": "Impossible... The house always wins...",
+                "winning": "Did you really think you could beat the house?",
+                "boss_phase": "You've impressed me. But this is where it ends."
+            },
+            "preferred_games": ["liars_dice", "russian_roulette"],
+            "min_bet": 100,
+            "max_bet": 10000,
+            "boss": true
+        }
+    },
+    "psychological_mechanics": {
+        "tell_system": {
+            "types": ["nervous", "confident", "desperate", "lying", "truthful"],
+            "detection_skill": {
+                "base": 0.3,
+                "scaling": "base + (luck * 0.1) + (psychology_level * 0.05)"
+            }
+        },
+        "pressure_system": {
+            "factors": ["bet_size", "consecutive_losses", "life_betting"],
+            "effects": ["forced_tells", "misplay_chance", "desperation_bonus"]
+        }
+    }
+}

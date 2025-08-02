@@ -1,0 +1,434 @@
+{
+    "track_components": {
+        "straight": {
+            "id": "straight",
+            "name": "Straight Track",
+            "description": "Simple straight track segment for marble travel",
+            "cost": 1,
+            "physics": {
+                "friction": 0.1,
+                "restitution": 0.8,
+                "velocity_multiplier": 1.0
+            },
+            "dimensions": {
+                "length": 5,
+                "width": 1,
+                "height": 0.5
+            },
+            "connection_points": ["entry", "exit"],
+            "placement_rules": {
+                "snap_to_grid": true,
+                "min_spacing": 0.5,
+                "max_angle": 45
+            },
+            "visual": {
+                "model": "track_straight",
+                "material": "metal_brushed",
+                "color": "#C0C0C0"
+            }
+        },
+        "curve": {
+            "id": "curve",
+            "name": "Curved Track",
+            "description": "90-degree curved track for direction changes",
+            "cost": 2,
+            "physics": {
+                "friction": 0.15,
+                "restitution": 0.75,
+                "velocity_multiplier": 0.9,
+                "centripetal_force": true
+            },
+            "dimensions": {
+                "radius": 2.5,
+                "width": 1,
+                "height": 0.5,
+                "arc_degrees": 90
+            },
+            "connection_points": ["entry", "exit"],
+            "placement_rules": {
+                "snap_to_grid": true,
+                "rotation_steps": 90,
+                "requires_clearance": 3.0
+            },
+            "visual": {
+                "model": "track_curve_90",
+                "material": "metal_brushed",
+                "color": "#C0C0C0"
+            }
+        },
+        "ramp": {
+            "id": "ramp",
+            "name": "Ramp",
+            "description": "Inclined track that adds or removes marble speed",
+            "cost": 3,
+            "physics": {
+                "friction": 0.08,
+                "restitution": 0.9,
+                "gravity_factor": 1.5,
+                "height_change": true
+            },
+            "dimensions": {
+                "length": 6,
+                "width": 1,
+                "height_start": 0.5,
+                "height_end": 2.0,
+                "angle": 15
+            },
+            "connection_points": ["entry_low", "exit_high"],
+            "placement_rules": {
+                "requires_height_clearance": true,
+                "max_angle": 30,
+                "supports_required": true
+            },
+            "visual": {
+                "model": "track_ramp",
+                "material": "metal_brushed",
+                "color": "#A0A0A0"
+            },
+            "variants": ["up_ramp", "down_ramp"]
+        },
+        "loop": {
+            "id": "loop",
+            "name": "Loop-the-Loop",
+            "description": "Vertical loop requiring sufficient speed to complete",
+            "cost": 8,
+            "physics": {
+                "friction": 0.12,
+                "restitution": 0.85,
+                "min_speed_required": 12.0,
+                "centripetal_force": true,
+                "gravity_factor": 2.0
+            },
+            "dimensions": {
+                "radius": 3.0,
+                "width": 1,
+                "height": 6.0
+            },
+            "connection_points": ["entry_bottom", "exit_bottom"],
+            "placement_rules": {
+                "requires_height_clearance": 6.0,
+                "requires_speed_check": true,
+                "foundation_required": true
+            },
+            "visual": {
+                "model": "track_loop",
+                "material": "metal_polished",
+                "color": "#E0E0E0",
+                "effects": ["speed_trail", "success_glow"]
+            },
+            "failure_behavior": "marble_falls_back"
+        }
+    },
+    "mechanical_components": {
+        "launcher": {
+            "id": "launcher",
+            "name": "Marble Launcher",
+            "description": "Propels marbles with adjustable force",
+            "cost": 5,
+            "physics": {
+                "launch_force_min": 5.0,
+                "launch_force_max": 20.0,
+                "launch_angle_range": [-45, 45],
+                "cooldown_time": 2.0
+            },
+            "dimensions": {
+                "length": 2,
+                "width": 2,
+                "height": 1.5
+            },
+            "connection_points": ["power_input", "marble_output"],
+            "controls": {
+                "force_slider": {"min": 0, "max": 100, "default": 50},
+                "angle_dial": {"min": -45, "max": 45, "default": 0},
+                "trigger": "manual_or_automatic"
+            },
+            "visual": {
+                "model": "launcher_spring",
+                "material": "metal_painted",
+                "color": "#FF6B35",
+                "animations": ["charge_up", "launch", "reset"]
+            }
+        },
+        "accelerator": {
+            "id": "accelerator",
+            "name": "Speed Booster",
+            "description": "Increases marble velocity when activated",
+            "cost": 6,
+            "physics": {
+                "boost_multiplier": 1.8,
+                "activation_time": 0.5,
+                "energy_cost": 1,
+                "max_activations": 10
+            },
+            "dimensions": {
+                "length": 3,
+                "width": 1,
+                "height": 0.8
+            },
+            "connection_points": ["entry", "exit", "power_input"],
+            "activation_triggers": ["proximity", "timer", "switch"],
+            "visual": {
+                "model": "accelerator_magnetic",
+                "material": "metal_chrome",
+                "color": "#00BFFF",
+                "effects": ["magnetic_field", "speed_boost_trail"]
+            }
+        },
+        "splitter": {
+            "id": "splitter",
+            "name": "Track Splitter",
+            "description": "Divides marble flow into multiple paths",
+            "cost": 4,
+            "physics": {
+                "split_ratio": "configurable",
+                "velocity_preservation": 0.95,
+                "randomization_factor": 0.1
+            },
+            "dimensions": {
+                "length": 2,
+                "width": 3,
+                "height": 1
+            },
+            "connection_points": ["entry", "exit_left", "exit_right", "exit_center"],
+            "split_modes": ["alternating", "random", "weighted", "conditional"],
+            "visual": {
+                "model": "splitter_y_junction",
+                "material": "metal_brushed",
+                "color": "#FFD700",
+                "indicators": ["flow_direction_arrows"]
+            }
+        },
+        "collector": {
+            "id": "collector",
+            "name": "Marble Collector",
+            "description": "Gathers marbles and counts successful completions",
+            "cost": 3,
+            "physics": {
+                "collection_radius": 1.5,
+                "capture_efficiency": 1.0,
+                "sorting_capability": true
+            },
+            "dimensions": {
+                "length": 2,
+                "width": 2,
+                "height": 1
+            },
+            "connection_points": ["entry_multiple"],
+            "collection_modes": ["count_all", "sort_by_type", "timed_collection"],
+            "visual": {
+                "model": "collector_funnel",
+                "material": "plastic_transparent",
+                "color": "#90EE90",
+                "effects": ["collection_glow", "marble_count_display"]
+            },
+            "scoring": {
+                "base_points": 10,
+                "speed_bonus": "speed * 0.5",
+                "combo_multiplier": "consecutive_collections * 1.1"
+            }
+        }
+    },
+    "interactive_components": {
+        "switch": {
+            "id": "switch",
+            "name": "Track Switch",
+            "description": "Player-controlled track direction changer",
+            "cost": 4,
+            "physics": {
+                "switch_time": 0.3,
+                "position_states": ["left", "right", "center"],
+                "velocity_impact": 0.05
+            },
+            "dimensions": {
+                "length": 2,
+                "width": 2,
+                "height": 0.8
+            },
+            "connection_points": ["entry", "exit_a", "exit_b"],
+            "control_methods": ["click", "keyboard", "automatic_timer"],
+            "visual": {
+                "model": "switch_mechanical",
+                "material": "metal_painted",
+                "color": "#FF69B4",
+                "animations": ["switch_left", "switch_right", "neutral"]
+            },
+            "player_interaction": {
+                "input_type": "action_button",
+                "feedback": "visual_and_audio",
+                "timing_critical": true
+            }
+        },
+        "gate": {
+            "id": "gate",
+            "name": "Timed Gate",
+            "description": "Opens and closes on a timer or trigger",
+            "cost": 5,
+            "physics": {
+                "open_duration": 3.0,
+                "close_duration": 2.0,
+                "marble_blocking": true
+            },
+            "dimensions": {
+                "length": 1,
+                "width": 1,
+                "height": 2
+            },
+            "connection_points": ["entry", "exit", "trigger_input"],
+            "timing_modes": ["periodic", "triggered", "sensor_activated"],
+            "visual": {
+                "model": "gate_sliding",
+                "material": "metal_painted",
+                "color": "#8A2BE2",
+                "animations": ["open", "close", "warning_flash"]
+            },
+            "challenge_element": "timing_based_navigation"
+        },
+        "bumper": {
+            "id": "bumper",
+            "name": "Elastic Bumper",
+            "description": "Bounces marbles in different directions",
+            "cost": 2,
+            "physics": {
+                "restitution": 1.2,
+                "bounce_angle_variation": 30,
+                "impact_force_multiplier": 1.1
+            },
+            "dimensions": {
+                "radius": 0.8,
+                "height": 1.5
+            },
+            "connection_points": ["surface_contact"],
+            "bounce_patterns": ["random", "alternating", "directional"],
+            "visual": {
+                "model": "bumper_spring",
+                "material": "rubber_glossy",
+                "color": "#FF4500",
+                "effects": ["impact_flash", "bounce_trail"]
+            },
+            "sound_effects": ["bounce_high", "bounce_medium", "bounce_low"]
+        }
+    },
+    "special_components": {
+        "teleporter": {
+            "id": "teleporter",
+            "name": "Quantum Teleporter",
+            "description": "Instantly transports marbles to linked teleporter",
+            "cost": 15,
+            "physics": {
+                "teleport_delay": 0.1,
+                "velocity_preservation": 1.0,
+                "max_distance": "unlimited",
+                "energy_cost": 2
+            },
+            "dimensions": {
+                "radius": 1.5,
+                "height": 2.0
+            },
+            "connection_points": ["entry", "linked_teleporter"],
+            "linking_system": {
+                "max_links": 1,
+                "bidirectional": false,
+                "link_visualization": "energy_beam"
+            },
+            "visual": {
+                "model": "teleporter_portal",
+                "material": "energy_crystal",
+                "color": "#9370DB",
+                "effects": ["portal_swirl", "teleport_flash", "energy_particles"]
+            },
+            "unlock_requirement": "complete_10_levels"
+        },
+        "gravity_well": {
+            "id": "gravity_well",
+            "name": "Gravity Manipulator",
+            "description": "Creates localized gravity field affecting marble trajectory",
+            "cost": 12,
+            "physics": {
+                "gravity_strength": 2.0,
+                "effect_radius": 4.0,
+                "attraction_or_repulsion": "configurable",
+                "decay_over_distance": true
+            },
+            "dimensions": {
+                "radius": 2.0,
+                "height": 1.0,
+                "effect_field_radius": 4.0
+            },
+            "connection_points": ["power_input"],
+            "gravity_modes": ["attract", "repel", "orbit", "alternating"],
+            "visual": {
+                "model": "gravity_device",
+                "material": "metal_iridescent",
+                "color": "#4B0082",
+                "effects": ["gravity_field_distortion", "particle_attraction"]
+            },
+            "advanced_physics": {
+                "orbital_mechanics": true,
+                "escape_velocity": 15.0,
+                "tidal_effects": true
+            }
+        },
+        "marble_transformer": {
+            "id": "marble_transformer",
+            "name": "Marble Transformer",
+            "description": "Changes marble properties (size, weight, bounce)",
+            "cost": 10,
+            "physics": {
+                "transformation_time": 1.0,
+                "property_modifications": ["mass", "size", "material", "special_abilities"],
+                "transformation_energy": 1
+            },
+            "dimensions": {
+                "length": 3,
+                "width": 2,
+                "height": 2
+            },
+            "connection_points": ["entry", "exit", "power_input"],
+            "transformation_types": {
+                "heavy_marble": {"mass": "*2", "bounce": "*0.5", "break_barriers": true},
+                "light_marble": {"mass": "*0.5", "bounce": "*1.5", "float_effect": true},
+                "bouncy_marble": {"restitution": "*2", "size": "*1.2", "sound": "enhanced"},
+                "ghost_marble": {"phase_through": true, "transparency": 0.5, "gravity": "*0.1"}
+            },
+            "visual": {
+                "model": "transformer_chamber",
+                "material": "glass_reinforced",
+                "color": "#32CD32",
+                "effects": ["transformation_light", "particle_stream", "marble_glow"]
+            }
+        }
+    },
+    "component_mechanics": {
+        "durability_system": {
+            "description": "Components wear down with use and may need repair",
+            "durability_factors": ["usage_frequency", "marble_impact_force", "environmental_conditions"],
+            "repair_costs": "10% of original cost per 25% durability restored",
+            "failure_effects": ["reduced_efficiency", "complete_breakdown", "unpredictable_behavior"]
+        },
+        "upgrade_system": {
+            "description": "Components can be upgraded to improve performance",
+            "upgrade_categories": ["efficiency", "durability", "special_effects", "automation"],
+            "upgrade_costs": "50% of base cost per tier",
+            "max_upgrade_tiers": 3
+        },
+        "synergy_bonuses": {
+            "description": "Certain component combinations provide enhanced effects",
+            "launcher_accelerator": "Launch force increased by 25%",
+            "ramp_loop": "Speed requirement for loop reduced by 20%",
+            "splitter_collector": "Collection efficiency increased by 30%",
+            "switch_gate": "Timing windows synchronized automatically"
+        },
+        "environmental_interactions": {
+            "weather_effects": {
+                "rain": "Increased friction on tracks",
+                "wind": "Marble trajectory affected",
+                "heat": "Component expansion affects precision",
+                "cold": "Reduced component flexibility"
+            },
+            "day_night_cycle": {
+                "day": "Standard performance",
+                "night": "Reduced visibility but bonus points for completion"
+            }
+        }
+    }
+}

@@ -1,0 +1,99 @@
+{
+    "gambling_items": {
+        "loaded_dice": {
+            "id": "loaded_dice",
+            "name": "Loaded Dice",
+            "type": "passive",
+            "description": "30% chance to force a 6 on dice rolls",
+            "effect": {
+                "trigger": "on_dice_roll",
+                "type": "modify_roll",
+                "chance": 0.3,
+                "force_value": 6
+            },
+            "rarity": "rare",
+            "value": 200
+        },
+        "marked_cards": {
+            "id": "marked_cards",
+            "name": "Marked Cards",
+            "type": "consumable",
+            "description": "See one opponent card in the next card game",
+            "effect": {
+                "type": "card_advantage",
+                "reveal": 1,
+                "uses": 1
+            },
+            "rarity": "rare", 
+            "value": 150
+        },
+        "rabbit_foot": {
+            "id": "rabbit_foot",
+            "name": "Rabbit's Foot",
+            "type": "passive",
+            "description": "Permanently increases luck by 0.2",
+            "effect": {
+                "type": "permanent_stat",
+                "stat": "luck",
+                "amount": 0.2
+            },
+            "rarity": "epic",
+            "value": 500
+        },
+        "lucky_coin": {
+            "id": "lucky_coin",
+            "name": "Lucky Coin",
+            "type": "consumable",
+            "description": "Use before gambling for +10% luck for next game",
+            "effect": {
+                "type": "temp_buff",
+                "stat": "luck",
+                "amount": 0.1,
+                "duration": 1
+            },
+            "rarity": "uncommon",
+            "value": 50
+        },
+        "psychology_textbook": {
+            "id": "psychology_textbook",
+            "name": "Psychology Textbook",
+            "type": "passive",
+            "description": "Increases tell detection and provides false tell immunity",
+            "effect": {
+                "tell_detection": 0.2,
+                "false_tell_immunity": 0.1
+            },
+            "rarity": "rare",
+            "value": 300
+        }
+    },
+    "equipment": {
+        "gamblers_vest": {
+            "id": "gamblers_vest",
+            "name": "Gambler's Vest",
+            "type": "armor",
+            "description": "Stylish vest that increases charisma and luck",
+            "stats": {
+                "defense": 2,
+                "luck": 0.3,
+                "charisma": 1
+            },
+            "rarity": "uncommon",
+            "value": 300
+        }
+    },
+    "key_items": {
+        "casino_pass": {
+            "id": "casino_pass",
+            "name": "VIP Casino Pass",
+            "type": "key_item",
+            "description": "Grants access to high-stakes gambling floors",
+            "effect": {
+                "type": "unlock_area",
+                "area": "vip_casino"
+            },
+            "rarity": "special",
+            "value": 1000
+        }
+    }
+}

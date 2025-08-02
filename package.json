@@ -1,0 +1,21 @@
+{
+  "name": "rogueengine",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test:e2e": "bun run test/store-e2e.test.js",
+    "dev": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/tape": "^5.8.1",
+    "tape": "^5.9.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2"
+  }
+}

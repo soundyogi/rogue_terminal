@@ -1,0 +1,383 @@
+{
+    "physics_engine": {
+        "core_settings": {
+            "gravity": {
+                "default": -9.81,
+                "customizable": true,
+                "min": -20.0,
+                "max": 0.0,
+                "affects": ["marbles", "loose_components"]
+            },
+            "time_scale": {
+                "default": 1.0,
+                "slow_motion": 0.1,
+                "fast_forward": 5.0,
+                "bullet_time": 0.05
+            },
+            "simulation_precision": {
+                "timestep": 0.016,
+                "iterations": 8,
+                "collision_detection": "continuous"
+            },
+            "world_bounds": {
+                "x": [-50, 50],
+                "y": [-10, 30],
+                "z": [-50, 50],
+                "boundary_behavior": "bounce_back"
+            }
+        },
+        "collision_system": {
+            "collision_layers": {
+                "marbles": {
+                    "id": 1,
+                    "collides_with": ["tracks", "components", "marbles", "environment"]
+                },
+                "tracks": {
+                    "id": 2, 
+                    "collides_with": ["marbles"]
+                },
+                "components": {
+                    "id": 3,
+                    "collides_with": ["marbles", "environment"]
+                },
+                "environment": {
+                    "id": 4,
+                    "collides_with": ["marbles", "components"]
+                },
+                "sensors": {
+                    "id": 5,
+                    "collides_with": [],
+                    "trigger_only": true
+                }
+            },
+            "collision_materials": {
+                "metal_on_metal": {
+                    "friction": 0.1,
+                    "restitution": 0.8,
+                    "sound": "metallic_clang"
+                },
+                "marble_on_track": {
+                    "friction": 0.08,
+                    "restitution": 0.9,
+                    "sound": "marble_roll"
+                },
+                "rubber_bounce": {
+                    "friction": 0.3,
+                    "restitution": 1.2,
+                    "sound": "rubber_bounce"
+                },
+                "magnetic_interaction": {
+                    "friction": 0.05,
+                    "restitution": 0.95,
+                    "special_force": "magnetic_attraction"
+                }
+            }
+        }
+    },
+    "marble_physics": {
+        "marble_types": {
+            "standard": {
+                "mass": 0.1,
+                "radius": 0.25,
+                "material": "steel",
+                "friction": 0.1,
+                "restitution": 0.9,
+                "magnetic_susceptibility": 1.0,
+                "max_speed": 50.0,
+                "visual_trail": true
+            },
+            "heavy": {
+                "mass": 0.3,
+                "radius": 0.3,
+                "material": "tungsten",
+                "friction": 0.12,
+                "restitution": 0.7,
+                "magnetic_susceptibility": 0.5,
+                "max_speed": 40.0,
+                "breaks_barriers": true,
+                "momentum_preservation": 1.2
+            },
+            "light": {
+                "mass": 0.05,
+                "radius": 0.2,
+                "material": "aluminum",
+                "friction": 0.08,
+                "restitution": 1.1,
+                "magnetic_susceptibility": 1.5,
+                "max_speed": 70.0,
+                "air_resistance_factor": 1.5,
+                "bounce_enhancement": 1.3
+            },
+            "bouncy": {
+                "mass": 0.08,
+                "radius": 0.28,
+                "material": "super_rubber",
+                "friction": 0.15,
+                "restitution": 1.5,
+                "magnetic_susceptibility": 0.8,
+                "max_speed": 60.0,
+                "bounce_sound_amplified": true,
+                "energy_gain_on_bounce": 0.1
+            },
+            "ghost": {
+                "mass": 0.02,
+                "radius": 0.25,
+                "material": "ectoplasm",
+                "friction": 0.02,
+                "restitution": 0.95,
+                "magnetic_susceptibility": 0.1,
+                "max_speed": 80.0,
+                "phase_through_walls": true,
+                "gravity_factor": 0.1,
+                "transparency": 0.5
+            }
+        },
+        "motion_mechanics": {
+            "rolling_physics": {
+                "angular_velocity_coupling": true,
+                "rolling_friction_coefficient": 0.01,
+                "slip_threshold": 0.8,
+                "spin_decay_rate": 0.95
+            },
+            "air_resistance": {
+                "base_drag_coefficient": 0.1,
+                "velocity_squared_factor": true,
+                "altitude_effect": false
+            },
+            "energy_conservation": {
+                "kinetic_to_potential": true,
+                "rotational_energy": true,
+                "energy_loss_per_collision": 0.05,
+                "minimum_energy_threshold": 0.01
+            }
+        }
+    },
+    "track_physics": {
+        "surface_properties": {
+            "friction_zones": {
+                "smooth_metal": {
+                    "coefficient": 0.05,
+                    "speed_boost": 1.1,
+                    "visual_effect": "speed_lines"
+                },
+                "rough_surface": {
+                    "coefficient": 0.2,
+                    "speed_reduction": 0.8,
+                    "sound_effect": "grinding"
+                },
+                "magnetic_strip": {
+                    "coefficient": 0.08,
+                    "magnetic_force": 5.0,
+                    "centering_effect": true
+                },
+                "ice_surface": {
+                    "coefficient": 0.02,
+                    "unpredictable_slip": true,
+                    "temperature_dependent": true
+                }
+            },
+            "banking_angles": {
+                "optimal_speed_calculation": "sqrt(radius * gravity * tan(angle))",
+                "centrifugal_force_compensation": true,
+                "maximum_safe_angle": 45
+            },
+            "elevation_changes": {
+                "potential_energy_conversion": true,
+                "minimum_speed_for_climb": "sqrt(2 * gravity * height)",
+                "gravity_assist_on_descent": true
+            }
+        },
+        "track_deformation": {
+            "dynamic_flex": {
+                "enabled": false,
+                "max_deflection": 0.1,
+                "spring_constant": 1000,
+                "affects_marble_trajectory": true
+            },
+            "wear_and_tear": {
+                "enabled": true,
+                "wear_rate": 0.001,
+                "affects_friction": true,
+                "repair_mechanics": true
+            }
+        }
+    },
+    "component_physics": {
+        "launcher_mechanics": {
+            "spring_physics": {
+                "compression_force_curve": "quadratic",
+                "release_velocity_calculation": "sqrt(2 * spring_energy / marble_mass)",
+                "angle_accuracy": 0.95,
+                "launch_consistency": 0.9
+            },
+            "magnetic_launcher": {
+                "field_strength": 10.0,
+                "acceleration_distance": 2.0,
+                "efficiency": 0.85,
+                "charging_time": 1.5
+            }
+        },
+        "accelerator_physics": {
+            "magnetic_boost": {
+                "field_gradient": 5.0,
+                "interaction_time": 0.2,
+                "velocity_addition": "field_strength * interaction_time",
+                "energy_efficiency": 0.8
+            },
+            "conveyor_boost": {
+                "surface_velocity": 10.0,
+                "acceleration_rate": 8.0,
+                "friction_coupling": 0.9
+            }
+        },
+        "switch_mechanics": {
+            "switching_time": 0.3,
+            "mechanical_precision": 0.99,
+            "failure_rate": 0.001,
+            "momentum_preservation": 0.98
+        },
+        "gate_physics": {
+            "collision_detection": "precise",
+            "opening_speed": 2.0,
+            "closing_force": 1000.0,
+            "safety_sensors": true
+        }
+    },
+    "special_physics": {
+        "gravity_manipulation": {
+            "gravity_wells": {
+                "force_calculation": "mass1 * mass2 / (distance^2)",
+                "maximum_range": 10.0,
+                "field_visualization": true,
+                "orbital_mechanics": true
+            },
+            "anti_gravity_zones": {
+                "repulsion_force": "configurable",
+                "marble_levitation": true,
+                "energy_requirement": 2.0
+            },
+            "gravity_reversal": {
+                "transition_smoothness": 0.1,
+                "affects_all_objects": true,
+                "disorientation_effect": true
+            }
+        },
+        "teleportation": {
+            "conservation_laws": {
+                "momentum_preserved": true,
+                "energy_preserved": true,
+                "angular_momentum_preserved": true
+            },
+            "teleport_accuracy": 0.999,
+            "dimensional_stability": true,
+            "quantum_uncertainty": 0.001
+        },
+        "time_dilation": {
+            "local_time_fields": {
+                "slow_zones": {
+                    "time_factor": 0.1,
+                    "affects_physics": true,
+                    "visual_distortion": true
+                },
+                "fast_zones": {
+                    "time_factor": 5.0,
+                    "precision_requirements": "high",
+                    "energy_cost": 3.0
+                }
+            }
+        }
+    },
+    "environmental_physics": {
+        "weather_effects": {
+            "wind": {
+                "base_force": 2.0,
+                "direction_variability": 30,
+                "affects_trajectory": true,
+                "marble_size_sensitivity": true
+            },
+            "rain": {
+                "friction_increase": 0.5,
+                "track_slipperiness": 1.3,
+                "electrical_component_risk": true
+            },
+            "temperature": {
+                "material_expansion": {
+                    "coefficient": 0.001,
+                    "affects_track_alignment": true,
+                    "affects_component_precision": true
+                },
+                "marble_properties": {
+                    "cold_brittleness": true,
+                    "heat_expansion": true
+                }
+            }
+        },
+        "day_night_cycle": {
+            "lighting_affects_precision": true,
+            "temperature_variation": 20,
+            "component_efficiency_changes": 0.1
+        }
+    },
+    "simulation_optimization": {
+        "performance_settings": {
+            "level_of_detail": {
+                "high_precision_radius": 10.0,
+                "medium_precision_radius": 25.0,
+                "low_precision_beyond": 25.0
+            },
+            "physics_culling": {
+                "stationary_object_sleep": true,
+                "sleep_velocity_threshold": 0.1,
+                "wake_on_interaction": true
+            },
+            "collision_optimization": {
+                "broad_phase_algorithm": "spatial_hash",
+                "narrow_phase_algorithm": "SAT",
+                "continuous_collision_detection": "marbles_only"
+            }
+        },
+        "quality_presets": {
+            "low": {
+                "timestep": 0.033,
+                "iterations": 4,
+                "precision": "basic"
+            },
+            "medium": {
+                "timestep": 0.016,
+                "iterations": 6,
+                "precision": "standard"
+            },
+            "high": {
+                "timestep": 0.008,
+                "iterations": 10,
+                "precision": "enhanced"
+            },
+            "ultra": {
+                "timestep": 0.004,
+                "iterations": 16,
+                "precision": "maximum"
+            }
+        }
+    },
+    "debugging_tools": {
+        "visualization": {
+            "velocity_vectors": true,
+            "force_indicators": true,
+            "collision_points": true,
+            "energy_levels": true,
+            "trajectory_prediction": true
+        },
+        "physics_stats": {
+            "real_time_monitoring": true,
+            "performance_metrics": true,
+            "stability_indicators": true,
+            "energy_conservation_tracking": true
+        },
+        "simulation_controls": {
+            "step_by_step_mode": true,
+            "rewind_functionality": true,
+            "state_inspection": true,
+            "force_application_tools": true
+        }
+    }
+}

@@ -1,0 +1,244 @@
+{
+    "prestige_system": {
+        "description": "Reset progress to gain permanent bonuses and access to new content",
+        "unlock_requirements": {
+            "total_money_earned": 1000000,
+            "districts_owned": 3,
+            "level": 25
+        },
+        "reset_mechanics": {
+            "keeps": ["prestige_points", "prestige_upgrades", "achievements", "research_progress"],
+            "resets": ["money", "district_levels", "girl_levels", "regular_upgrades"],
+            "partial_keeps": {
+                "research": "50% completion retained",
+                "girl_skills": "25% retained as bonus starting stats"
+            }
+        },
+        "prestige_point_calculation": "floor(sqrt(total_money_earned / 100000))",
+        "multiplier_per_prestige": 1.5
+    },
+    "prestige_upgrades": {
+        "income_mastery": {
+            "id": "income_mastery",
+            "name": "Income Mastery",
+            "description": "Increases all income by 50% per level",
+            "cost_formula": "5 * (level + 1)",
+            "max_level": 20,
+            "effect": "global_income * (1.5 ^ level)",
+            "category": "economic",
+            "icon": "money_stack"
+        },
+        "fast_start": {
+            "id": "fast_start",
+            "name": "Fast Start Bonus",
+            "description": "Begin each prestige with bonus starting money",
+            "cost_formula": "3 * (level + 1)",
+            "max_level": 15,
+            "effect": "starting_money + (1000 * level * prestige_tier)",
+            "category": "progression",
+            "icon": "rocket_launch"
+        },
+        "district_expertise": {
+            "id": "district_expertise", 
+            "name": "District Expertise",
+            "description": "Unlocks districts faster and cheaper",
+            "cost_formula": "8 * (level + 1)",
+            "max_level": 10,
+            "effect": "district_unlock_cost * (0.9 ^ level)",
+            "category": "expansion",
+            "icon": "building_network"
+        },
+        "girl_affinity": {
+            "id": "girl_affinity",
+            "name": "Natural Affinity",
+            "description": "Girls start with higher base stats and learn skills faster",
+            "cost_formula": "6 * (level + 1)",
+            "max_level": 12,
+            "effect": ["base_stats * (1.1 ^ level)", "skill_learning_rate * (1.2 ^ level)"],
+            "category": "girls",
+            "icon": "heart_sparkle"
+        },
+        "automation_mastery": {
+            "id": "automation_mastery",
+            "name": "Automation Mastery",
+            "description": "Significantly improves offline income and automation efficiency",
+            "cost_formula": "10 * (level + 1)",
+            "max_level": 8,
+            "effect": "offline_income_rate * (1.25 ^ level)",
+            "category": "automation",
+            "icon": "gear_auto"
+        },
+        "prestige_magnet": {
+            "id": "prestige_magnet",
+            "name": "Prestige Magnet",
+            "description": "Generates more prestige points from the same progress",
+            "cost_formula": "15 * (level + 1)",
+            "max_level": 6,
+            "effect": "prestige_point_generation * (1.3 ^ level)",
+            "category": "prestige",
+            "icon": "magnet_gold"
+        },
+        "research_genius": {
+            "id": "research_genius",
+            "name": "Research Genius",
+            "description": "Research projects complete faster and carry over more progress",
+            "cost_formula": "12 * (level + 1)",
+            "max_level": 7,
+            "effect": ["research_speed * (1.4 ^ level)", "research_carryover + (0.1 * level)"],
+            "category": "research",
+            "icon": "brain_circuit"
+        },
+        "luxury_access": {
+            "id": "luxury_access",
+            "name": "Luxury Access",
+            "description": "Unlocks exclusive luxury features and premium content earlier",
+            "cost_formula": "20 * (level + 1)",
+            "max_level": 5,
+            "effect": "luxury_tier_unlock_requirements * (0.8 ^ level)",
+            "category": "luxury",
+            "icon": "diamond_crown",
+            "special_unlocks": ["private_jets", "yacht_parties", "celebrity_endorsements"]
+        }
+    },
+    "prestige_tiers": {
+        "nouveau_riche": {
+            "tier": 1,
+            "name": "Nouveau Riche",
+            "description": "Your first taste of serious wealth",
+            "requirements": { "prestige_count": 1 },
+            "bonuses": ["basic_automation_unlocked", "research_tree_tier_1"],
+            "title_color": "bronze"
+        },
+        "business_mogul": {
+            "tier": 2,
+            "name": "Business Mogul",
+            "description": "A respected figure in the business world",
+            "requirements": { "prestige_count": 5, "total_prestige_points": 100 },
+            "bonuses": ["advanced_districts_unlocked", "girl_skill_bonuses", "vip_customer_tier"],
+            "title_color": "silver"
+        },
+        "luxury_tycoon": {
+            "tier": 3,
+            "name": "Luxury Tycoon",
+            "description": "Master of high-end markets and exclusive venues",
+            "requirements": { "prestige_count": 15, "total_prestige_points": 500 },
+            "bonuses": ["luxury_districts_unlocked", "premium_automation", "celebrity_connections"],
+            "title_color": "gold"
+        },
+        "elite_magnate": {
+            "tier": 4,
+            "name": "Elite Magnate",
+            "description": "Among the most powerful business leaders in the world",
+            "requirements": { "prestige_count": 35, "total_prestige_points": 2000 },
+            "bonuses": ["elite_districts_unlocked", "global_influence", "unlimited_expansion"],
+            "title_color": "platinum"
+        },
+        "legendary_emperor": {
+            "tier": 5,
+            "name": "Legendary Emperor",
+            "description": "A mythical figure whose empire spans continents",
+            "requirements": { "prestige_count": 75, "total_prestige_points": 10000 },
+            "bonuses": ["legendary_content_unlocked", "reality_bending_bonuses", "transcendent_automation"],
+            "title_color": "rainbow",
+            "special_features": ["custom_content_creation", "world_shaping_abilities"]
+        }
+    },
+    "meta_progression": {
+        "achievement_system": {
+            "prestige_achievements": {
+                "first_reset": {
+                    "name": "New Beginnings",
+                    "description": "Complete your first prestige",
+                    "reward": "5 bonus prestige points",
+                    "permanent_bonus": "Starting money +50%"
+                },
+                "speed_prestige": {
+                    "name": "Lightning Tycoon",
+                    "description": "Complete a prestige in under 2 hours",
+                    "reward": "Unlock 'Speed Bonus' research branch",
+                    "permanent_bonus": "All timers 10% faster"
+                },
+                "prestige_master": {
+                    "name": "Prestige Master",
+                    "description": "Complete 50 prestiges",
+                    "reward": "Prestige point generation +100%",
+                    "permanent_bonus": "All prestige upgrades 25% cheaper"
+                }
+            }
+        },
+        "legacy_bonuses": {
+            "description": "Permanent bonuses that stack across all prestiges",
+            "money_memories": {
+                "name": "Wealth Memory",
+                "description": "Remember 1% of highest money total as starting bonus",
+                "formula": "max_money_ever_earned * 0.01",
+                "unlock": "prestige_tier_2"
+            },
+            "skill_legacy": {
+                "name": "Teaching Legacy",
+                "description": "Girls start with skill bonuses based on previous achievements",
+                "formula": "previous_max_skills * 0.05",
+                "unlock": "prestige_tier_3"
+            },
+            "district_mastery": {
+                "name": "Architectural Mastery",
+                "description": "Build and upgrade districts faster based on experience",
+                "formula": "total_districts_built * 0.02",
+                "unlock": "prestige_tier_4"
+            }
+        }
+    },
+    "special_prestige_events": {
+        "golden_opportunity": {
+            "name": "Golden Opportunity",
+            "description": "Rare event that provides massive bonuses if you prestige during it",
+            "frequency": "5% chance per day after prestige unlock",
+            "duration": "4 hours",
+            "bonuses": [
+                "Prestige points earned +200%",
+                "Next run starts with special golden girl",
+                "All upgrades 50% cheaper for next run"
+            ]
+        },
+        "legacy_convergence": {
+            "name": "Legacy Convergence",
+            "description": "All previous progress temporarily returns during this event",
+            "frequency": "1% chance per prestige completion",
+            "duration": "30 minutes",
+            "effects": [
+                "Access to all previously unlocked content",
+                "Massive income multiplier based on total prestiges",
+                "Can purchase special legacy upgrades"
+            ]
+        }
+    },
+    "prestige_mechanics": {
+        "timing_strategies": {
+            "early_prestige": {
+                "description": "Prestige as soon as possible for steady progress",
+                "benefits": ["Consistent prestige point flow", "Faster early-game progression"],
+                "drawbacks": ["Lower points per prestige", "Slow late-game scaling"]
+            },
+            "deep_runs": {
+                "description": "Push as far as possible before prestiging",
+                "benefits": ["More prestige points per run", "Access to higher-tier content"],
+                "drawbacks": ["Slower overall progression", "Diminishing returns"]
+            },
+            "balanced_approach": {
+                "description": "Prestige when progress significantly slows",
+                "benefits": ["Optimal point generation", "Balanced progression"],
+                "optimal_timing": "When income growth drops below 10% per hour"
+            }
+        },
+        "prestige_preparation": {
+            "stockpiling": {
+                "description": "Save resources before prestiging for maximum point generation",
+                "recommended_targets": ["Complete all available research", "Max out key upgrades", "Achieve milestone bonuses"]
+            },
+            "achievement_hunting": {
+                "description": "Target specific achievements before prestiging for legacy bonuses",
+                "high_value_targets": ["Money milestones", "District completion", "Girl development goals"]
+            }
+        }
+    }
+}

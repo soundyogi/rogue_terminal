@@ -1,0 +1,129 @@
+{
+    "districts": {
+        "shopping_district": {
+            "id": "shopping_district",
+            "name": "Shopping District",
+            "description": "Where fashion meets desire. Boutiques and cafes line the streets.",
+            "unlock_cost": 0,
+            "base_income": 10,
+            "income_scaling": "base * (1.15 ^ level)",
+            "upgrade_cost": "50 * (1.2 ^ level)",
+            "girls_capacity": 3,
+            "aesthetic": "modern_retail",
+            "special_effects": {
+                "fashion_bonus": "Increases all girls' appeal by 10%",
+                "shopping_synergy": "Adjacent districts generate 5% more income"
+            },
+            "unlock_requirements": {
+                "level": 1,
+                "money": 0
+            }
+        },
+        "entertainment_district": {
+            "id": "entertainment_district", 
+            "name": "Entertainment District",
+            "description": "Theaters, clubs, and venues where performance art thrives.",
+            "unlock_cost": 1000,
+            "base_income": 25,
+            "income_scaling": "base * (1.18 ^ level)",
+            "upgrade_cost": "100 * (1.25 ^ level)",
+            "girls_capacity": 4,
+            "aesthetic": "neon_nightlife",
+            "special_effects": {
+                "performance_bonus": "Girls with performance skills generate 25% more",
+                "nightlife_multiplier": "Income increases by 50% during night hours"
+            },
+            "unlock_requirements": {
+                "level": 5,
+                "money": 1000,
+                "districts_owned": 1
+            }
+        },
+        "business_district": {
+            "id": "business_district",
+            "name": "Business District", 
+            "description": "Corporate towers and executive lounges for the ambitious.",
+            "unlock_cost": 5000,
+            "base_income": 50,
+            "income_scaling": "base * (1.22 ^ level)",
+            "upgrade_cost": "200 * (1.3 ^ level)",
+            "girls_capacity": 5,
+            "aesthetic": "corporate_luxury",
+            "special_effects": {
+                "executive_bonus": "Girls with business skills generate 40% more",
+                "prestige_multiplier": "Each level increases global prestige by 2%"
+            },
+            "unlock_requirements": {
+                "level": 10,
+                "money": 5000,
+                "districts_owned": 2,
+                "prestige": 1
+            }
+        },
+        "luxury_resort": {
+            "id": "luxury_resort",
+            "name": "Luxury Resort",
+            "description": "Exclusive beachfront paradise for the elite clientele.",
+            "unlock_cost": 25000,
+            "base_income": 100,
+            "income_scaling": "base * (1.25 ^ level)",
+            "upgrade_cost": "500 * (1.35 ^ level)",
+            "girls_capacity": 6,
+            "aesthetic": "tropical_luxury",
+            "special_effects": {
+                "luxury_bonus": "All income multiplied by 2x",
+                "relaxation_effect": "Girls recover energy 50% faster",
+                "elite_clientele": "Unlocks premium interactions"
+            },
+            "unlock_requirements": {
+                "level": 20,
+                "money": 25000,
+                "districts_owned": 3,
+                "prestige": 5
+            }
+        },
+        "private_island": {
+            "id": "private_island",
+            "name": "Private Island",
+            "description": "The ultimate exclusive destination, invitation only.",
+            "unlock_cost": 100000,
+            "base_income": 250,
+            "income_scaling": "base * (1.3 ^ level)",
+            "upgrade_cost": "1000 * (1.4 ^ level)",
+            "girls_capacity": 8,
+            "aesthetic": "paradise_exclusive",
+            "special_effects": {
+                "isolation_bonus": "Immune to negative events",
+                "paradise_multiplier": "All income multiplied by 5x",
+                "legendary_status": "Generates prestige automatically",
+                "unlimited_potential": "No level cap on upgrades"
+            },
+            "unlock_requirements": {
+                "level": 50,
+                "money": 100000,
+                "districts_owned": 4,
+                "prestige": 20,
+                "special_achievement": "tycoon_status"
+            }
+        }
+    },
+    "district_mechanics": {
+        "adjacency_system": {
+            "description": "Districts placed next to each other provide synergy bonuses",
+            "bonus_types": ["income", "capacity", "special_effects"],
+            "max_adjacency_bonus": 3
+        },
+        "time_of_day_effects": {
+            "morning": { "modifier": 0.8, "description": "Slow start" },
+            "afternoon": { "modifier": 1.0, "description": "Normal operations" },
+            "evening": { "modifier": 1.2, "description": "Peak hours" },
+            "night": { "modifier": 1.5, "description": "Premium time" },
+            "late_night": { "modifier": 0.6, "description": "Winding down" }
+        },
+        "expansion_system": {
+            "grid_size": "5x5 expandable to 10x10",
+            "expansion_cost": "10000 * (current_size ^ 2)",
+            "prerequisites": "All current plots must be developed"
+        }
+    }
+}

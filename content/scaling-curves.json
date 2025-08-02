@@ -1,0 +1,52 @@
+{
+    "universal_scaling_formulas": {
+        "experience_curves": {
+            "fast": "Math.pow(level, 2) * 50",
+            "medium": "Math.pow(level, 2.2) * 100", 
+            "slow": "Math.pow(level, 2.5) * 100",
+            "erratic": "level <= 50 ? Math.pow(level, 2) * 100 : Math.pow(level, 3) * 10"
+        },
+        "damage_scaling": {
+            "linear": "base * (1 + (level * 0.1))",
+            "exponential": "base * Math.pow(1.05, level)",
+            "logarithmic": "base * (1 + Math.log10(level + 1))",
+            "soft_capped": "level <= cap ? base * level : base * cap * (1 + Math.log10(level - cap + 1) * 0.1)",
+            "stepped": "base * (1 + Math.floor(level / 10) * 0.5)"
+        },
+        "cost_scaling": {
+            "fibonacci": "fib(level) * base_cost",
+            "geometric": "base_cost * Math.pow(ratio, level)",
+            "polynomial": "base_cost * (level * level + level)",
+            "summed": "base_cost * (level * (level + 1)) / 2"
+        },
+        "difficulty_scaling": {
+            "enemy_hp": "base_hp * (1 + floor * 0.5) * Math.pow(1.1, floor)",
+            "enemy_damage": "base_damage * (1 + floor * 0.3)",
+            "loot_quality": "Math.min(1, 0.1 + (floor * 0.05))",
+            "special_enemy_chance": "Math.min(0.5, 0.05 * floor)"
+        },
+        "idle_specific": {
+            "offline_gains": "online_rate * offline_efficiency * Math.min(time_away, max_offline_time)",
+            "prestige_currency": "Math.floor(Math.pow(current_currency / threshold, 0.5))",
+            "automation_efficiency": "base_speed * (1 - Math.pow(0.99, upgrade_level))"
+        },
+        "gambling_specific": {
+            "bet_limits": "Math.min(player_coins * 0.5, floor_max_bet)",
+            "bluff_detection": "base_chance + (psychology_skill * 0.02) - (opponent_deception * 0.03)",
+            "jackpot_chance": "0.001 * (1 + luck_stat * 0.0001)",
+            "house_edge": "Math.max(0.01, 0.05 - (floor * 0.005))"
+        }
+    },
+    "balance_constants": {
+        "golden_ratios": {
+            "risk_reward": 1.618,
+            "grind_progress": 2.718,
+            "difficulty_spike": 1.414
+        },
+        "time_estimates": {
+            "floor_clear_minutes": "5 + (floor * 0.5)",
+            "full_run_hours": "Math.log2(floors) * 2",
+            "prestige_cycle": "10 * Math.pow(1.5, prestige_level)"
+        }
+    }
+}

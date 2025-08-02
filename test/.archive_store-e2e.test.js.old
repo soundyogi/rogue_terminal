@@ -1,0 +1,207 @@
+/**
+ * Redux Store E2E Tests
+ * End-to-end testing of the slice pattern implementation
+ */
+
+import test from 'tape';
+import { Store } from '../core/store.js';
+import { inputSlice } from '../core/slices/inputSlice.js';
+
+test('Redux Store - Slice Pattern Integration', async (t) => {
+    t.plan(12);
+
+    // Initialize store
+    const store = new Store();
+    t.ok(store, 'Store initializes successfully');
+
+    // Test initial state from slices
+    const state = store.getState();
+    t.ok(state.player, 'Player slice state exists');
+    t.ok(state.ui, 'UI slice state exists');
+    t.ok(state.input, 'Input slice state exists');
+    t.ok(state.floor, 'Game slice state exists');
+    t.equal(state.player.x, 5, 'Player starts at correct x position');
+    t.equal(state.player.y, 5, 'Player starts at correct y position');
+
+    // Test player movement action
+    store.dispatch({ type: 'MOVE_PLAYER', payload: { direction: 'right' } });
+    const stateAfterMove = store.getState();
+    t.equal(stateAfterMove.player.x, 6, 'Player moved right correctly');
+
+    // Test UI context change
+    store.dispatch({ type: 'CHANGE_CONTEXT', payload: { context: 'inventory' } });
+    const stateAfterContext = store.getState();
+    t.equal(stateAfterContext.ui.currentContext, 'inventory', 'UI context changed correctly');
+
+    // Test inventory action
+    store.dispatch({ type: 'PICK_UP_ITEM', payload: { itemId: 'health_potion', x: 6, y: 5 } });
+    const stateAfterPickup = store.getState();
+    t.ok(stateAfterPickup.player.inventory.includes('health_potion'), 'Item added to inventory');
+
+    // Test combat action
+    store.dispatch({ 
+        type: 'START_COMBAT', 
+        payload: { 
+            enemy: { name: 'Goblin', hp: 30, maxHp: 30, attack: 5 } 
+        } 
+    });
+    const stateAfterCombat = store.getState();
+    t.equal(stateAfterCombat.combat.inCombat, true, 'Combat started correctly');
+    t.equal(stateAfterCombat.ui.currentContext, 'combat', 'UI switched to combat context');
+
+    t.end();
+});
+
+test('Slice Effects System', async (t) => {
+    t.plan(3);
+
+    const store = new Store();
+    let effectRan = false;
+
+    // Subscribe to state changes to verify effects
+    store.subscribe((state, action) => {
+        if (action.type === 'MOVE_PLAYER') {
+            effectRan = true;
+        }
+    });
+
+    // Dispatch an action that should trigger effects
+    store.dispatch({ type: 'MOVE_PLAYER', payload: { direction: 'up' } });
+    
+    // Check effects immediately (no timeout needed)
+    t.ok(effectRan, 'Slice effects executed on action dispatch');
+    t.equal(store.getState().player.y, 4, 'Player moved up correctly');
+    t.ok(store.slices.has('player'), 'Player slice registered in store');
+    
+    t.end();
+});
+
+test('Slice Selectors', async (t) => {
+    t.plan(7);
+
+    const store = new Store();
+    const selectors = store.getSelectors();
+
+    // Test selector structure
+    t.ok(selectors.player, 'Player selectors available');
+    t.ok(selectors.ui, 'UI selectors available');
+    t.ok(selectors.game, 'Game selectors available');
+    t.ok(selectors.inventory, 'Inventory selectors available');
+    t.ok(selectors.combat, 'Combat selectors available');
+    t.ok(selectors.input, 'Input selectors available');
+
+    // Test specific selector
+    const playerPos = selectors.player.getPosition();
+    t.deepEqual(playerPos, { x: 5, y: 5 }, 'Player position selector works correctly');
+    
+    t.end();
+});
+
+test('Content Integration', async (t) => {
+    t.plan(4);
+
+    // Test that we can import content files
+    try {
+        const actions = await import('../content/actions.json', { assert: { type: 'json' } });
+        t.ok(actions.default, 'Actions content loads successfully');
+
+        const items = await import('../content/items.json', { assert: { type: 'json' } });
+        t.ok(items.default, 'Items content loads successfully');
+
+        const gamblingGames = await import('../content/gamblingdeck/games.json', { assert: { type: 'json' } });
+        t.ok(gamblingGames.default, 'Gambling games content loads successfully');
+
+        const scalingCurves = await import('../content/scaling-curves.json', { assert: { type: 'json' } });
+        t.ok(scalingCurves.default, 'Scaling curves content loads successfully');
+    } catch (error) {
+        t.fail(`Content loading failed: ${error.message}`);
+    }
+
+    t.end();
+});
+
+test('Game Flow Integration', async (t) => {
+    t.plan(8);
+
+    const store = new Store();
+
+    // Test complete game flow: movement -> inventory -> gambling -> combat
+    
+    // 1. Move player
+    store.dispatch({ type: 'MOVE_PLAYER', payload: { direction: 'down' } });
+    t.equal(store.getState().player.y, 6, 'Player moved down');
+
+    // 2. Pick up item
+    store.dispatch({ type: 'PICK_UP_ITEM', payload: { itemId: 'lucky_coin', x: 5, y: 6 } });
+    t.ok(store.getState().player.inventory.includes('lucky_coin'), 'Item picked up');
+
+    // 3. Open inventory
+    store.dispatch({ type: 'CHANGE_CONTEXT', payload: { context: 'inventory' } });
+    t.equal(store.getState().ui.currentContext, 'inventory', 'Inventory opened');
+
+    // 4. Start gambling
+    store.dispatch({ 
+        type: 'START_GAMBLING_SESSION', 
+        payload: { gameType: 'coin_flip', initialBet: 10 } 
+    });
+    t.equal(store.getState().currentGame.type, 'coin_flip', 'Gambling session started');
+    t.equal(store.getState().meta.gamesPlayed, 1, 'Games played counter incremented');
+
+    // 5. Start combat
+    store.dispatch({ 
+        type: 'START_COMBAT', 
+        payload: { enemy: { name: 'Orc', hp: 50, maxHp: 50 } } 
+    });
+    t.equal(store.getState().combat.inCombat, true, 'Combat initiated');
+
+    // 6. Attack in combat
+    store.dispatch({ type: 'ATTACK', payload: { damage: 15 } });
+    t.equal(store.getState().combat.currentEnemy.hp, 35, 'Damage dealt to enemy');
+
+    // 7. End combat
+    store.dispatch({ 
+        type: 'END_COMBAT', 
+        payload: { victory: true, rewards: { experience: 25 } } 
+    });
+    t.equal(store.getState().combat.inCombat, false, 'Combat ended');
+
+    t.end();
+});
+
+test('Input Slice Integration', async (t) => {
+    t.plan(4);
+
+    const store = new Store();
+    
+    // Test input context
+    const initialState = store.getState();
+    t.equal(initialState.input.currentContext, 'world', 'Input starts in world context');
+    
+    // Test input handling through slice thunk
+    store.dispatch(inputSlice.actionCreators.handleInput('direction', { direction: 'right' }));
+    
+    const stateAfterInput = store.getState();
+    t.equal(stateAfterInput.player.x, 6, 'Input slice triggered player movement');
+    
+    // Test context switching
+    store.dispatch({
+        type: 'SET_INPUT_CONTEXT',
+        payload: { context: 'inventory' }
+    });
+    
+    const stateAfterContext = store.getState();
+    t.equal(stateAfterContext.input.currentContext, 'inventory', 'Input context changed');
+    
+    // Test interaction handling
+    store.dispatch({
+        type: 'ADD_INTERACTION',
+        payload: { x: 6, y: 5, interaction: { type: 'test', action: 'TEST_ACTION' } }
+    });
+    
+    const stateAfterInteraction = store.getState();
+    t.ok(stateAfterInteraction.input.interactions['6,5'], 'Interaction added to input slice');
+    
+    t.end();
+});
+
+console.log('Running Redux Slice Pattern E2E Tests...');

@@ -1,0 +1,219 @@
+/**
+ * UI Slice - Manages UI state, context, menus, and interface actions
+ */
+
+export const uiSlice = {
+    name: 'ui',
+    
+    initialState: {
+        currentContext: 'world',
+        selectedIndex: 0,
+        highlightedInteraction: null,
+        logMessages: [],
+        menu: {
+            title: '',
+            items: []
+        },
+        showDebug: false
+    },
+
+    actions: {
+        CHANGE_CONTEXT: 'CHANGE_CONTEXT',
+        NAVIGATE_MENU: 'NAVIGATE_MENU',
+        SELECT_MENU_ITEM: 'SELECT_MENU_ITEM',
+        ADD_LOG_MESSAGE: 'ADD_LOG_MESSAGE',
+        CLEAR_LOG: 'CLEAR_LOG',
+        TOGGLE_DEBUG: 'TOGGLE_DEBUG',
+        SET_HIGHLIGHTED_INTERACTION: 'SET_HIGHLIGHTED_INTERACTION'
+    },
+
+    reducers: {
+        CHANGE_CONTEXT: (state, action) => {
+            const { context, data } = action.payload;
+            
+            // Generate menu items based on context
+            let menu = { title: '', items: [] };
+            
+            switch (context) {
+                case 'main_menu':
+                    menu = {
+                        title: 'Main Menu',
+                        items: [
+                            { label: 'Continue Game', action: { type: 'CHANGE_CONTEXT', payload: { context: 'world' } } },
+                            { label: 'Save Game', action: { type: 'SAVE_GAME' } },
+                            { label: 'Load Game', action: { type: 'LOAD_GAME' } },
+                            { label: 'Quit', action: { type: 'QUIT_GAME' } }
+                        ]
+                    };
+                    break;
+                    
+                case 'inventory':
+                    menu = {
+                        title: 'Inventory',
+                        items: state.player?.inventory?.map(item => ({
+                            label: item,
+                            action: { type: 'USE_ITEM', payload: { itemId: item } }
+                        })) || []
+                    };
+                    break;
+                    
+                case 'gambling':
+                    menu = {
+                        title: 'Gambling Games',
+                        items: [
+                            { label: 'Coin Flip', action: { type: 'START_GAMBLING_SESSION', payload: { gameType: 'coin_flip' } } },
+                            { label: 'Blackjack', action: { type: 'START_GAMBLING_SESSION', payload: { gameType: 'blackjack' } } },
+                            { label: 'Liar\'s Dice', action: { type: 'START_GAMBLING_SESSION', payload: { gameType: 'liars_dice' } } },
+                            { label: 'Back', action: { type: 'CHANGE_CONTEXT', payload: { context: 'world' } } }
+                        ]
+                    };
+                    break;
+                    
+                default:
+                    menu = { title: '', items: [] };
+            }
+
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    currentContext: context,
+                    selectedIndex: 0,
+                    menu: menu
+                }
+            };
+        },
+
+        NAVIGATE_MENU: (state, action) => {
+            const { direction } = action.payload;
+            const menuItems = state.ui.menu.items;
+            
+            if (menuItems.length === 0) return state;
+            
+            let newIndex = state.ui.selectedIndex;
+            
+            switch (direction) {
+                case 'up':
+                    newIndex = newIndex > 0 ? newIndex - 1 : menuItems.length - 1;
+                    break;
+                case 'down':
+                    newIndex = newIndex < menuItems.length - 1 ? newIndex + 1 : 0;
+                    break;
+                case 'left':
+                case 'right':
+                    // Horizontal navigation if needed
+                    break;
+            }
+
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    selectedIndex: newIndex
+                }
+            };
+        },
+
+        SELECT_MENU_ITEM: (state, action) => {
+            // This reducer doesn't change state, but triggers the selected action
+            // The actual action dispatch happens in effects
+            return state;
+        },
+
+        ADD_LOG_MESSAGE: (state, action) => {
+            const { message, type = 'info' } = action.payload;
+            const timestamp = Date.now();
+            
+            const newMessage = {
+                id: `${timestamp}-${Math.random()}`,
+                text: message,
+                type: type,
+                timestamp: timestamp
+            };
+
+            const newMessages = [...state.ui.logMessages, newMessage];
+            
+            // Keep only last 50 messages
+            const trimmedMessages = newMessages.slice(-50);
+
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    logMessages: trimmedMessages
+                }
+            };
+        },
+
+        CLEAR_LOG: (state, action) => {
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    logMessages: []
+                }
+            };
+        },
+
+        TOGGLE_DEBUG: (state, action) => {
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    showDebug: !state.ui.showDebug
+                }
+            };
+        },
+
+        SET_HIGHLIGHTED_INTERACTION: (state, action) => {
+            const { interaction } = action.payload;
+            return {
+                ...state,
+                ui: {
+                    ...state.ui,
+                    highlightedInteraction: interaction
+                }
+            };
+        }
+    },
+
+    // Action creators (thunks for side effects)
+    actionCreators: {
+        /**
+         * Select menu item and dispatch its action (thunk)
+         */
+        selectMenuItem: () => (dispatch, getState) => {
+            const state = getState();
+            const selectedItem = state.ui.menu.items[state.ui.selectedIndex];
+            if (selectedItem && selectedItem.action) {
+                dispatch(selectedItem.action);
+            }
+        },
+
+        /**
+         * Change context (thunk) - input sync handled elsewhere
+         */
+        changeContext: (context) => (dispatch, getState) => {
+            dispatch({
+                type: 'CHANGE_CONTEXT',
+                payload: { context }
+            });
+        }
+    },
+
+    selectors: {
+        getCurrentContext: (state) => state.ui.currentContext,
+        getSelectedIndex: (state) => state.ui.selectedIndex,
+        getMenu: (state) => state.ui.menu,
+        getSelectedMenuItem: (state) => {
+            const items = state.ui.menu.items;
+            const index = state.ui.selectedIndex;
+            return items[index] || null;
+        },
+        getLogMessages: (state) => state.ui.logMessages,
+        getRecentLogMessages: (state, count = 10) => state.ui.logMessages.slice(-count),
+        isInMenuContext: (state) => state.ui.currentContext !== 'world',
+        getHighlightedInteraction: (state) => state.ui.highlightedInteraction,
+        isDebugMode: (state) => state.ui.showDebug
+    }
+};

@@ -1,0 +1,774 @@
+{
+    "combat_system": {
+        "battle_types": {
+            "standard_battle": {
+                "id": "standard_battle",
+                "name": "Standard Battle",
+                "description": "Traditional turn-based combat",
+                "turn_order": "speed_based",
+                "max_party_size": 4,
+                "max_enemy_count": 8,
+                "escape_allowed": true,
+                "mechanics": [
+                    "initiative_system",
+                    "elemental_weaknesses",
+                    "status_effects",
+                    "combo_attacks"
+                ]
+            },
+            "boss_battle": {
+                "id": "boss_battle", 
+                "name": "Boss Battle",
+                "description": "Epic encounters with powerful foes",
+                "turn_order": "speed_based_with_boss_priority",
+                "max_party_size": 4,
+                "max_enemy_count": 1,
+                "escape_allowed": false,
+                "mechanics": [
+                    "phase_transitions",
+                    "environmental_hazards",
+                    "multi_part_bosses",
+                    "desperation_moves",
+                    "cinematic_actions"
+                ]
+            },
+            "formation_battle": {
+                "id": "formation_battle",
+                "name": "Formation Battle",
+                "description": "Position-based tactical combat",
+                "turn_order": "formation_priority",
+                "max_party_size": 6,
+                "max_enemy_count": 12,
+                "escape_allowed": true,
+                "mechanics": [
+                    "front_back_positioning",
+                    "range_considerations",
+                    "formation_bonuses",
+                    "area_of_effect_targeting"
+                ]
+            },
+            "survival_battle": {
+                "id": "survival_battle",
+                "name": "Survival Battle", 
+                "description": "Endless waves of enemies",
+                "turn_order": "continuous_spawning",
+                "max_party_size": 4,
+                "max_enemy_count": "unlimited",
+                "escape_allowed": false,
+                "victory_condition": "survive_time_limit",
+                "mechanics": [
+                    "wave_system",
+                    "escalating_difficulty",
+                    "resource_management",
+                    "emergency_items"
+                ]
+            }
+        },
+        "action_types": {
+            "attack": {
+                "name": "Attack",
+                "description": "Basic physical attack",
+                "mp_cost": 0,
+                "targeting": "single_enemy",
+                "damage_calculation": "user_attack - target_defense",
+                "critical_chance": "base_critical + luck_modifier",
+                "elemental_modifier": true,
+                "can_be_countered": true
+            },
+            "magic": {
+                "name": "Magic",
+                "description": "Magical spells and abilities",
+                "mp_cost": "spell_dependent",
+                "targeting": "spell_dependent",
+                "damage_calculation": "user_magic_attack - target_magic_defense",
+                "critical_chance": "reduced_from_physical",
+                "elemental_modifier": true,
+                "can_be_reflected": true
+            },
+            "skill": {
+                "name": "Skill",
+                "description": "Special character abilities",
+                "mp_cost": "skill_dependent",
+                "targeting": "skill_dependent", 
+                "damage_calculation": "skill_specific_formula",
+                "critical_chance": "skill_dependent",
+                "unique_effects": true,
+                "can_combo": true
+            },
+            "item": {
+                "name": "Item",
+                "description": "Use consumable items",
+                "mp_cost": 0,
+                "targeting": "item_dependent",
+                "instant_effect": true,
+                "can_be_stolen": true,
+                "inventory_consumption": true
+            },
+            "defend": {
+                "name": "Defend",
+                "description": "Reduce incoming damage and build TP",
+                "mp_cost": 0,
+                "targeting": "self",
+                "damage_reduction": 0.5,
+                "tp_gain_bonus": 2.0,
+                "status_immunity": ["flinch", "interrupt"]
+            },
+            "escape": {
+                "name": "Escape",
+                "description": "Attempt to flee from battle",
+                "mp_cost": 0,
+                "success_rate": "party_average_speed / enemy_average_speed",
+                "failure_penalty": "lose_turn",
+                "boss_battle_blocked": true
+            }
+        }
+    },
+    "damage_calculation": {
+        "physical_damage": {
+            "base_formula": "(attacker_attack * skill_power / 100) - target_defense",
+            "modifiers": {
+                "critical_hit": "*2.0",
+                "elemental_weakness": "*1.5",
+                "elemental_resistance": "*0.5",
+                "elemental_immunity": "*0.0",
+                "status_effects": "varies",
+                "equipment_bonuses": "additive",
+                "formation_bonus": "*1.1 to *1.3"
+            },
+            "minimum_damage": 1,
+            "maximum_damage": "attacker_attack * 3",
+            "armor_penetration": {
+                "light_attacks": 0,
+                "medium_attacks": 0.1,
+                "heavy_attacks": 0.25,
+                "piercing_attacks": 0.5
+            }
+        },
+        "magical_damage": {
+            "base_formula": "(attacker_magic_attack * spell_power / 100) - target_magic_defense",
+            "modifiers": {
+                "critical_hit": "*1.5",
+                "elemental_weakness": "*2.0",
+                "elemental_resistance": "*0.25",
+                "elemental_immunity": "*0.0",
+                "spell_level_bonus": "*1.1 per level above base",
+                "magical_equipment": "multiplicative",
+                "mana_overflow": "bonus damage when MP > 75%"
+            },
+            "minimum_damage": 1,
+            "spell_penetration": {
+                "basic_spells": 0,
+                "advanced_spells": 0.15,
+                "master_spells": 0.3,
+                "forbidden_spells": 0.6
+            }
+        },
+        "healing_calculation": {
+            "base_formula": "caster_magic_attack * healing_power / 100",
+            "modifiers": {
+                "critical_heal": "*1.8",
+                "lunar_phase": "varies by moon cycle",
+                "holy_bonus": "*1.2 for holy element",
+                "equipment_bonus": "additive",
+                "target_max_hp": "cannot exceed maximum"
+            },
+            "overhealing": {
+                "temporary_hp": "50% of overheal becomes temp HP",
+                "duration": 5,
+                "max_temp_hp": "25% of character max HP"
+            }
+        }
+    },
+    "status_effects": {
+        "positive_effects": {
+            "haste": {
+                "name": "Haste",
+                "description": "Increased speed and turn frequency", 
+                "effect": "speed * 1.5, extra turn chance 25%",
+                "duration": 5,
+                "stacking": "refresh_duration",
+                "removal": ["dispel", "slow"]
+            },
+            "bless": {
+                "name": "Bless",
+                "description": "All stats increased",
+                "effect": "all_stats * 1.2",
+                "duration": 10,
+                "stacking": "no_stack",
+                "removal": ["curse", "dispel"]
+            },
+            "regeneration": {
+                "name": "Regeneration",
+                "description": "Gradual HP recovery each turn",
+                "effect": "heal 10% max HP per turn",
+                "duration": 8,
+                "stacking": "effect_stacks",
+                "removal": ["poison", "dispel"]
+            },
+            "barrier": {
+                "name": "Barrier",
+                "description": "Absorbs damage before HP",
+                "effect": "absorb_damage_pool = caster_magic_attack",
+                "duration": "until_depleted",
+                "stacking": "shield_stacks",
+                "removal": ["dispel", "damage_breaks"]
+            },
+            "focus": {
+                "name": "Focus",
+                "description": "Increased critical hit chance and magic power",
+                "effect": "critical_chance + 25%, magic_attack * 1.3",
+                "duration": 6,
+                "stacking": "refresh_duration",
+                "removal": ["confusion", "dispel"]
+            }
+        },
+        "negative_effects": {
+            "poison": {
+                "name": "Poison",
+                "description": "Gradual HP loss each turn",
+                "effect": "lose 8% max HP per turn",
+                "duration": 6,
+                "stacking": "effect_stacks",
+                "removal": ["antidote", "heal", "regeneration"]
+            },
+            "paralysis": {
+                "name": "Paralysis", 
+                "description": "Cannot act, reduced evasion",
+                "effect": "cannot_act, evasion * 0.5",
+                "duration": 3,
+                "stacking": "refresh_duration",
+                "removal": ["stimulant", "lightning_damage", "dispel"]
+            },
+            "sleep": {
+                "name": "Sleep",
+                "description": "Cannot act, but recovers MP",
+                "effect": "cannot_act, mp_recovery + 50%",
+                "duration": 4,
+                "stacking": "refresh_duration",
+                "removal": ["any_damage", "loud_noise", "dispel"],
+                "wake_on_damage": true
+            },
+            "confusion": {
+                "name": "Confusion",
+                "description": "Actions target random allies or enemies",
+                "effect": "50% chance wrong target",
+                "duration": 4,
+                "stacking": "refresh_duration",
+                "removal": ["clarity", "dispel", "strong_emotion"]
+            },
+            "curse": {
+                "name": "Curse",
+                "description": "All stats decreased",
+                "effect": "all_stats * 0.7",
+                "duration": 8,
+                "stacking": "effect_stacks",
+                "removal": ["bless", "holy_magic", "dispel"]
+            },
+            "charm": {
+                "name": "Charm",
+                "description": "Forced to help enemies",
+                "effect": "attacks_allies, helps_enemies",
+                "duration": 3,
+                "stacking": "refresh_duration",
+                "removal": ["pain", "ally_attack", "dispel"]
+            }
+        },
+        "unique_effects": {
+            "berserk": {
+                "name": "Berserk",
+                "description": "Cannot control actions, but greatly increased damage",
+                "effect": "attack_only, damage * 2.5, defense * 0.5",
+                "duration": 6,
+                "stacking": "no_stack",
+                "removal": ["calm", "sleep", "knockout"]
+            },
+            "ghost": {
+                "name": "Ghost",
+                "description": "Physical attacks pass through",
+                "effect": "physical_immunity, magic_vulnerable * 1.5",
+                "duration": 4,
+                "stacking": "refresh_duration",
+                "removal": ["holy_magic", "exorcism", "dispel"]
+            },
+            "time_stop": {
+                "name": "Time Stop",
+                "description": "Frozen in time, cannot act or be targeted",
+                "effect": "cannot_act, cannot_be_targeted, status_frozen",
+                "duration": 2,
+                "stacking": "no_stack",
+                "removal": ["time_magic", "powerful_dispel"]
+            }
+        }
+    },
+    "elemental_system": {
+        "elements": {
+            "fire": {
+                "name": "Fire",
+                "color": "#FF4500",
+                "strengths": ["ice", "nature"],
+                "weaknesses": ["water", "earth"],
+                "immunities": [],
+                "status_effects": ["burn"],
+                "environmental_interactions": ["melt_ice", "ignite_gas", "light_torches"]
+            },
+            "water": {
+                "name": "Water", 
+                "color": "#1E90FF",
+                "strengths": ["fire", "earth"],
+                "weaknesses": ["lightning", "ice"],
+                "immunities": [],
+                "status_effects": ["wet", "slow"],
+                "environmental_interactions": ["extinguish_fire", "conduct_electricity", "freeze_in_cold"]
+            },
+            "lightning": {
+                "name": "Lightning",
+                "color": "#FFD700",
+                "strengths": ["water", "metal"],
+                "weaknesses": ["earth", "rubber"],
+                "immunities": [],
+                "status_effects": ["paralysis", "shock"],
+                "environmental_interactions": ["conduct_through_metal", "power_devices", "attract_to_rods"]
+            },
+            "ice": {
+                "name": "Ice",
+                "color": "#00CED1",
+                "strengths": ["water", "nature"],
+                "weaknesses": ["fire", "lightning"],
+                "immunities": [],
+                "status_effects": ["freeze", "slow"],
+                "environmental_interactions": ["freeze_water", "shatter_when_heated", "create_slippery_surfaces"]
+            },
+            "earth": {
+                "name": "Earth",
+                "color": "#8B4513",
+                "strengths": ["lightning", "fire"],
+                "weaknesses": ["water", "nature"],
+                "immunities": [],
+                "status_effects": ["heavy", "armor"],
+                "environmental_interactions": ["block_lightning", "absorb_water", "create_barriers"]
+            },
+            "nature": {
+                "name": "Nature",
+                "color": "#228B22",
+                "strengths": ["earth", "water"],
+                "weaknesses": ["fire", "ice"],
+                "immunities": [],
+                "status_effects": ["poison", "regeneration"],
+                "environmental_interactions": ["grow_in_water", "wither_in_fire", "bloom_in_sunlight"]
+            },
+            "holy": {
+                "name": "Holy",
+                "color": "#FFD700",
+                "strengths": ["shadow", "undead"],
+                "weaknesses": ["void"],
+                "immunities": ["curse", "charm"],
+                "status_effects": ["bless", "purify"],
+                "environmental_interactions": ["banish_darkness", "sanctify_ground", "repel_undead"]
+            },
+            "shadow": {
+                "name": "Shadow",
+                "color": "#2F4F4F", 
+                "strengths": ["holy", "light"],
+                "weaknesses": ["holy"],
+                "immunities": ["blind"],
+                "status_effects": ["blind", "fear"],
+                "environmental_interactions": ["hide_in_darkness", "extinguish_light", "corrupt_objects"]
+            },
+            "void": {
+                "name": "Void",
+                "color": "#000000",
+                "strengths": ["all_elements"],
+                "weaknesses": [],
+                "immunities": ["most_status_effects"],
+                "status_effects": ["void_corruption", "reality_tear"],
+                "environmental_interactions": ["erase_matter", "distort_space", "nullify_magic"]
+            }
+        },
+        "elemental_interactions": {
+            "combination_spells": {
+                "fire_water": {
+                    "name": "Steam Blast",
+                    "effect": "Area damage with blindness",
+                    "power_multiplier": 1.3
+                },
+                "fire_earth": {
+                    "name": "Magma Eruption",
+                    "effect": "High damage with burn field",
+                    "power_multiplier": 1.6
+                },
+                "water_lightning": {
+                    "name": "Electrified Flood",
+                    "effect": "Chain lightning through water",
+                    "power_multiplier": 1.8
+                },
+                "ice_lightning": {
+                    "name": "Frozen Lightning",
+                    "effect": "Paralysis with slowing field",
+                    "power_multiplier": 1.4
+                }
+            },
+            "environmental_reactions": {
+                "elemental_fields": {
+                    "fire_field": "Deals burn damage to all units each turn",
+                    "ice_field": "Reduces speed of all units",
+                    "lightning_field": "Random chance of paralysis each turn",
+                    "poison_field": "Gradual poison damage to all units",
+                    "holy_field": "Prevents negative status effects",
+                    "shadow_field": "Reduces accuracy and visibility"
+                }
+            }
+        }
+    },
+    "combo_system": {
+        "combo_types": {
+            "elemental_combo": {
+                "name": "Elemental Combination",
+                "description": "Two characters use complementary elements",
+                "requirements": {
+                    "participants": 2,
+                    "element_compatibility": true,
+                    "timing_window": 3,
+                    "friendship_level": "friend"
+                },
+                "effects": {
+                    "damage_multiplier": 1.5,
+                    "special_effects": "element_dependent",
+                    "mp_cost_reduction": 0.25
+                }
+            },
+            "formation_combo": {
+                "name": "Formation Attack",
+                "description": "Coordinated assault based on positioning",
+                "requirements": {
+                    "participants": 3,
+                    "formation_alignment": true,
+                    "turn_synchronization": true,
+                    "friendship_level": "close_friend"
+                },
+                "effects": {
+                    "damage_multiplier": 2.0,
+                    "guaranteed_critical": true,
+                    "cannot_be_defended": true
+                }
+            },
+            "ultimate_combo": {
+                "name": "Ultimate Technique",
+                "description": "Devastating attack using all party members",
+                "requirements": {
+                    "participants": 4,
+                    "ultimate_meter": 100,
+                    "specific_character_combination": true,
+                    "friendship_level": "soulmate"
+                },
+                "effects": {
+                    "damage_multiplier": 5.0,
+                    "screen_clearing_potential": true,
+                    "cinematic_sequence": true,
+                    "full_party_recovery": true
+                }
+            }
+        },
+        "combo_building": {
+            "combo_meter": {
+                "max_value": 100,
+                "build_rate": "successful_actions * compatibility_bonus",
+                "decay_rate": "5_per_turn_without_action",
+                "bonus_conditions": [
+                    "critical_hits",
+                    "elemental_weakness_exploitation", 
+                    "perfect_timing",
+                    "character_synergy"
+                ]
+            },
+            "timing_system": {
+                "perfect_timing": {
+                    "window": "0.5_seconds",
+                    "bonus": "damage * 1.25, combo_meter + 10"
+                },
+                "good_timing": {
+                    "window": "1.0_seconds",
+                    "bonus": "damage * 1.1, combo_meter + 5"
+                },
+                "missed_timing": {
+                    "penalty": "damage * 0.8, combo_meter - 5"
+                }
+            }
+        }
+    },
+    "ai_behavior": {
+        "enemy_ai_types": {
+            "aggressive": {
+                "name": "Aggressive",
+                "description": "Focuses on dealing maximum damage",
+                "priority_list": [
+                    "attack_weakest_target",
+                    "use_strongest_attack",
+                    "ignore_defense",
+                    "pursue_fleeing_enemies"
+                ],
+                "decision_weights": {
+                    "attack": 80,
+                    "magic": 15,
+                    "defend": 0,
+                    "item": 5
+                }
+            },
+            "tactical": {
+                "name": "Tactical",
+                "description": "Uses strategy and positioning",
+                "priority_list": [
+                    "exploit_elemental_weaknesses",
+                    "target_support_characters",
+                    "use_status_effects",
+                    "maintain_formation"
+                ],
+                "decision_weights": {
+                    "attack": 40,
+                    "magic": 30,
+                    "defend": 20,
+                    "item": 10
+                }
+            },
+            "defensive": {
+                "name": "Defensive",
+                "description": "Prioritizes survival and healing",
+                "priority_list": [
+                    "heal_when_low_hp",
+                    "defend_when_threatened",
+                    "use_protective_abilities",
+                    "call_for_reinforcements"
+                ],
+                "decision_weights": {
+                    "attack": 20,
+                    "magic": 25,
+                    "defend": 40,
+                    "item": 15
+                }
+            },
+            "berserker": {
+                "name": "Berserker",
+                "description": "Becomes more dangerous when wounded",
+                "priority_list": [
+                    "attack_indiscriminately",
+                    "use_desperation_moves",
+                    "ignore_self_preservation",
+                    "target_strongest_enemy"
+                ],
+                "rage_scaling": {
+                    "damage_bonus": "missing_hp_percentage",
+                    "attack_frequency": "increases_with_damage_taken",
+                    "critical_chance": "doubles_when_below_25%_hp"
+                }
+            },
+            "support": {
+                "name": "Support",
+                "description": "Focuses on helping allies",
+                "priority_list": [
+                    "heal_wounded_allies",
+                    "buff_strongest_ally",
+                    "debuff_dangerous_enemies",
+                    "maintain_safe_distance"
+                ],
+                "decision_weights": {
+                    "attack": 10,
+                    "magic": 60,
+                    "defend": 20,
+                    "item": 10
+                }
+            }
+        },
+        "boss_ai_mechanics": {
+            "phase_transitions": {
+                "trigger_conditions": [
+                    "hp_thresholds",
+                    "turn_count",
+                    "specific_actions_taken",
+                    "environmental_changes"
+                ],
+                "transition_effects": [
+                    "stat_changes",
+                    "new_ability_access",
+                    "battlefield_modifications",
+                    "minion_summoning"
+                ]
+            },
+            "adaptive_behavior": {
+                "learning_system": {
+                    "track_player_patterns": true,
+                    "counter_overused_strategies": true,
+                    "remember_effective_abilities": true,
+                    "adjust_targeting_priorities": true
+                },
+                "difficulty_scaling": {
+                    "performance_tracking": "win_loss_ratio",
+                    "dynamic_adjustments": "stat_modifications",
+                    "ability_frequency": "based_on_effectiveness"
+                }
+            }
+        }
+    },
+    "battle_rewards": {
+        "experience_system": {
+            "base_exp": "enemy_level * difficulty_modifier",
+            "bonus_multipliers": {
+                "level_difference": "higher_level_enemies_give_more",
+                "battle_performance": "perfect_battles_give_bonus",
+                "combo_usage": "combo_attacks_increase_exp",
+                "exploration_bonus": "rare_enemies_give_extra"
+            },
+            "distribution": {
+                "active_participants": "full_share",
+                "reserve_members": "half_share",
+                "unconscious_members": "quarter_share"
+            }
+        },
+        "loot_system": {
+            "drop_categories": {
+                "guaranteed_drops": {
+                    "money": "always_drops",
+                    "basic_items": "common_consumables"
+                },
+                "rare_drops": {
+                    "equipment": "based_on_enemy_type",
+                    "crafting_materials": "element_specific",
+                    "special_items": "story_progression_items"
+                },
+                "ultra_rare_drops": {
+                    "legendary_equipment": "0.1%_chance",
+                    "skill_crystals": "learn_enemy_abilities",
+                    "transformation_items": "character_evolution"
+                }
+            },
+            "drop_rate_modifiers": {
+                "luck_stat": "party_average_luck",
+                "treasure_hunter_ability": "special_skill_bonus", 
+                "battle_rating": "performance_based_bonus",
+                "first_encounter": "bonus_for_new_enemies"
+            }
+        },
+        "special_rewards": {
+            "battle_ratings": {
+                "S_rank": {
+                    "requirements": "perfect_battle_no_damage_taken",
+                    "rewards": "double_exp_rare_drop_guaranteed"
+                },
+                "A_rank": {
+                    "requirements": "efficient_victory_minimal_resources",
+                    "rewards": "exp_bonus_50%_extra_money"
+                },
+                "B_rank": {
+                    "requirements": "standard_victory",
+                    "rewards": "normal_rewards"
+                },
+                "C_rank": {
+                    "requirements": "difficult_victory_heavy_resource_use",
+                    "rewards": "reduced_rewards"
+                }
+            },
+            "achievement_unlocks": {
+                "first_victory": "battle_system_tutorial_complete",
+                "combo_master": "unlock_advanced_combo_techniques", 
+                "elemental_expert": "access_to_combination_spells",
+                "boss_slayer": "legendary_weapon_quest_unlock"
+            }
+        }
+    },
+    "battle_environments": {
+        "battlefield_types": {
+            "standard_field": {
+                "name": "Open Field",
+                "description": "Basic battlefield with no special effects",
+                "modifiers": [],
+                "hazards": []
+            },
+            "volcanic_field": {
+                "name": "Volcanic Field",
+                "description": "Lava flows and extreme heat",
+                "modifiers": [
+                    "fire_damage_increased_25%",
+                    "ice_damage_decreased_25%",
+                    "water_evaporates_quickly"
+                ],
+                "hazards": [
+                    "lava_eruptions_random_fire_damage",
+                    "heat_exhaustion_gradual_hp_loss"
+                ]
+            },
+            "frozen_wasteland": {
+                "name": "Frozen Wasteland", 
+                "description": "Ice and snow everywhere",
+                "modifiers": [
+                    "ice_damage_increased_25%",
+                    "fire_damage_decreased_25%",
+                    "movement_speed_reduced"
+                ],
+                "hazards": [
+                    "blizzards_reduce_accuracy",
+                    "frostbite_chance_each_turn"
+                ]
+            },
+            "thunderstorm": {
+                "name": "Thunderstorm",
+                "description": "Lightning and heavy rain",
+                "modifiers": [
+                    "lightning_damage_increased_50%",
+                    "water_spells_empowered",
+                    "metal_equipment_conducts_electricity"
+                ],
+                "hazards": [
+                    "random_lightning_strikes",
+                    "visibility_reduced_by_rain"
+                ]
+            },
+            "sacred_ground": {
+                "name": "Sacred Ground",
+                "description": "Holy energy permeates the area",
+                "modifiers": [
+                    "holy_damage_increased_30%",
+                    "shadow_damage_decreased_50%",
+                    "undead_take_damage_each_turn"
+                ],
+                "hazards": [],
+                "benefits": [
+                    "gradual_mp_recovery",
+                    "negative_status_resistance"
+                ]
+            },
+            "corrupted_zone": {
+                "name": "Corrupted Zone",
+                "description": "Dark energy corrupts everything",
+                "modifiers": [
+                    "shadow_damage_increased_40%",
+                    "holy_damage_decreased_30%",
+                    "healing_effectiveness_reduced"
+                ],
+                "hazards": [
+                    "corruption_spreads_negative_status",
+                    "reality_distortions_affect_targeting"
+                ]
+            }
+        },
+        "dynamic_environments": {
+            "weather_changes": {
+                "frequency": "every_5_turns",
+                "possible_changes": [
+                    "clear_to_rain",
+                    "rain_to_storm",
+                    "storm_to_clear",
+                    "day_to_night",
+                    "seasonal_shifts"
+                ]
+            },
+            "destructible_elements": {
+                "pillars": "can_be_destroyed_for_cover_or_obstacles",
+                "bridges": "can_collapse_affecting_positioning",
+                "structures": "can_be_used_tactically_or_destroyed"
+            },
+            "interactive_objects": {
+                "switches": "activate_environmental_changes",
+                "crystals": "amplify_magical_damage",
+                "altars": "provide_temporary_bonuses"
+            }
+        }
+    }
+}

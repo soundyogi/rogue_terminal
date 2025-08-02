@@ -1,0 +1,265 @@
+/**
+ * Inventory Slice - Manages items, equipment, and inventory operations
+ */
+
+export const inventorySlice = {
+    name: 'inventory',
+    
+    initialState: {
+        items: ["lucky_coin"],
+        equipment: {
+            weapon: null,
+            armor: null,
+            accessory1: null,
+            accessory2: null
+        },
+        capacity: 20,
+        lastUsedItem: null
+    },
+
+    actions: {
+        PICK_UP_ITEM: 'PICK_UP_ITEM',
+        DROP_ITEM: 'DROP_ITEM',
+        USE_ITEM: 'USE_ITEM',
+        EQUIP_ITEM: 'EQUIP_ITEM',
+        UNEQUIP_ITEM: 'UNEQUIP_ITEM',
+        ADD_ITEM: 'ADD_ITEM',
+        REMOVE_ITEM: 'REMOVE_ITEM',
+        SORT_INVENTORY: 'SORT_INVENTORY',
+        EXPAND_INVENTORY: 'EXPAND_INVENTORY'
+    },
+
+    reducers: {
+        PICK_UP_ITEM: (state, action) => {
+            const { itemId, x, y } = action.payload;
+            
+            // Check if inventory has space
+            if (state.player.inventory.length >= 20) {
+                return state; // Inventory full
+            }
+            
+            // Add item to inventory
+            const newInventory = [...state.player.inventory, itemId];
+            
+            // Remove item from floor if coordinates provided
+            let newFloorItems = state.floor.items;
+            if (x !== undefined && y !== undefined) {
+                newFloorItems = state.floor.items.filter(item => 
+                    !(item.x === x && item.y === y && item.id === itemId)
+                );
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: newInventory
+                },
+                floor: {
+                    ...state.floor,
+                    items: newFloorItems
+                }
+            };
+        },
+
+        DROP_ITEM: (state, action) => {
+            const { itemId, x, y } = action.payload;
+            
+            // Remove from inventory
+            const newInventory = state.player.inventory.filter(item => item !== itemId);
+            
+            // Add to floor at player position or specified coordinates
+            const dropX = x !== undefined ? x : state.player.x;
+            const dropY = y !== undefined ? y : state.player.y;
+            
+            const newFloorItems = [...state.floor.items, {
+                id: itemId,
+                x: dropX,
+                y: dropY,
+                type: 'item'
+            }];
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: newInventory
+                },
+                floor: {
+                    ...state.floor,
+                    items: newFloorItems
+                }
+            };
+        },
+
+        USE_ITEM: (state, action) => {
+            const { itemId, target } = action.payload;
+            
+            // Check if item exists in inventory
+            if (!state.player.inventory.includes(itemId)) {
+                return state;
+            }
+            
+            // TODO: Load item definitions and apply effects
+            // For now, just remove consumable items
+            const isConsumable = true; // Would check item definition
+            
+            let newInventory = state.player.inventory;
+            if (isConsumable) {
+                newInventory = state.player.inventory.filter(item => item !== itemId);
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: newInventory
+                }
+            };
+        },
+
+        EQUIP_ITEM: (state, action) => {
+            const { itemId, slot } = action.payload;
+            
+            // Check if item is in inventory
+            if (!state.player.inventory.includes(itemId)) {
+                return state;
+            }
+            
+            // Get current equipped item in slot
+            const currentEquipped = state.player.equipment[slot];
+            
+            // Update equipment and inventory
+            let newInventory = state.player.inventory.filter(item => item !== itemId);
+            if (currentEquipped) {
+                newInventory.push(currentEquipped); // Add previously equipped item back to inventory
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: newInventory,
+                    equipment: {
+                        ...state.player.equipment,
+                        [slot]: itemId
+                    }
+                }
+            };
+        },
+
+        UNEQUIP_ITEM: (state, action) => {
+            const { slot } = action.payload;
+            
+            const equippedItem = state.player.equipment[slot];
+            if (!equippedItem) return state;
+            
+            // Check inventory space
+            if (state.player.inventory.length >= 20) {
+                return state; // Inventory full
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: [...state.player.inventory, equippedItem],
+                    equipment: {
+                        ...state.player.equipment,
+                        [slot]: null
+                    }
+                }
+            };
+        },
+
+        ADD_ITEM: (state, action) => {
+            const { itemId, quantity = 1 } = action.payload;
+            
+            // Simple add - would need stacking logic for stackable items
+            const newItems = Array(quantity).fill(itemId);
+            
+            if (state.player.inventory.length + newItems.length > 20) {
+                return state; // Would exceed capacity
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: [...state.player.inventory, ...newItems]
+                }
+            };
+        },
+
+        REMOVE_ITEM: (state, action) => {
+            const { itemId, quantity = 1 } = action.payload;
+            
+            let newInventory = [...state.player.inventory];
+            let removed = 0;
+            
+            for (let i = newInventory.length - 1; i >= 0 && removed < quantity; i--) {
+                if (newInventory[i] === itemId) {
+                    newInventory.splice(i, 1);
+                    removed++;
+                }
+            }
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: newInventory
+                }
+            };
+        },
+
+        SORT_INVENTORY: (state, action) => {
+            const sortedInventory = [...state.player.inventory].sort();
+            
+            return {
+                ...state,
+                player: {
+                    ...state.player,
+                    inventory: sortedInventory
+                }
+            };
+        }
+    },
+
+    effects: {
+        PICK_UP_ITEM: (state, action, store) => {
+            store.events?.emit('ITEM_PICKED_UP', {
+                itemId: action.payload.itemId,
+                player: state.player
+            });
+        },
+
+        USE_ITEM: (state, action, store) => {
+            store.events?.emit('ITEM_USED', {
+                itemId: action.payload.itemId,
+                target: action.payload.target,
+                player: state.player
+            });
+        },
+
+        EQUIP_ITEM: (state, action, store) => {
+            store.events?.emit('ITEM_EQUIPPED', {
+                itemId: action.payload.itemId,
+                slot: action.payload.slot,
+                player: state.player
+            });
+        }
+    },
+
+    selectors: {
+        getInventory: (state) => state.player.inventory,
+        getEquipment: (state) => state.player.equipment,
+        getInventoryCount: (state) => state.player.inventory.length,
+        getInventoryCapacity: (state) => 20, // Could be dynamic
+        hasItem: (state, itemId) => state.player.inventory.includes(itemId),
+        getItemCount: (state, itemId) => state.player.inventory.filter(item => item === itemId).length,
+        getEquippedItem: (state, slot) => state.player.equipment[slot],
+        isInventoryFull: (state) => state.player.inventory.length >= 20,
+        getAvailableSlots: (state) => 20 - state.player.inventory.length
+    }
+};

@@ -1,0 +1,208 @@
+/**
+ * Input Slice - Manages input context state only (pure Redux)
+ */
+
+export const inputSlice = {
+    name: 'input',
+    
+    initialState: {
+        currentContext: 'world',
+        contextStack: ['world'], // For nested contexts (like submenu)
+        interactions: {
+            // Static world interactions - could be moved to content files
+            '10,10': { type: 'gambling_table', action: 'CHANGE_CONTEXT', payload: { context: 'gambling' } },
+            '18,12': { type: 'stairs', action: 'ADVANCE_FLOOR' }
+        }
+    },
+
+    actions: {
+        SET_INPUT_CONTEXT: 'SET_INPUT_CONTEXT',
+        PUSH_INPUT_CONTEXT: 'PUSH_INPUT_CONTEXT',
+        POP_INPUT_CONTEXT: 'POP_INPUT_CONTEXT',
+        ADD_INTERACTION: 'ADD_INTERACTION',
+        REMOVE_INTERACTION: 'REMOVE_INTERACTION'
+    },
+
+    reducers: {
+        SET_INPUT_CONTEXT: (state, action) => {
+            const { context } = action.payload;
+            return {
+                ...state,
+                input: {
+                    ...state.input,
+                    currentContext: context,
+                    contextStack: [context]
+                }
+            };
+        },
+
+        PUSH_INPUT_CONTEXT: (state, action) => {
+            const { context } = action.payload;
+            return {
+                ...state,
+                input: {
+                    ...state.input,
+                    currentContext: context,
+                    contextStack: [...state.input.contextStack, context]
+                }
+            };
+        },
+
+        POP_INPUT_CONTEXT: (state, action) => {
+            const stack = [...state.input.contextStack];
+            if (stack.length > 1) {
+                stack.pop();
+                return {
+                    ...state,
+                    input: {
+                        ...state.input,
+                        currentContext: stack[stack.length - 1],
+                        contextStack: stack
+                    }
+                };
+            }
+            return state;
+        },
+
+        ADD_INTERACTION: (state, action) => {
+            const { x, y, interaction } = action.payload;
+            const key = `${x},${y}`;
+            return {
+                ...state,
+                input: {
+                    ...state.input,
+                    interactions: {
+                        ...state.input.interactions,
+                        [key]: interaction
+                    }
+                }
+            };
+        },
+
+        REMOVE_INTERACTION: (state, action) => {
+            const { x, y } = action.payload;
+            const key = `${x},${y}`;
+            const newInteractions = { ...state.input.interactions };
+            delete newInteractions[key];
+            return {
+                ...state,
+                input: {
+                    ...state.input,
+                    interactions: newInteractions
+                }
+            };
+        }
+    },
+
+    // Action creators (thunks for handling input logic)
+    actionCreators: {
+        /**
+         * Handle input based on current context (thunk)
+         */
+        handleInput: (inputType, inputData) => (dispatch, getState) => {
+            const state = getState();
+            const context = state.input.currentContext;
+            
+            // Direct action dispatch based on context and input type
+            switch (context) {
+                case 'world':
+                    if (inputType === 'direction') {
+                        dispatch({ type: 'MOVE_PLAYER', payload: { direction: inputData.direction } });
+                    } else if (inputType === 'action') {
+                        // Handle world interactions at player position
+                        const { x, y } = { x: state.player.x, y: state.player.y };
+                        const interactionAction = inputSlice.helpers.getInteractionAction(state, x, y);
+                        if (interactionAction) {
+                            dispatch(interactionAction);
+                        }
+                    } else if (inputType === 'cancel') {
+                        dispatch({ type: 'CHANGE_CONTEXT', payload: { context: 'main_menu' } });
+                    }
+                    break;
+                    
+                case 'main_menu':
+                case 'inventory':
+                case 'gambling':
+                    if (inputType === 'direction') {
+                        dispatch({ type: 'NAVIGATE_MENU', payload: { direction: inputData.direction } });
+                    } else if (inputType === 'action') {
+                        dispatch({ type: 'SELECT_MENU_ITEM' });
+                    } else if (inputType === 'cancel') {
+                        dispatch({ type: 'CHANGE_CONTEXT', payload: { context: 'world' } });
+                    }
+                    break;
+                    
+                case 'combat':
+                    if (inputType === 'direction') {
+                        dispatch({ type: 'NAVIGATE_MENU', payload: { direction: inputData.direction } });
+                    } else if (inputType === 'action') {
+                        dispatch({ type: 'SELECT_MENU_ITEM' });
+                    } else if (inputType === 'cancel') {
+                        dispatch({ type: 'FLEE' });
+                    }
+                    break;
+                    
+                default:
+                    console.warn('Unknown input context:', context);
+            }
+        },
+
+        /**
+         * Sync input context when UI context changes (thunk)
+         */
+        syncWithUIContext: (context) => (dispatch, getState) => {
+            const state = getState();
+            if (state.input.currentContext !== context) {
+                dispatch({
+                    type: 'SET_INPUT_CONTEXT',
+                    payload: { context }
+                });
+            }
+        }
+    },
+
+    selectors: {
+        getCurrentInputContext: (state) => state.input.currentContext,
+        getContextStack: (state) => state.input.contextStack,
+        getInteractionAt: (state, x, y) => state.input.interactions[`${x},${y}`] || null,
+        getAllInteractions: (state) => state.input.interactions
+    },
+
+    // Helper functions for input handling (pure functions)
+    helpers: {
+        /**
+         * Get interaction action at position
+         */
+        getInteractionAction: (state, x, y) => {
+            // Check for items on the floor
+            const item = state.floor.items.find(item => item.x === x && item.y === y);
+            if (item) {
+                return {
+                    type: 'PICK_UP_ITEM',
+                    payload: { itemId: item.id, x: item.x, y: item.y }
+                };
+            }
+
+            // Check for enemies/NPCs
+            const enemy = state.floor.enemies.find(enemy => enemy.x === x && enemy.y === y);
+            if (enemy) {
+                return {
+                    type: 'START_COMBAT',
+                    payload: { enemy }
+                };
+            }
+
+            // Check for static interactions
+            const key = `${x},${y}`;
+            const interaction = state.input.interactions[key];
+            if (interaction) {
+                return {
+                    type: interaction.action,
+                    payload: interaction.payload || {}
+                };
+            }
+
+            return null;
+        }
+    }
+};

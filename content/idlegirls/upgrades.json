@@ -1,0 +1,270 @@
+{
+    "global_upgrades": {
+        "income_multiplier": {
+            "id": "income_multiplier",
+            "name": "Revenue Optimization",
+            "description": "Increases all district income by 25%",
+            "base_cost": 1000,
+            "cost_scaling": "base * (1.5 ^ level)",
+            "max_level": 10,
+            "effect": "global_income * 1.25",
+            "category": "economic"
+        },
+        "girl_capacity": {
+            "id": "girl_capacity",
+            "name": "Extended Operations",
+            "description": "Increases girl capacity in all districts by 1",
+            "base_cost": 2500,
+            "cost_scaling": "base * (2.0 ^ level)",
+            "max_level": 5,
+            "effect": "district_capacity + 1",
+            "category": "expansion"
+        },
+        "automation_basic": {
+            "id": "automation_basic",
+            "name": "Basic Automation",
+            "description": "Districts continue generating 50% income when offline",
+            "base_cost": 5000,
+            "cost_scaling": "base * (3.0 ^ level)",
+            "max_level": 3,
+            "effect": "offline_income_rate + 0.5",
+            "category": "automation"
+        },
+        "prestige_boost": {
+            "id": "prestige_boost",
+            "name": "Prestige Acceleration",
+            "description": "Increases prestige point generation by 20%",
+            "base_cost": 10000,
+            "cost_scaling": "base * (2.5 ^ level)",
+            "max_level": 8,
+            "effect": "prestige_rate * 1.2",
+            "category": "prestige"
+        },
+        "energy_efficiency": {
+            "id": "energy_efficiency",
+            "name": "Energy Management",
+            "description": "Girls consume 20% less energy per interaction",
+            "base_cost": 7500,
+            "cost_scaling": "base * (1.8 ^ level)",
+            "max_level": 6,
+            "effect": "energy_cost * 0.8",
+            "category": "efficiency"
+        }
+    },
+    "district_specific_upgrades": {
+        "shopping_district": {
+            "boutique_expansion": {
+                "id": "boutique_expansion",
+                "name": "Boutique Expansion",
+                "description": "Adds luxury boutiques, increasing income by 50%",
+                "cost": 2000,
+                "effect": "district_income * 1.5",
+                "prerequisites": ["shopping_district_level_5"]
+            },
+            "fashion_shows": {
+                "id": "fashion_shows",
+                "name": "Fashion Show Events",
+                "description": "Weekly fashion shows generate bonus income",
+                "cost": 5000,
+                "effect": "weekly_bonus + 1000",
+                "prerequisites": ["boutique_expansion", "girls_with_fashion_skill_3"]
+            }
+        },
+        "entertainment_district": {
+            "vip_lounge": {
+                "id": "vip_lounge",
+                "name": "VIP Lounge",
+                "description": "Exclusive area for high-paying customers, +75% income",
+                "cost": 8000,
+                "effect": "district_income * 1.75",
+                "prerequisites": ["entertainment_district_level_10"]
+            },
+            "live_streaming": {
+                "id": "live_streaming",
+                "name": "Live Streaming Setup",
+                "description": "24/7 income generation through streaming",
+                "cost": 15000,
+                "effect": "continuous_income + base_income * 0.3",
+                "prerequisites": ["vip_lounge", "tech_upgrade"]
+            }
+        },
+        "business_district": {
+            "corporate_partnerships": {
+                "id": "corporate_partnerships",
+                "name": "Corporate Partnerships",
+                "description": "Partnerships with major corporations, +100% income",
+                "cost": 25000,
+                "effect": "district_income * 2.0",
+                "prerequisites": ["business_district_level_15", "prestige_5"]
+            },
+            "executive_training": {
+                "id": "executive_training",
+                "name": "Executive Training Program",
+                "description": "Girls gain business skills faster",
+                "cost": 40000,
+                "effect": "skill_growth_rate * 2.0",
+                "prerequisites": ["corporate_partnerships"]
+            }
+        }
+    },
+    "research_tree": {
+        "technology_branch": {
+            "digital_marketing": {
+                "id": "digital_marketing",
+                "name": "Digital Marketing",
+                "description": "Increases visibility and customer acquisition",
+                "research_cost": 5000,
+                "research_time": "24 hours",
+                "effect": "customer_acquisition_rate * 1.3",
+                "unlocks": ["social_media_influence", "viral_campaigns"]
+            },
+            "mobile_apps": {
+                "id": "mobile_apps",
+                "name": "Mobile Applications",
+                "description": "Custom apps for each district increase engagement",
+                "research_cost": 15000,
+                "research_time": "72 hours",
+                "effect": "engagement_bonus + 25%",
+                "prerequisites": ["digital_marketing"],
+                "unlocks": ["ai_personalization"]
+            },
+            "ai_personalization": {
+                "id": "ai_personalization",
+                "name": "AI Personalization",
+                "description": "AI matches customers with perfect experiences",
+                "research_cost": 50000,
+                "research_time": "168 hours",
+                "effect": "satisfaction_multiplier * 2.0",
+                "prerequisites": ["mobile_apps"]
+            }
+        },
+        "luxury_branch": {
+            "premium_services": {
+                "id": "premium_services",
+                "name": "Premium Service Tier",
+                "description": "Unlocks high-end service options",
+                "research_cost": 10000,
+                "research_time": "48 hours",
+                "effect": "premium_income_tier_unlocked",
+                "unlocks": ["concierge_service", "private_events"]
+            },
+            "concierge_service": {
+                "id": "concierge_service",
+                "name": "Personal Concierge",
+                "description": "24/7 personal service increases customer loyalty",
+                "research_cost": 30000,
+                "research_time": "120 hours",
+                "effect": "customer_retention * 1.5",
+                "prerequisites": ["premium_services"]
+            }
+        },
+        "efficiency_branch": {
+            "workflow_optimization": {
+                "id": "workflow_optimization",
+                "name": "Workflow Optimization",
+                "description": "Streamlined operations reduce costs and increase speed",
+                "research_cost": 8000,
+                "research_time": "36 hours",
+                "effect": "operational_efficiency + 20%",
+                "unlocks": ["lean_operations", "quality_systems"]
+            },
+            "automation_advanced": {
+                "id": "automation_advanced",
+                "name": "Advanced Automation",
+                "description": "Full automation systems for routine tasks",
+                "research_cost": 25000,
+                "research_time": "96 hours",
+                "effect": "automation_coverage + 75%",
+                "prerequisites": ["workflow_optimization"]
+            }
+        }
+    },
+    "girl_upgrades": {
+        "skill_training": {
+            "charm_school": {
+                "id": "charm_school",
+                "name": "Charm School",
+                "description": "Professional training increases charm skill growth",
+                "cost": 1500,
+                "effect": "charm_skill_rate * 1.5",
+                "duration": "permanent"
+            },
+            "business_course": {
+                "id": "business_course",
+                "name": "Business Course",
+                "description": "MBA-level training for business interactions",
+                "cost": 3000,
+                "effect": "business_skill_rate * 1.5",
+                "prerequisites": ["level_10"]
+            },
+            "performance_arts": {
+                "id": "performance_arts",
+                "name": "Performance Arts Training",
+                "description": "Professional coaching for entertainment skills",
+                "cost": 2500,
+                "effect": "performance_skill_rate * 1.5",
+                "unlock_requirements": ["entertainment_district_unlocked"]
+            }
+        },
+        "cosmetic_upgrades": {
+            "wardrobe_basic": {
+                "id": "wardrobe_basic",
+                "name": "Designer Wardrobe",
+                "description": "High-fashion clothing increases appeal by 25%",
+                "cost": 800,
+                "effect": "appeal_multiplier * 1.25"
+            },
+            "wardrobe_premium": {
+                "id": "wardrobe_premium",
+                "name": "Couture Collection",
+                "description": "Exclusive designer pieces, +50% appeal",
+                "cost": 5000,
+                "effect": "appeal_multiplier * 1.5",
+                "prerequisites": ["wardrobe_basic", "prestige_3"]
+            },
+            "spa_treatments": {
+                "id": "spa_treatments",
+                "name": "Regular Spa Treatments",
+                "description": "Professional beauty treatments, +30% appeal, faster energy recovery",
+                "cost": 2000,
+                "effect": ["appeal_multiplier * 1.3", "energy_recovery_rate * 1.4"],
+                "recurring_cost": 200
+            }
+        },
+        "equipment_upgrades": {
+            "smartphone_pro": {
+                "id": "smartphone_pro",
+                "name": "Professional Smartphone",
+                "description": "High-end device for social media and customer interaction",
+                "cost": 1200,
+                "effect": "interaction_efficiency + 20%"
+            },
+            "personal_assistant": {
+                "id": "personal_assistant",
+                "name": "Personal Assistant",
+                "description": "AI assistant handles scheduling and routine tasks",
+                "cost": 8000,
+                "effect": "time_efficiency + 40%",
+                "prerequisites": ["smartphone_pro", "ai_personalization_researched"]
+            }
+        }
+    },
+    "upgrade_mechanics": {
+        "bulk_purchase": {
+            "description": "Purchase multiple upgrade levels at once with increasing discounts",
+            "discount_formula": "1 - (0.05 * quantity)",
+            "max_discount": 0.25
+        },
+        "prerequisite_system": {
+            "description": "Some upgrades require specific achievements, levels, or other upgrades",
+            "validation": "real_time_checking"
+        },
+        "upgrade_synergies": {
+            "description": "Certain upgrade combinations provide additional bonuses",
+            "examples": [
+                "automation + efficiency = 50% bonus to both effects",
+                "premium_services + luxury_items = exclusive tier unlocked"
+            ]
+        }
+    }
+}

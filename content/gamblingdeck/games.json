@@ -1,0 +1,97 @@
+{
+    "coin_flip": {
+        "id": "coin_flip",
+        "name": "Coin Flip",
+        "type": "pure_chance",
+        "description": "Simple heads or tails gambling game",
+        "players": 1,
+        "odds": 0.5,
+        "payout": 2.0,
+        "min_bet": 1,
+        "max_bet": 50,
+        "variants": {
+            "weighted_coin": {
+                "name": "Weighted Coin",
+                "odds": 0.45,
+                "payout": 2.2,
+                "description": "Slightly unfavorable odds, but better payout"
+            },
+            "double_flip": {
+                "name": "Double or Nothing",
+                "odds": 0.25,
+                "payout": 4.0,
+                "description": "Two coins must both be heads"
+            }
+        }
+    },
+    "high_low": {
+        "id": "high_low",
+        "name": "High-Low",
+        "type": "prediction",
+        "description": "Guess if the next card will be higher or lower",
+        "players": 1,
+        "deck": "standard_52",
+        "odds": 0.46,
+        "payout": 2.0,
+        "min_bet": 2,
+        "max_bet": 25
+    },
+    "liars_dice": {
+        "id": "liars_dice",
+        "name": "Liar's Dice",
+        "type": "bluffing",
+        "description": "Bid on dice combinations and call bluffs",
+        "min_players": 2,
+        "max_players": 4,
+        "dice_per_player": 5,
+        "min_bet": 5,
+        "max_bet": 100,
+        "mechanics": ["bidding", "challenging", "psychological_warfare"],
+        "difficulty": "intermediate"
+    },
+    "blackjack": {
+        "id": "blackjack",
+        "name": "Blackjack",
+        "type": "card_game",
+        "description": "Get as close to 21 as possible without going over",
+        "players": 1,
+        "deck": "standard_52",
+        "house_edge": 0.05,
+        "min_bet": 3,
+        "max_bet": 75,
+        "rules": {
+            "blackjack_payout": 1.5,
+            "dealer_hits_soft_17": true,
+            "double_down_allowed": true,
+            "split_allowed": true,
+            "insurance_allowed": false
+        }
+    },
+    "rock_paper_scissors": {
+        "id": "rock_paper_scissors",
+        "name": "Rock Paper Scissors",
+        "type": "skill_based",
+        "description": "Best 2 out of 3 against an AI opponent",
+        "players": 2,
+        "rounds": 3,
+        "min_bet": 1,
+        "max_bet": 20,
+        "ai_patterns": {
+            "random": {"weight": 0.3},
+            "counter_player": {"weight": 0.4},
+            "pattern_based": {"weight": 0.3}
+        }
+    },
+    "russian_roulette": {
+        "id": "russian_roulette",
+        "name": "Russian Roulette",
+        "type": "extreme",
+        "description": "High-stakes gambling with life betting mechanics",
+        "players": 2,
+        "mechanics": ["life_betting", "chamber_counting", "psychological_pressure"],
+        "stakes": {
+            "normal": {"bet": "coins", "loss": "coins"},
+            "extreme": {"bet": "max_hp", "loss": "game_over"}
+        }
+    }
+}

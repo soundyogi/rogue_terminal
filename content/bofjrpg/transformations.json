@@ -1,0 +1,94 @@
+{
+    "transformation_system": {
+        "dragon_forms": {
+            "whelp": {
+                "unlock": "default",
+                "duration": 3,
+                "stat_modifiers": {"str": 1.5, "def": 1.3},
+                "abilities": ["flame_breath_1"],
+                "cost": {"mp": 10}
+            },
+            "adult": {
+                "unlock": {"level": 10, "item": "dragon_crystal"},
+                "duration": 5,
+                "stat_modifiers": {"str": 2.0, "def": 1.5, "hp": 1.2},
+                "abilities": ["flame_breath_2", "dragon_rush"],
+                "cost": {"mp": 25}
+            },
+            "kaiser": {
+                "unlock": {"level": 30, "boss_defeated": "tiamat"},
+                "duration": 3,
+                "stat_modifiers": {"all": 3.0},
+                "abilities": ["kaiser_breath", "infinity_claw", "dragon_lord_aura"],
+                "cost": {"mp": 100, "hp_per_turn": 10}
+            }
+        },
+        "gene_splicing": {
+            "system": "collect_and_combine",
+            "genes": {
+                "flame": {"source": "fire_enemies", "effect": {"fire_damage": 1.2}},
+                "frost": {"source": "ice_enemies", "effect": {"ice_resist": 0.5}},
+                "shadow": {"source": "undead_enemies", "effect": {"lifesteal": 0.1}},
+                "holy": {"source": "angel_enemies", "effect": {"healing_power": 1.3}}
+            },
+            "combinations": {
+                "flame_frost": {
+                    "result": "thermal_shock",
+                    "ability": "temperature_flux",
+                    "stat_bonus": {"wis": 5}
+                }
+            }
+        }
+    },
+    "skill_learning": {
+        "methods": ["level_up", "skill_books", "enemy_observation", "masters"],
+        "skill_tree": {
+            "warrior_path": {
+                "tier_1": ["power_strike", "guard"],
+                "tier_2": ["double_strike", "counter"],
+                "tier_3": ["blade_dance", "perfect_guard"],
+                "requirements": "previous_tier_mastery"
+            }
+        },
+        "master_system": {
+            "bunyan": {
+                "location": "woodcutter_hut",
+                "requirement": {"str": 20},
+                "training_battles": 10,
+                "rewards": {
+                    "skills": ["mighty_chop", "log_defense"],
+                    "stat_growth": {"str": 1.2, "hp": 1.1}
+                }
+            }
+        }
+    },
+    "equipment_system": {
+        "slots": ["weapon", "armor", "accessory_1", "accessory_2"],
+        "weapon_types": {
+            "sword": {"stat_focus": "str", "special": "can_parry"},
+            "staff": {"stat_focus": "wis", "special": "mp_regen"},
+            "claw": {"stat_focus": "agi", "special": "multi_hit_chance"}
+        },
+        "legendary_equipment": {
+            "dragon_sword": {
+                "stats": {"str": 50, "critical": 0.1},
+                "requirement": {"level": 25, "dragon_kills": 10},
+                "special_effect": "dragon_slayer",
+                "evolves_to": "kaiser_blade"
+            }
+        },
+        "crafting": {
+            "system": "material_based",
+            "materials": {
+                "dragon_scale": {"source": "dragon_enemies", "tier": 3},
+                "mithril_ore": {"source": "deep_floors", "tier": 4}
+            },
+            "recipes": {
+                "scale_mail": {
+                    "materials": {"dragon_scale": 5, "iron": 10},
+                    "result": {"def": 25, "fire_resist": 0.5}
+                }
+            }
+        }
+    }
+}

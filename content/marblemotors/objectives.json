@@ -1,0 +1,443 @@
+{
+    "level_objectives": {
+        "basic_objectives": {
+            "marble_delivery": {
+                "id": "marble_delivery",
+                "name": "Marble Delivery",
+                "description": "Get marbles from start to finish",
+                "type": "delivery",
+                "success_conditions": {
+                    "marbles_collected": 1,
+                    "time_limit": null,
+                    "component_limit": null
+                },
+                "scoring": {
+                    "base_points": 100,
+                    "time_bonus": "max(0, 300 - completion_time)",
+                    "efficiency_bonus": "unused_components * 10"
+                }
+            },
+            "speed_challenge": {
+                "id": "speed_challenge",
+                "name": "Speed Challenge",
+                "description": "Complete the level within the time limit",
+                "type": "timed",
+                "success_conditions": {
+                    "marbles_collected": 1,
+                    "time_limit": 60,
+                    "component_limit": null
+                },
+                "scoring": {
+                    "base_points": 200,
+                    "time_bonus": "remaining_time * 5",
+                    "speed_multiplier": "marble_speed * 2"
+                }
+            },
+            "efficiency_test": {
+                "id": "efficiency_test",
+                "name": "Efficiency Test",
+                "description": "Complete using limited components",
+                "type": "resource_limited",
+                "success_conditions": {
+                    "marbles_collected": 1,
+                    "time_limit": null,
+                    "component_limit": 10
+                },
+                "scoring": {
+                    "base_points": 150,
+                    "efficiency_bonus": "(component_limit - components_used) * 20",
+                    "perfection_bonus": "components_used === optimal_solution ? 100 : 0"
+                }
+            }
+        },
+        "advanced_objectives": {
+            "multi_marble": {
+                "id": "multi_marble",
+                "name": "Multi-Marble Madness",
+                "description": "Collect multiple marbles simultaneously",
+                "type": "collection",
+                "success_conditions": {
+                    "marbles_collected": 5,
+                    "simultaneous_delivery": true,
+                    "time_limit": 120
+                },
+                "scoring": {
+                    "base_points": 300,
+                    "simultaneous_bonus": "marbles_delivered_together * 50",
+                    "combo_multiplier": "consecutive_deliveries * 1.2"
+                }
+            },
+            "precision_challenge": {
+                "id": "precision_challenge",
+                "name": "Precision Engineering",
+                "description": "Navigate through narrow passages and obstacles",
+                "type": "precision",
+                "success_conditions": {
+                    "marbles_collected": 1,
+                    "collision_limit": 3,
+                    "precision_required": true
+                },
+                "scoring": {
+                    "base_points": 250,
+                    "precision_bonus": "(collision_limit - collisions) * 100",
+                    "flawless_bonus": "collisions === 0 ? 500 : 0"
+                }
+            },
+            "chain_reaction": {
+                "id": "chain_reaction",
+                "name": "Chain Reaction",
+                "description": "Trigger a sequence of automated events",
+                "type": "automation",
+                "success_conditions": {
+                    "marbles_collected": 3,
+                    "chain_length": 5,
+                    "manual_interventions": 1
+                },
+                "scoring": {
+                    "base_points": 400,
+                    "chain_bonus": "chain_length * 80",
+                    "automation_bonus": "automated_components * 30"
+                }
+            }
+        },
+        "expert_objectives": {
+            "physics_mastery": {
+                "id": "physics_mastery",
+                "name": "Physics Mastery",
+                "description": "Demonstrate advanced physics understanding",
+                "type": "physics_showcase",
+                "success_conditions": {
+                    "marbles_collected": 1,
+                    "required_elements": ["loop", "gravity_well", "momentum_transfer"],
+                    "energy_efficiency": 0.8
+                },
+                "scoring": {
+                    "base_points": 500,
+                    "physics_bonus": "advanced_elements_used * 100",
+                    "energy_bonus": "energy_efficiency * 200"
+                }
+            },
+            "impossible_geometry": {
+                "id": "impossible_geometry",
+                "name": "Impossible Geometry",
+                "description": "Use teleporters and gravity manipulation creatively",
+                "type": "creative_solution",
+                "success_conditions": {
+                    "marbles_collected": 2,
+                    "required_elements": ["teleporter", "gravity_reversal"],
+                    "path_crossing_forbidden": true
+                },
+                "scoring": {
+                    "base_points": 600,
+                    "creativity_bonus": "unique_solution ? 300 : 0",
+                    "elegance_bonus": "solution_elegance_rating * 50"
+                }
+            },
+            "grand_finale": {
+                "id": "grand_finale",
+                "name": "Grand Finale",
+                "description": "The ultimate marble challenge combining all mechanics",
+                "type": "comprehensive",
+                "success_conditions": {
+                    "marbles_collected": 10,
+                    "time_limit": 300,
+                    "component_categories": ["basic", "mechanical", "interactive", "special"],
+                    "minimum_complexity": 25
+                },
+                "scoring": {
+                    "base_points": 1000,
+                    "mastery_bonus": "mechanics_demonstrated * 100",
+                    "legendary_bonus": "perfect_execution ? 1000 : 0"
+                }
+            }
+        }
+    },
+    "challenge_modifiers": {
+        "difficulty_modifiers": {
+            "gravity_chaos": {
+                "id": "gravity_chaos",
+                "name": "Gravity Chaos",
+                "description": "Gravity changes direction randomly",
+                "effect": "gravity_direction_random_every_10_seconds",
+                "score_multiplier": 1.5,
+                "unlock_requirement": "complete_10_levels"
+            },
+            "marble_multiplication": {
+                "id": "marble_multiplication",
+                "name": "Marble Multiplication",
+                "description": "Marbles split at splitters",
+                "effect": "marbles_duplicate_at_splitters",
+                "score_multiplier": 2.0,
+                "unlock_requirement": "complete_multi_marble_challenge"
+            },
+            "component_failure": {
+                "id": "component_failure",
+                "name": "Component Failure",
+                "description": "Components have chance to malfunction",
+                "effect": "random_component_failure_5_percent",
+                "score_multiplier": 1.8,
+                "unlock_requirement": "complete_15_levels"
+            },
+            "time_distortion": {
+                "id": "time_distortion",
+                "name": "Time Distortion",
+                "description": "Time moves at different speeds in different areas",
+                "effect": "spatial_time_dilation_zones",
+                "score_multiplier": 2.2,
+                "unlock_requirement": "physics_mastery_completed"
+            }
+        },
+        "assistance_modifiers": {
+            "trajectory_preview": {
+                "id": "trajectory_preview",
+                "name": "Trajectory Preview",
+                "description": "Shows predicted marble path",
+                "effect": "display_trajectory_lines",
+                "score_multiplier": 0.8,
+                "unlock_requirement": "struggle_on_3_levels"
+            },
+            "component_hints": {
+                "id": "component_hints",
+                "name": "Component Hints",
+                "description": "Suggests optimal component placement",
+                "effect": "highlight_optimal_positions",
+                "score_multiplier": 0.7,
+                "unlock_requirement": "struggle_on_5_levels"
+            },
+            "unlimited_components": {
+                "id": "unlimited_components",
+                "name": "Unlimited Components",
+                "description": "No component limits for practice",
+                "effect": "remove_component_restrictions",
+                "score_multiplier": 0.5,
+                "unlock_requirement": "always_available"
+            }
+        }
+    },
+    "progression_system": {
+        "level_progression": {
+            "world_1_basics": {
+                "name": "Getting Started",
+                "levels": 10,
+                "focus": "basic_track_components",
+                "unlock_requirement": "tutorial_completed",
+                "completion_reward": "unlock_mechanical_components"
+            },
+            "world_2_mechanics": {
+                "name": "Mechanical Marvels",
+                "levels": 15,
+                "focus": "mechanical_components",
+                "unlock_requirement": "world_1_75_percent_complete",
+                "completion_reward": "unlock_interactive_components"
+            },
+            "world_3_interaction": {
+                "name": "Interactive Challenges",
+                "levels": 20,
+                "focus": "timing_and_interaction",
+                "unlock_requirement": "world_2_75_percent_complete",
+                "completion_reward": "unlock_special_components"
+            },
+            "world_4_special": {
+                "name": "Special Physics",
+                "levels": 25,
+                "focus": "advanced_physics_elements",
+                "unlock_requirement": "world_3_75_percent_complete",
+                "completion_reward": "unlock_expert_mode"
+            },
+            "world_5_expert": {
+                "name": "Expert Challenges",
+                "levels": 30,
+                "focus": "complex_multi_stage_puzzles",
+                "unlock_requirement": "world_4_complete",
+                "completion_reward": "master_engineer_title"
+            }
+        },
+        "skill_development": {
+            "physics_understanding": {
+                "name": "Physics Understanding",
+                "description": "Demonstrates mastery of physical principles",
+                "levels": 10,
+                "benefits": [
+                    "improved_trajectory_prediction",
+                    "better_component_efficiency",
+                    "unlocks_advanced_challenges"
+                ]
+            },
+            "creative_problem_solving": {
+                "name": "Creative Problem Solving",
+                "description": "Finding unconventional solutions",
+                "levels": 8,
+                "benefits": [
+                    "bonus_points_for_unique_solutions",
+                    "access_to_sandbox_mode",
+                    "community_showcase_eligibility"
+                ]
+            },
+            "precision_engineering": {
+                "name": "Precision Engineering",
+                "description": "Accurate and efficient construction",
+                "levels": 12,
+                "benefits": [
+                    "reduced_component_costs",
+                    "improved_placement_accuracy",
+                    "unlocks_precision_challenges"
+                ]
+            },
+            "timing_mastery": {
+                "name": "Timing Mastery",
+                "description": "Perfect timing for interactive elements",
+                "levels": 6,
+                "benefits": [
+                    "extended_reaction_windows",
+                    "timing_prediction_aids",
+                    "rhythm_based_bonus_levels"
+                ]
+            }
+        }
+    },
+    "achievement_system": {
+        "construction_achievements": {
+            "first_build": {
+                "name": "First Build",
+                "description": "Complete your first marble track",
+                "reward": "bronze_engineer_badge",
+                "points": 50
+            },
+            "efficient_engineer": {
+                "name": "Efficient Engineer",
+                "description": "Complete 5 levels using minimum components",
+                "reward": "efficiency_expert_title",
+                "points": 200
+            },
+            "speed_demon": {
+                "name": "Speed Demon",
+                "description": "Complete 10 levels under time limit",
+                "reward": "chronometer_tool_unlock",
+                "points": 300
+            },
+            "loop_master": {
+                "name": "Loop Master",
+                "description": "Successfully complete 25 loop-the-loops",
+                "reward": "golden_loop_component",
+                "points": 250
+            }
+        },
+        "physics_achievements": {
+            "momentum_conservation": {
+                "name": "Momentum Conservation",
+                "description": "Demonstrate perfect energy transfer",
+                "reward": "physics_professor_title",
+                "points": 400
+            },
+            "gravity_defier": {
+                "name": "Gravity Defier",
+                "description": "Use anti-gravity in creative ways",
+                "reward": "anti_gravity_mastery_unlock",
+                "points": 350
+            },
+            "teleportation_expert": {
+                "name": "Teleportation Expert",
+                "description": "Master teleporter mechanics",
+                "reward": "quantum_engineer_title",
+                "points": 500
+            }
+        },
+        "creativity_achievements": {
+            "outside_the_box": {
+                "name": "Outside the Box",
+                "description": "Find an unintended solution method",
+                "reward": "creative_genius_badge",
+                "points": 300
+            },
+            "rube_goldberg": {
+                "name": "Rube Goldberg",
+                "description": "Create an unnecessarily complex solution",
+                "reward": "overcomplexity_champion_title",
+                "points": 400
+            },
+            "minimalist": {
+                "name": "Minimalist",
+                "description": "Solve complex puzzle with simple solution",
+                "reward": "elegance_award",
+                "points": 350
+            }
+        },
+        "mastery_achievements": {
+            "perfect_worlds": {
+                "name": "Perfect Worlds",
+                "description": "Get perfect scores on all levels in a world",
+                "reward": "world_champion_title",
+                "points": 1000
+            },
+            "grand_master": {
+                "name": "Grand Master",
+                "description": "Achieve mastery in all skill categories",
+                "reward": "grand_master_engineer_title",
+                "points": 2000
+            },
+            "legend": {
+                "name": "Legend",
+                "description": "Complete all expert challenges with modifiers",
+                "reward": "legendary_status",
+                "points": 5000
+            }
+        }
+    },
+    "custom_objectives": {
+        "sandbox_mode": {
+            "description": "Create and share custom marble challenges",
+            "tools": [
+                "level_editor",
+                "component_library",
+                "physics_tweaker",
+                "objective_creator"
+            ],
+            "sharing_system": {
+                "community_workshop": true,
+                "rating_system": true,
+                "featured_levels": true,
+                "difficulty_tags": true
+            }
+        },
+        "procedural_challenges": {
+            "daily_challenge": {
+                "description": "New procedurally generated challenge each day",
+                "rewards": "daily_challenge_points",
+                "leaderboard": "global_daily_rankings"
+            },
+            "endless_mode": {
+                "description": "Increasingly difficult procedural levels",
+                "scoring": "survival_distance_based",
+                "rewards": "endless_mode_exclusive_components"
+            }
+        }
+    },
+    "objective_mechanics": {
+        "dynamic_objectives": {
+            "description": "Objectives that change based on player performance",
+            "adaptive_difficulty": true,
+            "performance_tracking": ["completion_time", "component_efficiency", "precision_score"],
+            "adjustment_frequency": "every_3_levels"
+        },
+        "bonus_objectives": {
+            "description": "Optional secondary goals for extra rewards",
+            "discovery_method": "hidden_until_triggered",
+            "reward_scaling": "difficulty_and_creativity_based",
+            "examples": [
+                "collect_all_bonus_items",
+                "activate_all_switches",
+                "use_every_component_type",
+                "achieve_specific_marble_speed"
+            ]
+        },
+        "meta_objectives": {
+            "description": "Long-term goals spanning multiple levels",
+            "tracking_system": "persistent_progress",
+            "examples": [
+                "complete_world_without_using_component_x",
+                "maintain_efficiency_rating_above_threshold",
+                "complete_consecutive_levels_under_time_limit"
+            ]
+        }
+    }
+}
