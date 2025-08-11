@@ -1,0 +1,232 @@
+{
+    "coin_flip": {
+        "id": "coin_flip",
+        "name": "Coin Flip",
+        "type": "pure_chance",
+        "description": "Simple heads or tails gambling game",
+        "players": 1,
+        "odds": 0.5,
+        "payout": 2.0,
+        "min_bet": 1,
+        "max_bet": 50,
+        "variants": {
+            "weighted_coin": {
+                "name": "Weighted Coin",
+                "odds": 0.45,
+                "payout": 2.2,
+                "description": "Slightly unfavorable odds, but better payout"
+            },
+            "double_flip": {
+                "name": "Double or Nothing",
+                "odds": 0.25,
+                "payout": 4.0,
+                "description": "Two coins must both be heads"
+            }
+        }
+    },
+    "high_low": {
+        "id": "high_low",
+        "name": "High-Low",
+        "type": "prediction",
+        "description": "Guess if the next card will be higher or lower",
+        "players": 1,
+        "deck": "standard_52",
+        "odds": 0.46,
+        "payout": 2.0,
+        "min_bet": 2,
+        "max_bet": 25
+    },
+    "liars_dice": {
+        "id": "liars_dice",
+        "name": "Liar's Dice",
+        "type": "bluffing",
+        "description": "Bid on dice combinations and call bluffs",
+        "min_players": 2,
+        "max_players": 4,
+        "dice_per_player": 5,
+        "min_bet": 5,
+        "max_bet": 100,
+        "mechanics": ["bidding", "challenging", "psychological_warfare"],
+        "difficulty": "intermediate"
+    },
+    "blackjack": {
+        "id": "blackjack",
+        "name": "Blackjack",
+        "type": "card_game",
+        "description": "Get as close to 21 as possible without going over",
+        "players": 1,
+        "deck": "standard_52",
+        "house_edge": 0.05,
+        "min_bet": 3,
+        "max_bet": 75,
+        "rules": {
+            "blackjack_payout": 1.5,
+            "dealer_hits_soft_17": true,
+            "double_down_allowed": true,
+            "split_allowed": true,
+            "insurance_allowed": false
+        }
+    },
+    "rock_paper_scissors": {
+        "id": "rock_paper_scissors",
+        "name": "Rock Paper Scissors",
+        "type": "skill_based",
+        "description": "Best 2 out of 3 against an AI opponent",
+        "players": 2,
+        "rounds": 3,
+        "min_bet": 1,
+        "max_bet": 20,
+        "ai_patterns": {
+            "random": {"weight": 0.3},
+            "counter_player": {"weight": 0.4},
+            "pattern_based": {"weight": 0.3}
+        }
+    },
+    "russian_roulette": {
+        "id": "russian_roulette",
+        "name": "Russian Roulette",
+        "type": "extreme",
+        "description": "High-stakes gambling with life betting mechanics",
+        "players": 2,
+        "mechanics": ["life_betting", "chamber_counting", "psychological_pressure"],
+        "stakes": {
+            "normal": {"bet": "coins", "loss": "coins"},
+            "extreme": {"bet": "max_hp", "loss": "game_over"}
+        }
+    },
+    "poker": {
+        "id": "poker",
+        "name": "Texas Hold'em Poker",
+        "type": "skill_bluffing",
+        "description": "Classic poker with community cards and strategic betting",
+        "min_players": 2,
+        "max_players": 6,
+        "deck": "standard_52",
+        "min_bet": 10,
+        "max_bet": 500,
+        "mechanics": ["betting_rounds", "community_cards", "hand_rankings", "bluffing"],
+        "difficulty": "advanced",
+        "rules": {
+            "blind_structure": {"small": 5, "big": 10},
+            "betting_rounds": 4,
+            "community_cards": 5,
+            "hole_cards": 2
+        }
+    },
+    "slots": {
+        "id": "slots",
+        "name": "Lucky Sevens Slots",
+        "type": "pure_chance",
+        "description": "Three-reel slot machine with various symbol combinations",
+        "players": 1,
+        "min_bet": 1,
+        "max_bet": 25,
+        "reels": 3,
+        "symbols": {
+            "cherry": {"payout": 2, "frequency": 0.3},
+            "lemon": {"payout": 3, "frequency": 0.25},
+            "bell": {"payout": 5, "frequency": 0.2},
+            "bar": {"payout": 10, "frequency": 0.15},
+            "seven": {"payout": 50, "frequency": 0.08},
+            "jackpot": {"payout": 1000, "frequency": 0.02}
+        },
+        "special_combinations": {
+            "three_sevens": {"payout": 777, "description": "Triple lucky sevens"},
+            "three_jackpots": {"payout": 10000, "description": "Ultimate jackpot"}
+        }
+    },
+    "craps": {
+        "id": "craps",
+        "name": "Craps",
+        "type": "dice_betting",
+        "description": "Roll dice and bet on various outcomes",
+        "players": 1,
+        "dice": 2,
+        "min_bet": 5,
+        "max_bet": 200,
+        "bet_types": {
+            "pass_line": {"odds": 0.493, "payout": 1.0},
+            "dont_pass": {"odds": 0.492, "payout": 1.0},
+            "field": {"odds": 0.444, "payout": 1.0},
+            "hard_ways": {"odds": 0.111, "payout": 7.0},
+            "any_seven": {"odds": 0.167, "payout": 4.0}
+        },
+        "mechanics": ["come_out_roll", "point_establishment", "multiple_betting_options"]
+    },
+    "baccarat": {
+        "id": "baccarat",
+        "name": "Baccarat",
+        "type": "card_game",
+        "description": "Elegant card game with simple betting on Player or Banker",
+        "players": 1,
+        "deck": "standard_52",
+        "min_bet": 20,
+        "max_bet": 1000,
+        "bet_types": {
+            "player": {"odds": 0.493, "payout": 1.0},
+            "banker": {"odds": 0.506, "payout": 0.95},
+            "tie": {"odds": 0.096, "payout": 8.0}
+        },
+        "rules": {
+            "natural_wins": [8, 9],
+            "drawing_rules": "standard_baccarat",
+            "card_values": "baccarat_system"
+        },
+        "difficulty": "intermediate"
+    },
+    "roulette": {
+        "id": "roulette",
+        "name": "European Roulette",
+        "type": "wheel_betting",
+        "description": "Spin the wheel and bet on numbers, colors, or combinations",
+        "players": 1,
+        "wheel_type": "european",
+        "numbers": 37,
+        "min_bet": 1,
+        "max_bet": 100,
+        "bet_types": {
+            "straight_up": {"odds": 0.027, "payout": 35.0},
+            "split": {"odds": 0.054, "payout": 17.0},
+            "street": {"odds": 0.081, "payout": 11.0},
+            "corner": {"odds": 0.108, "payout": 8.0},
+            "red_black": {"odds": 0.486, "payout": 1.0},
+            "odd_even": {"odds": 0.486, "payout": 1.0},
+            "dozens": {"odds": 0.324, "payout": 2.0}
+        },
+        "mechanics": ["wheel_spin", "ball_physics", "multiple_betting_options"]
+    },
+    "war": {
+        "id": "war",
+        "name": "Casino War",
+        "type": "card_comparison",
+        "description": "Simple card game - highest card wins",
+        "players": 2,
+        "deck": "standard_52",
+        "min_bet": 2,
+        "max_bet": 50,
+        "rules": {
+            "war_on_tie": true,
+            "surrender_option": true,
+            "bonus_bets": ["tie_bet"]
+        },
+        "mechanics": ["card_comparison", "war_resolution", "side_bets"],
+        "difficulty": "beginner"
+    },
+    "pai_gow": {
+        "id": "pai_gow",
+        "name": "Pai Gow Poker",
+        "type": "poker_variant",
+        "description": "Form two poker hands from seven cards",
+        "players": 1,
+        "deck": "standard_52_plus_joker",
+        "min_bet": 15,
+        "max_bet": 300,
+        "rules": {
+            "hand_split": "5_card_high_2_card_low",
+            "joker_usage": "ace_or_straight_flush_complete",
+            "house_way": "optimal_splitting"
+        },
+        "mechanics": ["hand_splitting", "two_hand_comparison", "house_banking"],
+        "difficulty": "advanced"
+    }
+}

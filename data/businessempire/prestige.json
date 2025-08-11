@@ -1,0 +1,244 @@
+{
+    "prestige_system": {
+        "description": "Reset progress to gain permanent bonuses and access to advanced business strategies",
+        "unlock_requirements": {
+            "total_money_earned": 1000000,
+            "districts_owned": 3,
+            "level": 25
+        },
+        "reset_mechanics": {
+            "keeps": ["influence_points", "executive_upgrades", "achievements", "market_research"],
+            "resets": ["money", "district_levels", "employee_levels", "standard_upgrades"],
+            "partial_keeps": {
+                "research": "50% completion retained",
+                "employee_skills": "25% retained as bonus starting expertise"
+            }
+        },
+        "influence_point_calculation": "floor(sqrt(total_money_earned / 100000))",
+        "multiplier_per_prestige": 1.5
+    },
+    "executive_upgrades": {
+        "revenue_mastery": {
+            "id": "revenue_mastery",
+            "name": "Revenue Mastery",
+            "description": "Increases all revenue streams by 50% per level",
+            "cost_formula": "5 * (level + 1)",
+            "max_level": 20,
+            "effect": "global_revenue * (1.5 ^ level)",
+            "category": "economic",
+            "icon": "revenue_chart"
+        },
+        "fast_expansion": {
+            "id": "fast_expansion",
+            "name": "Rapid Expansion",
+            "description": "Begin each reset with bonus starting capital and resources",
+            "cost_formula": "3 * (level + 1)",
+            "max_level": 15,
+            "effect": "starting_capital + (1000 * level * prestige_tier)",
+            "category": "progression",
+            "icon": "rocket_growth"
+        },
+        "market_expertise": {
+            "id": "market_expertise", 
+            "name": "Market Expertise",
+            "description": "Unlocks business opportunities faster and cheaper",
+            "cost_formula": "8 * (level + 1)",
+            "max_level": 10,
+            "effect": "opportunity_unlock_cost * (0.9 ^ level)",
+            "category": "expansion",
+            "icon": "market_network"
+        },
+        "employee_affinity": {
+            "id": "employee_affinity",
+            "name": "Leadership Excellence",
+            "description": "Employees start with higher base skills and learn faster",
+            "cost_formula": "6 * (level + 1)",
+            "max_level": 12,
+            "effect": ["base_skills * (1.1 ^ level)", "skill_learning_rate * (1.2 ^ level)"],
+            "category": "management",
+            "icon": "leadership_star"
+        },
+        "automation_mastery": {
+            "id": "automation_mastery",
+            "name": "Systems Automation",
+            "description": "Significantly improves passive income and operational efficiency",
+            "cost_formula": "10 * (level + 1)",
+            "max_level": 8,
+            "effect": "passive_income_rate * (1.25 ^ level)",
+            "category": "automation",
+            "icon": "system_automation"
+        },
+        "influence_magnet": {
+            "id": "influence_magnet",
+            "name": "Influence Multiplier",
+            "description": "Generates more influence points from the same achievements",
+            "cost_formula": "15 * (level + 1)",
+            "max_level": 6,
+            "effect": "influence_point_generation * (1.3 ^ level)",
+            "category": "prestige",
+            "icon": "influence_magnet"
+        },
+        "innovation_genius": {
+            "id": "innovation_genius",
+            "name": "Innovation Genius",
+            "description": "Research projects complete faster and retain more progress",
+            "cost_formula": "12 * (level + 1)",
+            "max_level": 7,
+            "effect": ["research_speed * (1.4 ^ level)", "research_carryover + (0.1 * level)"],
+            "category": "research",
+            "icon": "innovation_brain"
+        },
+        "executive_access": {
+            "id": "executive_access",
+            "name": "Executive Access",
+            "description": "Unlocks exclusive executive features and premium content earlier",
+            "cost_formula": "20 * (level + 1)",
+            "max_level": 5,
+            "effect": "executive_tier_unlock_requirements * (0.8 ^ level)",
+            "category": "executive",
+            "icon": "executive_crown",
+            "special_unlocks": ["private_equity", "board_positions", "industry_influence"]
+        }
+    },
+    "business_tiers": {
+        "startup_entrepreneur": {
+            "tier": 1,
+            "name": "Startup Entrepreneur",
+            "description": "Your first taste of serious business success",
+            "requirements": { "prestige_count": 1 },
+            "bonuses": ["basic_automation_unlocked", "market_research_tier_1"],
+            "title_color": "bronze"
+        },
+        "business_executive": {
+            "tier": 2,
+            "name": "Business Executive",
+            "description": "A respected leader in the corporate world",
+            "requirements": { "prestige_count": 5, "total_influence_points": 100 },
+            "bonuses": ["advanced_districts_unlocked", "employee_skill_bonuses", "corporate_partnerships"],
+            "title_color": "silver"
+        },
+        "industry_tycoon": {
+            "tier": 3,
+            "name": "Industry Tycoon",
+            "description": "Master of high-stakes business and market domination",
+            "requirements": { "prestige_count": 15, "total_influence_points": 500 },
+            "bonuses": ["executive_districts_unlocked", "advanced_automation", "market_manipulation"],
+            "title_color": "gold"
+        },
+        "global_magnate": {
+            "tier": 4,
+            "name": "Global Magnate",
+            "description": "Among the most powerful business leaders worldwide",
+            "requirements": { "prestige_count": 35, "total_influence_points": 2000 },
+            "bonuses": ["global_districts_unlocked", "worldwide_influence", "unlimited_expansion"],
+            "title_color": "platinum"
+        },
+        "legendary_emperor": {
+            "tier": 5,
+            "name": "Business Emperor",
+            "description": "A legendary figure whose empire shapes global markets",
+            "requirements": { "prestige_count": 75, "total_influence_points": 10000 },
+            "bonuses": ["legendary_content_unlocked", "reality_bending_bonuses", "transcendent_automation"],
+            "title_color": "rainbow",
+            "special_features": ["custom_market_creation", "world_shaping_abilities"]
+        }
+    },
+    "meta_progression": {
+        "achievement_system": {
+            "business_achievements": {
+                "first_reset": {
+                    "name": "New Horizons",
+                    "description": "Complete your first business reset",
+                    "reward": "5 bonus influence points",
+                    "permanent_bonus": "Starting capital +50%"
+                },
+                "speed_mogul": {
+                    "name": "Lightning Mogul",
+                    "description": "Complete a business cycle in under 2 hours",
+                    "reward": "Unlock 'Efficiency Bonus' research branch",
+                    "permanent_bonus": "All timers 10% faster"
+                },
+                "influence_master": {
+                    "name": "Influence Master",
+                    "description": "Complete 50 business resets",
+                    "reward": "Influence point generation +100%",
+                    "permanent_bonus": "All executive upgrades 25% cheaper"
+                }
+            }
+        },
+        "legacy_bonuses": {
+            "description": "Permanent bonuses that stack across all business cycles",
+            "capital_memory": {
+                "name": "Capital Memory",
+                "description": "Remember 1% of highest capital total as starting bonus",
+                "formula": "max_capital_ever_earned * 0.01",
+                "unlock": "business_tier_2"
+            },
+            "expertise_legacy": {
+                "name": "Expertise Legacy",
+                "description": "Employees start with skill bonuses based on previous achievements",
+                "formula": "previous_max_skills * 0.05",
+                "unlock": "business_tier_3"
+            },
+            "market_mastery": {
+                "name": "Market Mastery",
+                "description": "Build and upgrade districts faster based on experience",
+                "formula": "total_districts_built * 0.02",
+                "unlock": "business_tier_4"
+            }
+        }
+    },
+    "special_business_events": {
+        "market_boom": {
+            "name": "Market Boom",
+            "description": "Rare bull market provides massive bonuses if you reset during it",
+            "frequency": "5% chance per day after prestige unlock",
+            "duration": "4 hours",
+            "bonuses": [
+                "Influence points earned +200%",
+                "Next cycle starts with golden opportunities",
+                "All upgrades 50% cheaper for next cycle"
+            ]
+        },
+        "legacy_convergence": {
+            "name": "Legacy Convergence",
+            "description": "All previous business achievements temporarily return",
+            "frequency": "1% chance per prestige completion",
+            "duration": "30 minutes",
+            "effects": [
+                "Access to all previously unlocked content",
+                "Massive income multiplier based on total resets",
+                "Can purchase special legacy upgrades"
+            ]
+        }
+    },
+    "business_mechanics": {
+        "timing_strategies": {
+            "aggressive_expansion": {
+                "description": "Reset as soon as possible for steady influence flow",
+                "benefits": ["Consistent influence point flow", "Faster early-game progression"],
+                "drawbacks": ["Lower points per reset", "Slow late-game scaling"]
+            },
+            "deep_market_runs": {
+                "description": "Push as far as possible before resetting",
+                "benefits": ["More influence points per run", "Access to higher-tier content"],
+                "drawbacks": ["Slower overall progression", "Diminishing returns"]
+            },
+            "balanced_approach": {
+                "description": "Reset when progress significantly slows",
+                "benefits": ["Optimal point generation", "Balanced progression"],
+                "optimal_timing": "When revenue growth drops below 10% per hour"
+            }
+        },
+        "reset_preparation": {
+            "strategic_planning": {
+                "description": "Optimize resources before resetting for maximum influence generation",
+                "recommended_targets": ["Complete all available research", "Max out key upgrades", "Achieve milestone bonuses"]
+            },
+            "achievement_targeting": {
+                "description": "Target specific achievements before resetting for legacy bonuses",
+                "high_value_targets": ["Revenue milestones", "District completion", "Employee development goals"]
+            }
+        }
+    }
+}

@@ -1,0 +1,129 @@
+{
+    "districts": {
+        "startup_hub": {
+            "id": "startup_hub",
+            "name": "Startup Hub",
+            "description": "Where innovation meets opportunity. Co-working spaces and tech incubators line the streets.",
+            "unlock_cost": 0,
+            "base_income": 10,
+            "income_scaling": "base * (1.15 ^ level)",
+            "upgrade_cost": "50 * (1.2 ^ level)",
+            "employee_capacity": 3,
+            "aesthetic": "modern_tech",
+            "special_effects": {
+                "innovation_bonus": "Increases all employees' productivity by 10%",
+                "startup_synergy": "Adjacent districts generate 5% more income"
+            },
+            "unlock_requirements": {
+                "level": 1,
+                "money": 0
+            }
+        },
+        "corporate_plaza": {
+            "id": "corporate_plaza", 
+            "name": "Corporate Plaza",
+            "description": "Professional business centers where major deals are made and partnerships forged.",
+            "unlock_cost": 1000,
+            "base_income": 25,
+            "income_scaling": "base * (1.18 ^ level)",
+            "upgrade_cost": "100 * (1.25 ^ level)",
+            "employee_capacity": 4,
+            "aesthetic": "sleek_corporate",
+            "special_effects": {
+                "deal_making_bonus": "Employees with negotiation skills generate 25% more",
+                "business_hours_multiplier": "Income increases by 50% during peak business hours"
+            },
+            "unlock_requirements": {
+                "level": 5,
+                "money": 1000,
+                "districts_owned": 1
+            }
+        },
+        "financial_district": {
+            "id": "financial_district",
+            "name": "Financial District", 
+            "description": "Banking towers and investment firms for serious wealth management and trading.",
+            "unlock_cost": 5000,
+            "base_income": 50,
+            "income_scaling": "base * (1.22 ^ level)",
+            "upgrade_cost": "200 * (1.3 ^ level)",
+            "employee_capacity": 5,
+            "aesthetic": "banking_luxury",
+            "special_effects": {
+                "investment_bonus": "Employees with financial skills generate 40% more",
+                "market_multiplier": "Each level increases global portfolio value by 2%"
+            },
+            "unlock_requirements": {
+                "level": 10,
+                "money": 5000,
+                "districts_owned": 2,
+                "prestige": 1
+            }
+        },
+        "luxury_headquarters": {
+            "id": "luxury_headquarters",
+            "name": "Luxury Headquarters",
+            "description": "Exclusive executive complex for high-end business operations and elite clientele.",
+            "unlock_cost": 25000,
+            "base_income": 100,
+            "income_scaling": "base * (1.25 ^ level)",
+            "upgrade_cost": "500 * (1.35 ^ level)",
+            "employee_capacity": 6,
+            "aesthetic": "executive_luxury",
+            "special_effects": {
+                "prestige_bonus": "All income multiplied by 2x",
+                "efficiency_effect": "Employees work at peak performance with 50% faster project completion",
+                "elite_networking": "Unlocks premium business partnerships"
+            },
+            "unlock_requirements": {
+                "level": 20,
+                "money": 25000,
+                "districts_owned": 3,
+                "prestige": 5
+            }
+        },
+        "global_empire": {
+            "id": "global_empire",
+            "name": "Global Empire HQ",
+            "description": "The ultimate multinational corporation headquarters spanning continents.",
+            "unlock_cost": 100000,
+            "base_income": 250,
+            "income_scaling": "base * (1.3 ^ level)",
+            "upgrade_cost": "1000 * (1.4 ^ level)",
+            "employee_capacity": 8,
+            "aesthetic": "world_dominance",
+            "special_effects": {
+                "market_immunity": "Immune to negative market events",
+                "empire_multiplier": "All income multiplied by 5x",
+                "legendary_influence": "Generates influence points automatically",
+                "unlimited_growth": "No level cap on expansions"
+            },
+            "unlock_requirements": {
+                "level": 50,
+                "money": 100000,
+                "districts_owned": 4,
+                "prestige": 20,
+                "special_achievement": "business_tycoon_status"
+            }
+        }
+    },
+    "district_mechanics": {
+        "adjacency_system": {
+            "description": "Business districts placed strategically provide synergy bonuses",
+            "bonus_types": ["income", "capacity", "special_effects"],
+            "max_adjacency_bonus": 3
+        },
+        "market_timing_effects": {
+            "early_morning": { "modifier": 0.8, "description": "Market opening" },
+            "business_hours": { "modifier": 1.0, "description": "Standard operations" },
+            "peak_hours": { "modifier": 1.2, "description": "High activity" },
+            "after_hours": { "modifier": 1.5, "description": "International markets" },
+            "overnight": { "modifier": 0.6, "description": "Minimal activity" }
+        },
+        "expansion_system": {
+            "grid_size": "5x5 expandable to 10x10",
+            "expansion_cost": "10000 * (current_size ^ 2)",
+            "prerequisites": "All current properties must be developed"
+        }
+    }
+}

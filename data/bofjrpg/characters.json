@@ -1,0 +1,870 @@
+{
+    "playable_characters": {
+        "kira_shadowblade": {
+            "id": "kira_shadowblade",
+            "name": "Kira Shadowblade",
+            "title": "The Phantom Assassin",
+            "class": "assassin",
+            "element": "shadow",
+            "base_stats": {
+                "level": 1,
+                "hp": 85,
+                "mp": 45,
+                "attack": 120,
+                "defense": 60,
+                "magic_attack": 85,
+                "magic_defense": 55,
+                "speed": 140,
+                "luck": 95
+            },
+            "stat_growth": {
+                "hp": 4.2,
+                "mp": 2.8,
+                "attack": 6.5,
+                "defense": 2.1,
+                "magic_attack": 3.2,
+                "magic_defense": 2.0,
+                "speed": 5.8,
+                "luck": 3.5
+            },
+            "skills": {
+                "shadow_strike": {
+                    "name": "Shadow Strike",
+                    "type": "physical",
+                    "element": "shadow",
+                    "mp_cost": 8,
+                    "power": 180,
+                    "accuracy": 95,
+                    "target": "single_enemy",
+                    "effects": ["stealth_bonus", "critical_chance_up"],
+                    "description": "A swift strike from the shadows with increased critical chance"
+                },
+                "vanish": {
+                    "name": "Vanish",
+                    "type": "support",
+                    "element": "shadow",
+                    "mp_cost": 12,
+                    "target": "self",
+                    "effects": ["invisibility", "evasion_boost"],
+                    "duration": 3,
+                    "description": "Become invisible for 3 turns, greatly increasing evasion"
+                },
+                "poison_blade": {
+                    "name": "Poison Blade",
+                    "type": "physical",
+                    "element": "poison",
+                    "mp_cost": 15,
+                    "power": 140,
+                    "accuracy": 90,
+                    "target": "single_enemy",
+                    "effects": ["poison_damage_over_time"],
+                    "description": "Attack that inflicts poison damage over time"
+                }
+            },
+            "equipment_proficiency": ["daggers", "light_armor", "accessories"],
+            "background": "A master of stealth and precision, Kira emerged from the shadow guilds with unmatched assassination skills.",
+            "personality": "Reserved and calculating, speaks only when necessary",
+            "voice_lines": {
+                "battle_start": "From shadow to light, then back to shadow.",
+                "victory": "The darkness claims another.",
+                "critical_hit": "A perfect strike!",
+                "low_health": "I won't fall so easily...",
+                "skill_use": "Feel the bite of shadow!"
+            }
+        },
+        "zara_stormweaver": {
+            "id": "zara_stormweaver",
+            "name": "Zara Stormweaver",
+            "title": "The Lightning Mage",
+            "class": "elemental_mage",
+            "element": "lightning",
+            "base_stats": {
+                "level": 1,
+                "hp": 70,
+                "mp": 120,
+                "attack": 55,
+                "defense": 45,
+                "magic_attack": 155,
+                "magic_defense": 85,
+                "speed": 75,
+                "luck": 70
+            },
+            "stat_growth": {
+                "hp": 3.1,
+                "mp": 8.2,
+                "attack": 1.8,
+                "defense": 1.9,
+                "magic_attack": 7.8,
+                "magic_defense": 4.2,
+                "speed": 2.5,
+                "luck": 2.8
+            },
+            "skills": {
+                "lightning_bolt": {
+                    "name": "Lightning Bolt",
+                    "type": "magic",
+                    "element": "lightning",
+                    "mp_cost": 18,
+                    "power": 220,
+                    "accuracy": 100,
+                    "target": "single_enemy",
+                    "effects": ["paralysis_chance"],
+                    "description": "Devastating lightning attack with chance to paralyze"
+                },
+                "chain_lightning": {
+                    "name": "Chain Lightning",
+                    "type": "magic",
+                    "element": "lightning",
+                    "mp_cost": 35,
+                    "power": 160,
+                    "accuracy": 95,
+                    "target": "all_enemies",
+                    "effects": ["chain_damage_reduction"],
+                    "description": "Lightning that jumps between all enemies"
+                },
+                "storm_shield": {
+                    "name": "Storm Shield",
+                    "type": "support",
+                    "element": "lightning",
+                    "mp_cost": 25,
+                    "target": "all_allies",
+                    "effects": ["lightning_resistance", "magic_defense_boost"],
+                    "duration": 5,
+                    "description": "Protective barrier of electrical energy"
+                }
+            },
+            "equipment_proficiency": ["staves", "robes", "magical_accessories"],
+            "background": "Born during a lightning storm, Zara discovered her affinity with electrical forces at a young age.",
+            "personality": "Energetic and quick-thinking, tends to act impulsively",
+            "voice_lines": {
+                "battle_start": "The storm awakens!",
+                "victory": "Lightning never strikes the same place twice... or does it?",
+                "critical_hit": "Feel the fury of the storm!",
+                "low_health": "I need to channel more power...",
+                "skill_use": "Thunder and lightning!"
+            }
+        },
+        "marcus_ironshield": {
+            "id": "marcus_ironshield",
+            "name": "Marcus Ironshield",
+            "title": "The Stalwart Guardian",
+            "class": "paladin",
+            "element": "holy",
+            "base_stats": {
+                "level": 1,
+                "hp": 140,
+                "mp": 65,
+                "attack": 95,
+                "defense": 130,
+                "magic_attack": 70,
+                "magic_defense": 95,
+                "speed": 45,
+                "luck": 85
+            },
+            "stat_growth": {
+                "hp": 7.5,
+                "mp": 3.2,
+                "attack": 4.1,
+                "defense": 6.8,
+                "magic_attack": 2.5,
+                "magic_defense": 4.5,
+                "speed": 1.2,
+                "luck": 3.8
+            },
+            "skills": {
+                "divine_protection": {
+                    "name": "Divine Protection",
+                    "type": "support",
+                    "element": "holy",
+                    "mp_cost": 20,
+                    "target": "all_allies",
+                    "effects": ["damage_reduction", "status_immunity"],
+                    "duration": 4,
+                    "description": "Holy blessing that reduces damage and prevents status ailments"
+                },
+                "consecrated_strike": {
+                    "name": "Consecrated Strike",
+                    "type": "physical",
+                    "element": "holy",
+                    "mp_cost": 15,
+                    "power": 150,
+                    "accuracy": 100,
+                    "target": "single_enemy",
+                    "effects": ["undead_bonus_damage", "healing_self"],
+                    "description": "Holy-empowered attack that heals the user"
+                },
+                "taunt": {
+                    "name": "Taunt",
+                    "type": "support",
+                    "element": "none",
+                    "mp_cost": 8,
+                    "target": "all_enemies",
+                    "effects": ["force_target_self"],
+                    "duration": 2,
+                    "description": "Forces enemies to target the user for 2 turns"
+                }
+            },
+            "equipment_proficiency": ["swords", "shields", "heavy_armor"],
+            "background": "A former knight who found divine calling, Marcus protects the innocent with unwavering determination.",
+            "personality": "Noble and righteous, always puts others before himself",
+            "voice_lines": {
+                "battle_start": "For justice and honor!",
+                "victory": "The light prevails over darkness.",
+                "critical_hit": "By the divine light!",
+                "low_health": "I must stand strong for my allies!",
+                "skill_use": "Divine power flows through me!"
+            }
+        },
+        "aria_moonwhisper": {
+            "id": "aria_moonwhisper",
+            "name": "Aria Moonwhisper",
+            "title": "The Lunar Priestess",
+            "class": "healer",
+            "element": "lunar",
+            "base_stats": {
+                "level": 1,
+                "hp": 95,
+                "mp": 110,
+                "attack": 50,
+                "defense": 70,
+                "magic_attack": 100,
+                "magic_defense": 110,
+                "speed": 85,
+                "luck": 125
+            },
+            "stat_growth": {
+                "hp": 4.8,
+                "mp": 7.5,
+                "attack": 1.5,
+                "defense": 3.2,
+                "magic_attack": 4.8,
+                "magic_defense": 5.5,
+                "speed": 3.8,
+                "luck": 6.2
+            },
+            "skills": {
+                "moonbeam_heal": {
+                    "name": "Moonbeam Heal",
+                    "type": "healing",
+                    "element": "lunar",
+                    "mp_cost": 12,
+                    "power": 180,
+                    "accuracy": 100,
+                    "target": "single_ally",
+                    "effects": ["remove_poison", "remove_curse"],
+                    "description": "Powerful healing that also removes negative status effects"
+                },
+                "lunar_blessing": {
+                    "name": "Lunar Blessing",
+                    "type": "support",
+                    "element": "lunar",
+                    "mp_cost": 28,
+                    "target": "all_allies",
+                    "effects": ["regeneration", "magic_power_boost"],
+                    "duration": 6,
+                    "description": "Blessing that provides gradual healing and magic enhancement"
+                },
+                "crescent_strike": {
+                    "name": "Crescent Strike",
+                    "type": "magic",
+                    "element": "lunar",
+                    "mp_cost": 22,
+                    "power": 140,
+                    "accuracy": 95,
+                    "target": "all_enemies",
+                    "effects": ["sleep_chance"],
+                    "description": "Lunar energy attack that may put enemies to sleep"
+                }
+            },
+            "equipment_proficiency": ["staves", "robes", "healing_accessories"],
+            "background": "Blessed by lunar spirits, Aria serves as a bridge between the mortal and spiritual realms.",
+            "personality": "Calm and wise, speaks in riddles and sees the bigger picture",
+            "voice_lines": {
+                "battle_start": "The moon guides our path.",
+                "victory": "May the fallen find peace.",
+                "critical_hit": "The lunar spirits answer!",
+                "low_health": "The night is darkest before dawn...",
+                "skill_use": "By moonlight's grace!"
+            }
+        }
+    },
+    "boss_characters": {
+        "void_emperor": {
+            "id": "void_emperor",
+            "name": "Void Emperor Malthor",
+            "title": "Devourer of Worlds",
+            "class": "void_lord",
+            "element": "void",
+            "level": 50,
+            "stats": {
+                "hp": 8500,
+                "mp": 999,
+                "attack": 285,
+                "defense": 220,
+                "magic_attack": 315,
+                "magic_defense": 190,
+                "speed": 125,
+                "luck": 180
+            },
+            "phases": {
+                "phase_1": {
+                    "hp_threshold": 100,
+                    "abilities": ["void_lance", "dark_regeneration", "summon_minions"],
+                    "behavior": "aggressive_melee"
+                },
+                "phase_2": {
+                    "hp_threshold": 60,
+                    "abilities": ["reality_tear", "void_storm", "time_distortion"],
+                    "behavior": "mixed_combat",
+                    "environmental_changes": ["gravity_reversal", "platform_destruction"]
+                },
+                "phase_3": {
+                    "hp_threshold": 25,
+                    "abilities": ["apocalypse", "void_singularity", "dimensional_rift"],
+                    "behavior": "desperate_finale",
+                    "environmental_changes": ["battlefield_collapse", "void_corruption"]
+                }
+            },
+            "resistances": {
+                "physical": 0.3,
+                "fire": 0.5,
+                "ice": 0.5,
+                "lightning": 0.4,
+                "shadow": -0.2,
+                "holy": 0.8,
+                "void": -1.0
+            },
+            "special_mechanics": {
+                "void_absorption": "Heals from void damage",
+                "reality_distortion": "Can alter battlefield rules mid-combat",
+                "minion_summoning": "Continuously spawns void creatures",
+                "enrage_timer": "Becomes more powerful as battle progresses"
+            },
+            "voice_lines": {
+                "battle_start": "You dare challenge the void itself?",
+                "phase_transition": "Witness true despair!",
+                "critical_attack": "Reality bends to my will!",
+                "near_death": "I am eternal! I am inevitable!",
+                "defeat": "This... cannot... be..."
+            }
+        }
+    },
+    "enemy_characters": {
+        "common_enemies": {
+            "shadow_stalker": {
+                "id": "shadow_stalker",
+                "name": "Shadow Stalker",
+                "level": 3,
+                "class": "assassin",
+                "element": "shadow",
+                "stats": {
+                    "hp": 45,
+                    "mp": 20,
+                    "attack": 35,
+                    "defense": 18,
+                    "magic_attack": 25,
+                    "magic_defense": 15,
+                    "speed": 65,
+                    "luck": 30
+                },
+                "abilities": ["shadow_strike", "vanish"],
+                "ai_type": "aggressive",
+                "resistances": {"shadow": -0.5, "holy": 0.3},
+                "drops": {
+                    "guaranteed": ["shadow_essence"],
+                    "rare": ["shadow_blade", "stealth_cloak"]
+                }
+            },
+            "flame_guardian": {
+                "id": "flame_guardian",
+                "name": "Flame Guardian",
+                "level": 5,
+                "class": "elemental",
+                "element": "fire",
+                "stats": {
+                    "hp": 80,
+                    "mp": 40,
+                    "attack": 28,
+                    "defense": 45,
+                    "magic_attack": 50,
+                    "magic_defense": 35,
+                    "speed": 25,
+                    "luck": 15
+                },
+                "abilities": ["flame_burst", "fire_shield", "molten_armor"],
+                "ai_type": "defensive",
+                "resistances": {"fire": -1.0, "water": 0.8, "ice": 1.2},
+                "drops": {
+                    "guaranteed": ["fire_crystal"],
+                    "rare": ["flame_sword", "heat_resist_ring"]
+                }
+            },
+            "frost_wolf": {
+                "id": "frost_wolf",
+                "name": "Frost Wolf",
+                "level": 4,
+                "class": "beast",
+                "element": "ice",
+                "stats": {
+                    "hp": 60,
+                    "mp": 15,
+                    "attack": 42,
+                    "defense": 25,
+                    "magic_attack": 20,
+                    "magic_defense": 20,
+                    "speed": 55,
+                    "luck": 25
+                },
+                "abilities": ["ice_fang", "howl", "pack_tactics"],
+                "ai_type": "tactical",
+                "resistances": {"ice": -0.5, "fire": 0.6},
+                "special_mechanics": ["pack_bonus_when_multiple"],
+                "drops": {
+                    "guaranteed": ["wolf_pelt"],
+                    "rare": ["ice_fang_dagger", "frost_boots"]
+                }
+            },
+            "lightning_sprite": {
+                "id": "lightning_sprite",
+                "name": "Lightning Sprite",
+                "level": 6,
+                "class": "elemental",
+                "element": "lightning",
+                "stats": {
+                    "hp": 35,
+                    "mp": 60,
+                    "attack": 20,
+                    "defense": 15,
+                    "magic_attack": 65,
+                    "magic_defense": 30,
+                    "speed": 80,
+                    "luck": 40
+                },
+                "abilities": ["lightning_bolt", "static_field", "teleport"],
+                "ai_type": "support",
+                "resistances": {"lightning": -1.0, "earth": 0.5},
+                "special_mechanics": ["high_evasion", "spell_reflection"],
+                "drops": {
+                    "guaranteed": ["lightning_shard"],
+                    "rare": ["storm_staff", "speed_boots"]
+                }
+            },
+            "earth_golem": {
+                "id": "earth_golem",
+                "name": "Earth Golem",
+                "level": 8,
+                "class": "construct",
+                "element": "earth",
+                "stats": {
+                    "hp": 120,
+                    "mp": 10,
+                    "attack": 55,
+                    "defense": 70,
+                    "magic_attack": 15,
+                    "magic_defense": 50,
+                    "speed": 15,
+                    "luck": 5
+                },
+                "abilities": ["boulder_throw", "earthquake", "stone_skin"],
+                "ai_type": "defensive",
+                "resistances": {"earth": -1.0, "water": 0.4, "lightning": -0.3},
+                "special_mechanics": ["damage_reduction", "slow_but_steady"],
+                "drops": {
+                    "guaranteed": ["earth_core"],
+                    "rare": ["stone_hammer", "granite_shield"]
+                }
+            },
+            "void_wraith": {
+                "id": "void_wraith",
+                "name": "Void Wraith",
+                "level": 12,
+                "class": "undead",
+                "element": "void",
+                "stats": {
+                    "hp": 70,
+                    "mp": 80,
+                    "attack": 35,
+                    "defense": 20,
+                    "magic_attack": 75,
+                    "magic_defense": 60,
+                    "speed": 50,
+                    "luck": 35
+                },
+                "abilities": ["void_drain", "phase_shift", "reality_tear"],
+                "ai_type": "tactical",
+                "resistances": {"void": -1.0, "holy": 1.5, "physical": 0.3},
+                "special_mechanics": ["life_drain", "phase_through_attacks"],
+                "drops": {
+                    "guaranteed": ["void_essence"],
+                    "rare": ["void_crystal", "wraith_cloak"]
+                }
+            }
+        },
+        "elite_enemies": {
+            "crimson_berserker": {
+                "id": "crimson_berserker",
+                "name": "Crimson Berserker",
+                "level": 15,
+                "class": "berserker",
+                "element": "fire",
+                "stats": {
+                    "hp": 200,
+                    "mp": 30,
+                    "attack": 85,
+                    "defense": 35,
+                    "magic_attack": 25,
+                    "magic_defense": 25,
+                    "speed": 45,
+                    "luck": 20
+                },
+                "abilities": ["rage_strike", "berserker_fury", "blood_frenzy"],
+                "ai_type": "berserker",
+                "resistances": {"fire": -0.3, "ice": 0.2},
+                "special_mechanics": ["damage_increases_when_wounded", "cannot_be_charmed"],
+                "drops": {
+                    "guaranteed": ["berserker_blood"],
+                    "rare": ["crimson_axe", "rage_helm"]
+                }
+            },
+            "arcane_sentinel": {
+                "id": "arcane_sentinel",
+                "name": "Arcane Sentinel",
+                "level": 18,
+                "class": "mage_construct",
+                "element": "lightning",
+                "stats": {
+                    "hp": 150,
+                    "mp": 120,
+                    "attack": 30,
+                    "defense": 60,
+                    "magic_attack": 95,
+                    "magic_defense": 80,
+                    "speed": 35,
+                    "luck": 10
+                },
+                "abilities": ["arcane_missile", "mana_burn", "spell_reflect", "telekinesis"],
+                "ai_type": "tactical",
+                "resistances": {"lightning": -0.5, "all_magic": -0.2},
+                "special_mechanics": ["counter_spell", "mana_shield"],
+                "drops": {
+                    "guaranteed": ["arcane_crystal"],
+                    "rare": ["sentinel_staff", "mage_robes"]
+                }
+            },
+            "shadow_assassin": {
+                "id": "shadow_assassin",
+                "name": "Shadow Assassin",
+                "level": 20,
+                "class": "master_assassin",
+                "element": "shadow",
+                "stats": {
+                    "hp": 130,
+                    "mp": 60,
+                    "attack": 110,
+                    "defense": 40,
+                    "magic_attack": 55,
+                    "magic_defense": 45,
+                    "speed": 95,
+                    "luck": 75
+                },
+                "abilities": ["death_strike", "shadow_clone", "assassination", "poison_dart"],
+                "ai_type": "aggressive",
+                "resistances": {"shadow": -0.8, "holy": 0.8},
+                "special_mechanics": ["first_strike", "critical_hit_bonus", "stealth_attacks"],
+                "drops": {
+                    "guaranteed": ["assassin_mark"],
+                    "rare": ["shadow_daggers", "cloak_of_shadows"]
+                }
+            },
+            "nature_druid": {
+                "id": "nature_druid",
+                "name": "Forest Druid",
+                "level": 16,
+                "class": "druid",
+                "element": "nature",
+                "stats": {
+                    "hp": 110,
+                    "mp": 100,
+                    "attack": 40,
+                    "defense": 50,
+                    "magic_attack": 80,
+                    "magic_defense": 70,
+                    "speed": 55,
+                    "luck": 60
+                },
+                "abilities": ["nature_heal", "thorn_barrier", "summon_wolves", "root_bind"],
+                "ai_type": "support",
+                "resistances": {"nature": -1.0, "fire": 0.6, "earth": -0.3},
+                "special_mechanics": ["healing_over_time", "summon_reinforcements"],
+                "drops": {
+                    "guaranteed": ["druid_herbs"],
+                    "rare": ["nature_staff", "leaf_armor"]
+                }
+            },
+            "crystal_knight": {
+                "id": "crystal_knight",
+                "name": "Crystal Knight",
+                "level": 22,
+                "class": "paladin",
+                "element": "holy",
+                "stats": {
+                    "hp": 180,
+                    "mp": 70,
+                    "attack": 70,
+                    "defense": 90,
+                    "magic_attack": 60,
+                    "magic_defense": 85,
+                    "speed": 30,
+                    "luck": 45
+                },
+                "abilities": ["crystal_slash", "holy_light", "divine_shield", "consecrate"],
+                "ai_type": "defensive",
+                "resistances": {"holy": -0.8, "shadow": 0.5, "physical": -0.2},
+                "special_mechanics": ["damage_reflection", "aura_effects"],
+                "drops": {
+                    "guaranteed": ["crystal_shard"],
+                    "rare": ["crystal_sword", "holy_armor"]
+                }
+            }
+        },
+        "boss_tier_enemies": {
+            "inferno_drake": {
+                "id": "inferno_drake",
+                "name": "Inferno Drake",
+                "level": 25,
+                "class": "dragon",
+                "element": "fire",
+                "stats": {
+                    "hp": 400,
+                    "mp": 150,
+                    "attack": 120,
+                    "defense": 80,
+                    "magic_attack": 140,
+                    "magic_defense": 70,
+                    "speed": 60,
+                    "luck": 50
+                },
+                "abilities": ["flame_breath", "meteor_strike", "fire_aura", "wing_buffet"],
+                "ai_type": "aggressive",
+                "resistances": {"fire": -1.0, "water": 0.8, "ice": 1.2},
+                "special_mechanics": ["flight", "area_attacks", "heat_aura_damage"],
+                "phases": {
+                    "phase_1": {"hp_threshold": 100, "abilities": ["flame_breath", "claw_strike"]},
+                    "phase_2": {"hp_threshold": 50, "abilities": ["meteor_strike", "fire_aura"], "enrage": true}
+                },
+                "drops": {
+                    "guaranteed": ["dragon_scale", "fire_heart"],
+                    "rare": ["drake_fang", "inferno_gem"],
+                    "ultra_rare": ["dragon_transformation_crystal"]
+                }
+            },
+            "void_champion": {
+                "id": "void_champion",
+                "name": "Void Champion",
+                "level": 30,
+                "class": "void_warrior",
+                "element": "void",
+                "stats": {
+                    "hp": 500,
+                    "mp": 200,
+                    "attack": 140,
+                    "defense": 100,
+                    "magic_attack": 160,
+                    "magic_defense": 120,
+                    "speed": 80,
+                    "luck": 40
+                },
+                "abilities": ["void_slash", "reality_break", "dimension_rift", "null_field"],
+                "ai_type": "tactical",
+                "resistances": {"void": -1.0, "all_elements": -0.3},
+                "special_mechanics": ["reality_distortion", "phase_between_dimensions"],
+                "phases": {
+                    "phase_1": {"hp_threshold": 100, "abilities": ["void_slash", "null_field"]},
+                    "phase_2": {"hp_threshold": 60, "abilities": ["reality_break", "dimension_rift"]},
+                    "phase_3": {"hp_threshold": 25, "abilities": ["apocalypse_void"], "environmental_changes": ["battlefield_corruption"]}
+                },
+                "drops": {
+                    "guaranteed": ["void_essence", "champion_seal"],
+                    "rare": ["void_blade", "reality_gem"],
+                    "ultra_rare": ["void_lord_armor"]
+                }
+            }
+        },
+        "legendary_enemies": {
+            "phoenix_empress": {
+                "id": "phoenix_empress",
+                "name": "Phoenix Empress Pyriel",
+                "level": 35,
+                "class": "phoenix_lord",
+                "element": "fire",
+                "stats": {
+                    "hp": 666,
+                    "mp": 300,
+                    "attack": 150,
+                    "defense": 90,
+                    "magic_attack": 200,
+                    "magic_defense": 150,
+                    "speed": 100,
+                    "luck": 80
+                },
+                "abilities": ["phoenix_flame", "rebirth", "solar_flare", "flame_tornado"],
+                "ai_type": "aggressive",
+                "resistances": {"fire": -1.0, "ice": 1.5, "holy": -0.2},
+                "special_mechanics": ["resurrection_on_death", "increasing_power", "flame_aura"],
+                "phases": {
+                    "phase_1": {"hp_threshold": 100, "abilities": ["phoenix_flame", "wing_strike"]},
+                    "phase_2": {"hp_threshold": 50, "abilities": ["solar_flare", "flame_tornado"], "stat_boost": 1.2},
+                    "resurrection": {"trigger": "death", "hp_restore": 50, "abilities": ["rebirth_explosion"]}
+                },
+                "drops": {
+                    "guaranteed": ["phoenix_feather", "eternal_flame"],
+                    "rare": ["phoenix_crown", "flame_heart"],
+                    "ultra_rare": ["phoenix_transformation_gene"]
+                }
+            },
+            "temporal_guardian": {
+                "id": "temporal_guardian",
+                "name": "Temporal Guardian Chronos",
+                "level": 40,
+                "class": "time_lord",
+                "element": "void",
+                "stats": {
+                    "hp": 777,
+                    "mp": 500,
+                    "attack": 130,
+                    "defense": 120,
+                    "magic_attack": 220,
+                    "magic_defense": 180,
+                    "speed": 150,
+                    "luck": 100
+                },
+                "abilities": ["time_stop", "temporal_strike", "age_acceleration", "time_loop"],
+                "ai_type": "tactical",
+                "resistances": {"void": -1.0, "all_status": -0.8},
+                "special_mechanics": ["time_manipulation", "multiple_actions_per_turn", "temporal_immunity"],
+                "phases": {
+                    "phase_1": {"hp_threshold": 100, "abilities": ["temporal_strike", "slow_time"]},
+                    "phase_2": {"hp_threshold": 60, "abilities": ["time_stop", "age_acceleration"], "extra_turns": 2},
+                    "phase_3": {"hp_threshold": 30, "abilities": ["time_loop", "temporal_collapse"], "reality_effects": true}
+                },
+                "drops": {
+                    "guaranteed": ["time_crystal", "chronos_gear"],
+                    "rare": ["temporal_blade", "time_keeper_robes"],
+                    "ultra_rare": ["master_of_time_title"]
+                }
+            }
+        },
+        "special_encounter_enemies": {
+            "mimic_chest": {
+                "id": "mimic_chest",
+                "name": "Treasure Mimic",
+                "level": 10,
+                "class": "shapeshifter",
+                "element": "none",
+                "stats": {
+                    "hp": 80,
+                    "mp": 20,
+                    "attack": 60,
+                    "defense": 100,
+                    "magic_attack": 30,
+                    "magic_defense": 40,
+                    "speed": 20,
+                    "luck": 200
+                },
+                "abilities": ["snap_bite", "treasure_lure", "camouflage"],
+                "ai_type": "defensive",
+                "resistances": {"physical": -0.2},
+                "special_mechanics": ["disguised_as_treasure", "high_drop_rates"],
+                "drops": {
+                    "guaranteed": ["gold_coins"],
+                    "rare": ["rare_equipment", "gems"],
+                    "ultra_rare": ["legendary_items"]
+                }
+            },
+            "wandering_merchant": {
+                "id": "wandering_merchant",
+                "name": "Mysterious Merchant",
+                "level": 1,
+                "class": "npc",
+                "element": "none",
+                "stats": {
+                    "hp": 1,
+                    "mp": 999,
+                    "attack": 1,
+                    "defense": 999,
+                    "magic_attack": 1,
+                    "magic_defense": 999,
+                    "speed": 255,
+                    "luck": 255
+                },
+                "abilities": ["escape", "offer_trade"],
+                "ai_type": "support",
+                "special_mechanics": ["non_combat_encounter", "rare_item_trading", "escapes_after_3_turns"],
+                "drops": {
+                    "trade_only": ["unique_items", "rare_materials", "special_equipment"]
+                }
+            }
+        }
+    },
+    "npc_characters": {
+        "elder_thorne": {
+            "id": "elder_thorne",
+            "name": "Elder Thorne",
+            "role": "village_elder",
+            "location": "starting_village",
+            "dialogue_tree": {
+                "first_meeting": "Welcome, travelers. Dark times have fallen upon our land...",
+                "quest_giver": "The ancient evil stirs in the northern mountains. Will you help us?",
+                "info_provider": "The Crystal Caverns hold great power, but also great danger.",
+                "completion": "You have saved us all. The village will remember your heroism."
+            },
+            "relationships": {
+                "reputation_required": 0,
+                "trust_level": "neutral",
+                "shop_discount": 0
+            }
+        }
+    },
+    "transformation_system": {
+        "character_evolution": {
+            "class_advancement": {
+                "assassin_to_shadow_master": {
+                    "requirements": {
+                        "level": 25,
+                        "shadow_skill_mastery": 80,
+                        "special_item": "shadow_crystal"
+                    },
+                    "stat_bonuses": {
+                        "attack": "+25%",
+                        "speed": "+30%",
+                        "critical_chance": "+15%"
+                    },
+                    "new_abilities": ["shadow_clone", "dimension_step", "void_strike"]
+                }
+            },
+            "awakening_system": {
+                "conditions": {
+                    "emotional_trigger": "Intense battle situation or story moment",
+                    "compatibility": "Character must have latent potential",
+                    "catalyst": "Special item or environmental factor"
+                },
+                "effects": {
+                    "temporary_power_boost": "200% stat increase for battle",
+                    "new_form_unlock": "Access to awakened appearance and abilities",
+                    "permanent_growth": "Slight permanent stat increases after awakening"
+                }
+            }
+        }
+    },
+    "relationship_system": {
+        "party_dynamics": {
+            "friendship_levels": {
+                "stranger": {"combat_bonus": 0, "dialogue_options": "basic"},
+                "acquaintance": {"combat_bonus": 5, "dialogue_options": "expanded"},
+                "friend": {"combat_bonus": 15, "dialogue_options": "personal", "combo_attacks": "basic"},
+                "close_friend": {"combat_bonus": 25, "dialogue_options": "intimate", "combo_attacks": "advanced"},
+                "soulmate": {"combat_bonus": 40, "dialogue_options": "complete", "combo_attacks": "ultimate"}
+            }
+        }
+    }
+}

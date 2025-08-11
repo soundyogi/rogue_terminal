@@ -17,15 +17,15 @@ export class ASCIIRenderer {
         // Character mappings
         this.chars = {
             player: '@',
-            wall: '#',
-            floor: '.',
-            door: '+',
-            item: '$',
-            enemy: 'E',
-            stairs_up: '<',
+            wall:   '#',
+            floor:  '.',
+            door:   '+',
+            item:   '$',
+            enemy:  'E',
+            stairs_up:   '<',
             stairs_down: '>',
             unknown: '?',
-            empty: ' '
+            empty:   ' '
         };
         
         // Color mappings (for potential future terminal color support)

@@ -1,0 +1,270 @@
+{
+    "global_upgrades": {
+        "revenue_multiplier": {
+            "id": "revenue_multiplier",
+            "name": "Revenue Optimization",
+            "description": "Increases all district revenue by 25%",
+            "base_cost": 1000,
+            "cost_scaling": "base * (1.5 ^ level)",
+            "max_level": 10,
+            "effect": "global_revenue * 1.25",
+            "category": "economic"
+        },
+        "employee_capacity": {
+            "id": "employee_capacity",
+            "name": "Workforce Expansion",
+            "description": "Increases employee capacity in all districts by 1",
+            "base_cost": 2500,
+            "cost_scaling": "base * (2.0 ^ level)",
+            "max_level": 5,
+            "effect": "district_capacity + 1",
+            "category": "expansion"
+        },
+        "automation_basic": {
+            "id": "automation_basic",
+            "name": "Basic Automation",
+            "description": "Districts continue generating 50% revenue when offline",
+            "base_cost": 5000,
+            "cost_scaling": "base * (3.0 ^ level)",
+            "max_level": 3,
+            "effect": "offline_revenue_rate + 0.5",
+            "category": "automation"
+        },
+        "influence_boost": {
+            "id": "influence_boost",
+            "name": "Influence Acceleration",
+            "description": "Increases influence point generation by 20%",
+            "base_cost": 10000,
+            "cost_scaling": "base * (2.5 ^ level)",
+            "max_level": 8,
+            "effect": "influence_rate * 1.2",
+            "category": "prestige"
+        },
+        "operational_efficiency": {
+            "id": "operational_efficiency",
+            "name": "Operational Efficiency",
+            "description": "Employees consume 20% less resources per task",
+            "base_cost": 7500,
+            "cost_scaling": "base * (1.8 ^ level)",
+            "max_level": 6,
+            "effect": "resource_cost * 0.8",
+            "category": "efficiency"
+        }
+    },
+    "district_specific_upgrades": {
+        "startup_hub": {
+            "innovation_lab": {
+                "id": "innovation_lab",
+                "name": "Innovation Laboratory",
+                "description": "Adds research facilities, increasing revenue by 50%",
+                "cost": 2000,
+                "effect": "district_revenue * 1.5",
+                "prerequisites": ["startup_hub_level_5"]
+            },
+            "tech_incubator": {
+                "id": "tech_incubator",
+                "name": "Tech Incubator Program",
+                "description": "Weekly startup launches generate bonus revenue",
+                "cost": 5000,
+                "effect": "weekly_bonus + 1000",
+                "prerequisites": ["innovation_lab", "employees_with_tech_skill_3"]
+            }
+        },
+        "corporate_plaza": {
+            "executive_suite": {
+                "id": "executive_suite",
+                "name": "Executive Suite",
+                "description": "Premium facilities for high-value clients, +75% revenue",
+                "cost": 8000,
+                "effect": "district_revenue * 1.75",
+                "prerequisites": ["corporate_plaza_level_10"]
+            },
+            "partnership_network": {
+                "id": "partnership_network",
+                "name": "Strategic Partnership Network",
+                "description": "24/7 revenue generation through strategic alliances",
+                "cost": 15000,
+                "effect": "continuous_revenue + base_revenue * 0.3",
+                "prerequisites": ["executive_suite", "networking_upgrade"]
+            }
+        },
+        "financial_district": {
+            "investment_portfolio": {
+                "id": "investment_portfolio",
+                "name": "Investment Portfolio Management",
+                "description": "Diversified investments with major financial institutions, +100% revenue",
+                "cost": 25000,
+                "effect": "district_revenue * 2.0",
+                "prerequisites": ["financial_district_level_15", "prestige_5"]
+            },
+            "trading_algorithms": {
+                "id": "trading_algorithms",
+                "name": "Algorithmic Trading Systems",
+                "description": "AI-powered trading accelerates employee skill development",
+                "cost": 40000,
+                "effect": "skill_growth_rate * 2.0",
+                "prerequisites": ["investment_portfolio"]
+            }
+        }
+    },
+    "research_tree": {
+        "technology_branch": {
+            "digital_transformation": {
+                "id": "digital_transformation",
+                "name": "Digital Transformation",
+                "description": "Modernizes operations and increases customer acquisition",
+                "research_cost": 5000,
+                "research_time": "24 hours",
+                "effect": "customer_acquisition_rate * 1.3",
+                "unlocks": ["cloud_infrastructure", "data_analytics"]
+            },
+            "ai_integration": {
+                "id": "ai_integration",
+                "name": "AI Integration Systems",
+                "description": "Machine learning optimizes all business processes",
+                "research_cost": 15000,
+                "research_time": "72 hours",
+                "effect": "operational_efficiency + 25%",
+                "prerequisites": ["digital_transformation"],
+                "unlocks": ["predictive_analytics"]
+            },
+            "predictive_analytics": {
+                "id": "predictive_analytics",
+                "name": "Predictive Analytics",
+                "description": "AI predicts market trends for optimal decision making",
+                "research_cost": 50000,
+                "research_time": "168 hours",
+                "effect": "market_prediction_accuracy * 2.0",
+                "prerequisites": ["ai_integration"]
+            }
+        },
+        "executive_branch": {
+            "leadership_development": {
+                "id": "leadership_development",
+                "name": "Executive Leadership Development",
+                "description": "Unlocks advanced management capabilities",
+                "research_cost": 10000,
+                "research_time": "48 hours",
+                "effect": "management_tier_unlocked",
+                "unlocks": ["strategic_planning", "corporate_governance"]
+            },
+            "strategic_consulting": {
+                "id": "strategic_consulting",
+                "name": "Strategic Consulting Services",
+                "description": "External expertise increases client retention and satisfaction",
+                "research_cost": 30000,
+                "research_time": "120 hours",
+                "effect": "client_retention * 1.5",
+                "prerequisites": ["leadership_development"]
+            }
+        },
+        "market_branch": {
+            "market_research": {
+                "id": "market_research",
+                "name": "Advanced Market Research",
+                "description": "Data-driven insights optimize operations and reduce costs",
+                "research_cost": 8000,
+                "research_time": "36 hours",
+                "effect": "operational_costs * 0.8",
+                "unlocks": ["competitive_analysis", "consumer_insights"]
+            },
+            "global_expansion": {
+                "id": "global_expansion",
+                "name": "Global Market Expansion",
+                "description": "International operations unlock new revenue streams",
+                "research_cost": 25000,
+                "research_time": "96 hours",
+                "effect": "international_markets_unlocked",
+                "prerequisites": ["market_research"]
+            }
+        }
+    },
+    "employee_upgrades": {
+        "skill_development": {
+            "professional_training": {
+                "id": "professional_training",
+                "name": "Professional Training Programs",
+                "description": "Comprehensive training increases skill development rates",
+                "cost": 1500,
+                "effect": "skill_development_rate * 1.5",
+                "duration": "permanent"
+            },
+            "executive_education": {
+                "id": "executive_education",
+                "name": "Executive Education",
+                "description": "MBA-level training for leadership and strategic thinking",
+                "cost": 3000,
+                "effect": "leadership_skill_rate * 1.5",
+                "prerequisites": ["level_10"]
+            },
+            "industry_certification": {
+                "id": "industry_certification",
+                "name": "Industry Certification Programs",
+                "description": "Specialized certifications for technical and business skills",
+                "cost": 2500,
+                "effect": "specialized_skill_rate * 1.5",
+                "unlock_requirements": ["corporate_plaza_unlocked"]
+            }
+        },
+        "workplace_upgrades": {
+            "premium_workspace": {
+                "id": "premium_workspace",
+                "name": "Premium Workspace Design",
+                "description": "Modern office design increases productivity by 25%",
+                "cost": 800,
+                "effect": "productivity_multiplier * 1.25"
+            },
+            "luxury_amenities": {
+                "id": "luxury_amenities",
+                "name": "Executive Amenities",
+                "description": "Premium facilities and services, +50% productivity",
+                "cost": 5000,
+                "effect": "productivity_multiplier * 1.5",
+                "prerequisites": ["premium_workspace", "prestige_3"]
+            },
+            "wellness_programs": {
+                "id": "wellness_programs",
+                "name": "Employee Wellness Programs",
+                "description": "Health and wellness initiatives, +30% productivity, faster recovery",
+                "cost": 2000,
+                "effect": ["productivity_multiplier * 1.3", "recovery_rate * 1.4"],
+                "recurring_cost": 200
+            }
+        },
+        "technology_upgrades": {
+            "enterprise_software": {
+                "id": "enterprise_software",
+                "name": "Enterprise Software Suite",
+                "description": "Professional tools for project management and collaboration",
+                "cost": 1200,
+                "effect": "task_efficiency + 20%"
+            },
+            "automation_systems": {
+                "id": "automation_systems",
+                "name": "Business Process Automation",
+                "description": "AI-powered systems handle routine tasks automatically",
+                "cost": 8000,
+                "effect": "automation_coverage + 40%",
+                "prerequisites": ["enterprise_software", "ai_integration_researched"]
+            }
+        }
+    },
+    "upgrade_mechanics": {
+        "bulk_purchase": {
+            "description": "Purchase multiple upgrade levels at once with increasing discounts",
+            "discount_formula": "1 - (0.05 * quantity)",
+            "max_discount": 0.25
+        },
+        "prerequisite_system": {
+            "description": "Some upgrades require specific achievements, levels, or other upgrades",
+            "validation": "real_time_checking"
+        },
+        "upgrade_synergies": {
+            "description": "Certain upgrade combinations provide additional bonuses",
+            "examples": [
+                "automation + efficiency = 50% bonus to both effects",
+                "leadership_development + executive_amenities = exclusive management tier unlocked"
+            ]
+        }
+    }
+}

@@ -1,0 +1,406 @@
+{
+    "floor_1": {
+        "id": "floor_1",
+        "name": "Beginner's Parlor",
+        "theme": "tutorial_casino",
+        "difficulty": 1,
+        "layout": {
+            "width": 20,
+            "height": 15,
+            "rooms": [
+                {
+                    "id": "entrance",
+                    "type": "spawn",
+                    "x": 2,
+                    "y": 2,
+                    "width": 4,
+                    "height": 3,
+                    "description": "A modest entrance hall with worn carpet"
+                },
+                {
+                    "id": "gambling_hall",
+                    "type": "gambling",
+                    "x": 8,
+                    "y": 5,
+                    "width": 8,
+                    "height": 6,
+                    "description": "A small gambling hall with basic games",
+                    "available_games": ["coin_flip", "high_low", "rock_paper_scissors"]
+                },
+                {
+                    "id": "item_shop",
+                    "type": "shop",
+                    "x": 15,
+                    "y": 2,
+                    "width": 3,
+                    "height": 3,
+                    "description": "A tiny shop selling basic supplies"
+                }
+            ],
+            "exits": [
+                {
+                    "x": 18,
+                    "y": 12,
+                    "leads_to": "floor_2",
+                    "requirement": {"coins": 100}
+                }
+            ]
+        },
+        "enemies": [],
+        "items": [
+            {
+                "id": "health_potion",
+                "x": 3,
+                "y": 8,
+                "spawn_chance": 0.8
+            },
+            {
+                "id": "lucky_coin",
+                "x": 12,
+                "y": 3,
+                "spawn_chance": 0.3
+            }
+        ],
+        "completion_requirements": {
+            "coins": 100,
+            "games_won": 2
+        }
+    },
+    "floor_2": {
+        "id": "floor_2",
+        "name": "Card Shark Territory",
+        "theme": "underground_casino",
+        "difficulty": 2,
+        "layout": {
+            "width": 25,
+            "height": 20,
+            "rooms": [
+                {
+                    "id": "entrance",
+                    "type": "spawn",
+                    "x": 2,
+                    "y": 18,
+                    "width": 4,
+                    "height": 3,
+                    "description": "Dimly lit entrance with suspicious characters"
+                },
+                {
+                    "id": "main_hall",
+                    "type": "gambling",
+                    "x": 8,
+                    "y": 8,
+                    "width": 12,
+                    "height": 8,
+                    "description": "Smoky gambling hall with card tables",
+                    "available_games": ["blackjack", "liars_dice", "high_low"]
+                },
+                {
+                    "id": "back_room",
+                    "type": "gambling",
+                    "x": 21,
+                    "y": 5,
+                    "width": 6,
+                    "height": 4,
+                    "description": "High-stakes back room",
+                    "available_games": ["liars_dice"],
+                    "min_bet_multiplier": 2
+                }
+            ],
+            "exits": [
+                {
+                    "x": 23,
+                    "y": 2,
+                    "leads_to": "floor_3",
+                    "requirement": {"coins": 500, "games_won": 5}
+                }
+            ]
+        },
+        "enemies": [
+            {
+                "id": "card_shark",
+                "type": "gambling_opponent",
+                "x": 15,
+                "y": 12,
+                "ai_type": "aggressive",
+                "stats": {
+                    "bluff_skill": 0.6,
+                    "tell_detection": 0.4
+                }
+            }
+        ],
+        "items": [
+            {
+                "id": "marked_cards",
+                "x": 22,
+                "y": 7,
+                "spawn_chance": 0.4
+            },
+            {
+                "id": "gamblers_vest",
+                "x": 18,
+                "y": 15,
+                "spawn_chance": 0.2
+            }
+        ],
+        "completion_requirements": {
+            "coins": 500,
+            "games_won": 5,
+            "defeat_opponents": 1
+        }
+    },
+    "floor_3": {
+        "id": "floor_3",
+        "name": "High Roller's Paradise",
+        "theme": "vip_casino",
+        "difficulty": 3,
+        "layout": {
+            "width": 30,
+            "height": 25,
+            "rooms": [
+                {
+                    "id": "vip_entrance",
+                    "type": "spawn",
+                    "x": 2,
+                    "y": 22,
+                    "width": 6,
+                    "height": 4,
+                    "description": "Luxurious entrance with gold trim and velvet"
+                },
+                {
+                    "id": "main_floor",
+                    "type": "gambling",
+                    "x": 10,
+                    "y": 10,
+                    "width": 15,
+                    "height": 12,
+                    "description": "Opulent main gambling floor",
+                    "available_games": ["blackjack", "liars_dice", "high_low"],
+                    "min_bet_multiplier": 3
+                },
+                {
+                    "id": "private_room",
+                    "type": "boss_gambling",
+                    "x": 26,
+                    "y": 5,
+                    "width": 8,
+                    "height": 6,
+                    "description": "Private high-stakes room",
+                    "available_games": ["liars_dice"],
+                    "boss": "casino_owner"
+                }
+            ],
+            "exits": [
+                {
+                    "x": 28,
+                    "y": 2,
+                    "leads_to": "victory",
+                    "requirement": {"coins": 2000, "defeat_boss": "casino_owner"}
+                }
+            ]
+        },
+        "enemies": [
+            {
+                "id": "master_bluffer",
+                "type": "gambling_opponent",
+                "x": 18,
+                "y": 16,
+                "ai_type": "deceptive",
+                "stats": {
+                    "bluff_skill": 0.8,
+                    "tell_detection": 0.7
+                }
+            },
+            {
+                "id": "casino_owner",
+                "type": "boss",
+                "x": 29,
+                "y": 8,
+                "ai_type": "master",
+                "stats": {
+                    "bluff_skill": 0.9,
+                    "tell_detection": 0.9,
+                    "special_abilities": ["perfect_poker_face", "intimidation"]
+                }
+            }
+        ],
+        "items": [
+            {
+                "id": "rabbit_foot",
+                "x": 20,
+                "y": 8,
+                "spawn_chance": 0.1
+            },
+            {
+                "id": "casino_pass",
+                "x": 30,
+                "y": 9,
+                "spawn_chance": 1.0,
+                "drop_condition": "defeat_boss"
+            }
+        ],
+        "completion_requirements": {
+            "coins": 2000,
+            "defeat_boss": "casino_owner"
+        }
+    },
+    "floor_4": {
+        "id": "floor_4",
+        "name": "Riverboat Casino",
+        "theme": "floating_casino",
+        "difficulty": 4,
+        "layout": {
+            "width": 35,
+            "height": 20,
+            "rooms": [
+                {
+                    "id": "dock_entrance",
+                    "type": "spawn",
+                    "x": 2,
+                    "y": 17,
+                    "width": 5,
+                    "height": 4,
+                    "description": "Wooden dock with gangplank to the riverboat"
+                },
+                {
+                    "id": "main_deck",
+                    "type": "gambling",
+                    "x": 8,
+                    "y": 8,
+                    "width": 20,
+                    "height": 8,
+                    "description": "Open-air gambling deck with river views",
+                    "available_games": ["poker", "blackjack", "craps", "slots"],
+                    "min_bet_multiplier": 2
+                },
+                {
+                    "id": "captains_quarters",
+                    "type": "boss_gambling",
+                    "x": 30,
+                    "y": 5,
+                    "width": 6,
+                    "height": 4,
+                    "description": "Luxurious captain's private gaming room",
+                    "available_games": ["poker"],
+                    "boss": "riverboat_captain"
+                }
+            ],
+            "exits": [
+                {
+                    "x": 33,
+                    "y": 2,
+                    "leads_to": "floor_5",
+                    "requirement": {"coins": 5000, "defeat_boss": "riverboat_captain"}
+                }
+            ]
+        },
+        "enemies": [
+            {
+                "id": "river_gambler",
+                "type": "gambling_opponent",
+                "x": 15,
+                "y": 12,
+                "ai_type": "aggressive"
+            },
+            {
+                "id": "riverboat_captain",
+                "type": "boss",
+                "x": 32,
+                "y": 7,
+                "ai_type": "master",
+                "stats": {
+                    "bluff_skill": 0.85,
+                    "tell_detection": 0.8,
+                    "special_abilities": ["river_knowledge", "crew_support"]
+                }
+            }
+        ],
+        "items": [
+            {
+                "id": "lucky_compass",
+                "x": 25,
+                "y": 10,
+                "spawn_chance": 0.3
+            }
+        ],
+        "completion_requirements": {
+            "coins": 5000,
+            "defeat_boss": "riverboat_captain"
+        }
+    },
+    "floor_5": {
+        "id": "floor_5",
+        "name": "Desert Oasis Casino",
+        "theme": "arabian_nights",
+        "difficulty": 5,
+        "layout": {
+            "width": 30,
+            "height": 30,
+            "rooms": [
+                {
+                    "id": "oasis_entrance",
+                    "type": "spawn",
+                    "x": 15,
+                    "y": 28,
+                    "width": 4,
+                    "height": 3,
+                    "description": "Palm trees and fountains mark the entrance"
+                },
+                {
+                    "id": "tent_pavilion",
+                    "type": "gambling",
+                    "x": 10,
+                    "y": 15,
+                    "width": 12,
+                    "height": 10,
+                    "description": "Ornate tent with Persian rugs and golden fixtures",
+                    "available_games": ["baccarat", "pai_gow", "roulette"],
+                    "min_bet_multiplier": 3
+                },
+                {
+                    "id": "sultans_chamber",
+                    "type": "boss_gambling",
+                    "x": 25,
+                    "y": 5,
+                    "width": 8,
+                    "height": 6,
+                    "description": "Opulent chamber with silk cushions and incense",
+                    "available_games": ["baccarat"],
+                    "boss": "desert_sultan"
+                }
+            ],
+            "exits": [
+                {
+                    "x": 28,
+                    "y": 2,
+                    "leads_to": "floor_6",
+                    "requirement": {"coins": 10000, "defeat_boss": "desert_sultan"}
+                }
+            ]
+        },
+        "enemies": [
+            {
+                "id": "desert_merchant",
+                "type": "gambling_opponent",
+                "x": 18,
+                "y": 20,
+                "ai_type": "tactical"
+            },
+            {
+                "id": "desert_sultan",
+                "type": "boss",
+                "x": 28,
+                "y": 8,
+                "ai_type": "master",
+                "stats": {
+                    "bluff_skill": 0.9,
+                    "tell_detection": 0.85,
+                    "special_abilities": ["royal_decree", "desert_wisdom"]
+                }
+            }
+        ],
+        "completion_requirements": {
+            "coins": 10000,
+            "defeat_boss": "desert_sultan"
+        }
+    }
+}

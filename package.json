@@ -4,18 +4,29 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test:e2e": "bun run test/store-e2e.test.js",
-    "dev": "bun run index.ts"
+    "test:e2e": "bun run test/store-e2e.test.ts",
+    "test:gameserver": "bun run test/gameServerMiddleware.test.ts",
+    "dev": "bun run index.ts",
+    "dev:server": "bun run --watch server.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/tape": "^5.8.1",
+    "@types/ws": "^8.5.10",
+    "@types/koa": "^2.15.0",
+    "@types/koa__router": "^12.0.4",
+    "@types/koa__cors": "^5.0.0",
     "tape": "^5.9.0"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.8.2"
+    "@reduxjs/toolkit": "^2.8.2",
+    "ws": "^8.18.0",
+    "koa": "^2.15.3",
+    "@koa/router": "^13.0.1",
+    "@koa/cors": "^5.0.0",
+    "koa-bodyparser": "^4.4.1"
   }
 }
