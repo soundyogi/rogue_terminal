@@ -29,6 +29,10 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
 
+    // Decorator support for ECS
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
